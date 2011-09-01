@@ -34,7 +34,6 @@ namespace Zend\Code\Generator;
  */
 class PropertyValueGenerator extends ValueGenerator
 {
-    protected $topMostValue = true;
 
     /**
      * generate()
@@ -45,4 +44,5 @@ class PropertyValueGenerator extends ValueGenerator
     {
         return parent::generate() . ';';
     }
+
 }
