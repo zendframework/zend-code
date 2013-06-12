@@ -19,7 +19,7 @@ class FileGeneratorRegistry
     private static $fileCodeGenerators = array();
 
     /**
-     * Registry for the Zend\Code package.
+     * Registry for the Zend_Code package. Zend_Tool uses this
      *
      * @param  FileGenerator $fileCodeGenerator
      * @param  string $fileName
