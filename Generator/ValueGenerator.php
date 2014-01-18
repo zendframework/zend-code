@@ -48,7 +48,7 @@ class ValueGenerator extends AbstractGenerator
     /**
      * @var int
      */
-    protected $arrayDepth = 0;
+    protected $arrayDepth = 1;
 
     /**
      * @var string
@@ -310,15 +310,22 @@ class ValueGenerator extends AbstractGenerator
 
         if ($type == self::TYPE_AUTO) {
             $type = $this->getAutoDeterminedType($value);
-        }
 
-        if ($type == self::TYPE_ARRAY) {
-            foreach ($value as &$curValue) {
-                if ($curValue instanceof self) {
-                    continue;
+            if ($type == self::TYPE_ARRAY) {
+                $rii = new \RecursiveIteratorIterator(
+                    $it = new \RecursiveArrayIterator($value),
+                    \RecursiveIteratorIterator::SELF_FIRST
+                );
+                foreach ($rii as $curKey => $curValue) {
+                    if (!$curValue instanceof ValueGenerator) {
+                        $curValue = new self($curValue, self::TYPE_AUTO, self::OUTPUT_MULTIPLE_LINE, $this->getConstants());
+                        $rii->getSubIterator()->offsetSet($curKey, $curValue);
+                    }
+                    $curValue->setArrayDepth($rii->getDepth());
                 }
-                $curValue = new self($curValue, self::TYPE_AUTO, self::OUTPUT_MULTIPLE_LINE, $this->getConstants());
+                $value = $rii->getSubIterator()->getArrayCopy();
             }
+
         }
 
         $output = '';
@@ -344,8 +351,12 @@ class ValueGenerator extends AbstractGenerator
                 break;
             case self::TYPE_ARRAY:
                 $output .= 'array(';
-                if ($this->outputMode == self::OUTPUT_MULTIPLE_LINE) {
-                    $output .= self::LINE_FEED . str_repeat($this->indentation, $this->arrayDepth + 1);
+                $curArrayMultiblock = false;
+                if (count($value) > 1) {
+                    $curArrayMultiblock = true;
+                    if ($this->outputMode == self::OUTPUT_MULTIPLE_LINE) {
+                        $output .= self::LINE_FEED . str_repeat($this->indentation, $this->arrayDepth + 1);
+                    }
                 }
                 $outputParts = array();
                 $noKeyIndex  = 0;
@@ -373,8 +384,8 @@ class ValueGenerator extends AbstractGenerator
                     ? self::LINE_FEED . str_repeat($this->indentation, $this->arrayDepth + 1)
                     : ' ';
                 $output .= implode(',' . $padding, $outputParts);
-                if ($this->outputMode == self::OUTPUT_MULTIPLE_LINE) {
-                    $output .= self::LINE_FEED . str_repeat($this->indentation, $this->arrayDepth);
+                if ($curArrayMultiblock == true && $this->outputMode == self::OUTPUT_MULTIPLE_LINE) {
+                    $output .= self::LINE_FEED . str_repeat($this->indentation, $this->arrayDepth + 1);
                 }
                 $output .= ')';
                 break;
@@ -430,5 +441,4 @@ class ValueGenerator extends AbstractGenerator
     {
         return $this->generate();
     }
-
 }

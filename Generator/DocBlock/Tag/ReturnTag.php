@@ -9,48 +9,47 @@
 
 namespace Zend\Code\Generator\DocBlock\Tag;
 
-use Zend\Code\Generator\DocBlock\TagManager;
-use Zend\Code\Reflection\DocBlock\Tag\TagInterface as ReflectionTagInterface;
+use Zend\Code\Generator\DocBlock\Tag;
+use Zend\Code\Reflection\DocBlock\Tag\TagInterface as ReflectionDocBlockTag;
 
-class ReturnTag extends AbstractTypeableTag implements TagInterface
+class ReturnTag extends Tag
 {
     /**
-     * @param ReflectionTagInterface $reflectionTag
-     * @return ReturnTag
-     * @deprecated Deprecated in 2.3. Use TagManager::createTagFromReflection() instead
+     * @var string
      */
-    public static function fromReflection(ReflectionTagInterface $reflectionTag)
+    protected $datatype = null;
+
+    /**
+     * @param  ReflectionDocBlockTag $reflectionTagReturn
+     * @return ReturnTag
+     */
+    public static function fromReflection(ReflectionDocBlockTag $reflectionTagReturn)
     {
-        $tagManager = new TagManager();
-        $tagManager->initializeDefaultTags();
-        return $tagManager->createTagFromReflection($reflectionTag);
+        $returnTag = new static();
+        $returnTag
+            ->setName('return')
+            ->setDatatype($reflectionTagReturn->getType()) // @todo rename
+            ->setDescription($reflectionTagReturn->getDescription());
+
+        return $returnTag;
     }
 
     /**
-     * @return string
-     */
-    public function getName()
-    {
-        return 'return';
-    }
-
-    /**
-     * @param string $datatype
+     * @param  string $datatype
      * @return ReturnTag
-     * @deprecated Deprecated in 2.3. Use setTypes() instead
      */
     public function setDatatype($datatype)
     {
-        return $this->setTypes($datatype);
+        $this->datatype = $datatype;
+        return $this;
     }
 
     /**
      * @return string
-     * @deprecated Deprecated in 2.3. Use getTypes() or getTypesAsString() instead
      */
     public function getDatatype()
     {
-        return $this->getTypesAsString();
+        return $this->datatype;
     }
 
     /**
@@ -58,10 +57,6 @@ class ReturnTag extends AbstractTypeableTag implements TagInterface
      */
     public function generate()
     {
-        $output = '@return '
-        . $this->getTypesAsString()
-        . ((!empty($this->description)) ? ' ' . $this->description : '');
-
-        return $output;
+        return '@return ' . $this->datatype . ' ' . $this->description;
     }
 }

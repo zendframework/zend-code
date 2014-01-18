@@ -9,11 +9,10 @@
 
 namespace Zend\Code\Generator\DocBlock\Tag;
 
-use Zend\Code\Generator\AbstractGenerator;
-use Zend\Code\Generator\DocBlock\TagManager;
-use Zend\Code\Reflection\DocBlock\Tag\TagInterface as ReflectionTagInterface;
+use Zend\Code\Generator\DocBlock\Tag;
+use Zend\Code\Reflection\DocBlock\Tag\TagInterface as ReflectionDocBlockTag;
 
-class LicenseTag extends AbstractGenerator implements TagInterface
+class LicenseTag extends Tag
 {
     /**
      * @var string
@@ -26,42 +25,38 @@ class LicenseTag extends AbstractGenerator implements TagInterface
     protected $licenseName = null;
 
     /**
-     * @param string $url
-     * @param string $licenseName
+     * @param  array $options
      */
-    public function __construct($url = null, $licenseName = null)
+    public function __construct(array $options = array())
     {
-        if (!empty($url)) {
-            $this->setUrl($url);
+        parent::__construct($options);
+
+        if (isset($options['url'])) {
+            $this->setUrl($options['url']);
         }
 
-        if (!empty($licenseName)) {
-            $this->setLicenseName($licenseName);
+        if (empty($this->name)) {
+            $this->setName('license');
         }
     }
 
     /**
-     * @param ReflectionTagInterface $reflectionTag
-     * @return ReturnTag
-     * @deprecated Deprecated in 2.3. Use TagManager::createTagFromReflection() instead
+     * @param  ReflectionDocBlockTag $reflectionTagLicense
+     * @return LicenseTag
      */
-    public static function fromReflection(ReflectionTagInterface $reflectionTag)
+    public static function fromReflection(ReflectionDocBlockTag $reflectionTagLicense)
     {
-        $tagManager = new TagManager();
-        $tagManager->initializeDefaultTags();
-        return $tagManager->createTagFromReflection($reflectionTag);
+        $licenseTag = new static();
+        $licenseTag
+            ->setName('license')
+            ->setUrl($reflectionTagLicense->getUrl())
+            ->setLicenseName($reflectionTagLicense->getDescription());
+
+        return $licenseTag;
     }
 
     /**
-     * @return string
-     */
-    public function getName()
-    {
-        return 'license';
-    }
-
-    /**
-     * @param string $url
+     * @param  string $url
      * @return LicenseTag
      */
     public function setUrl($url)
@@ -101,9 +96,10 @@ class LicenseTag extends AbstractGenerator implements TagInterface
      */
     public function generate()
     {
-        $output = '@license'
-            . ((!empty($this->url)) ? ' ' . $this->url : '')
-            . ((!empty($this->licenseName)) ? ' ' . $this->licenseName : '');
+        $output = '@license '
+            . (($this->url != null) ? $this->url : 'unknown')
+            . (($this->licenseName != null) ? ' ' . $this->licenseName : '')
+            . (($this->description != null) ? ' ' . $this->description : '');
 
         return $output;
     }

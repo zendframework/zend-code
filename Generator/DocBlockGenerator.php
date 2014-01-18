@@ -9,9 +9,7 @@
 
 namespace Zend\Code\Generator;
 
-use Zend\Code\Generator\DocBlock\Tag;
-use Zend\Code\Generator\DocBlock\Tag\TagInterface;
-use Zend\Code\Generator\DocBlock\TagManager;
+use Zend\Code\Generator\DocBlock\Tag as DocBlockTag;
 use Zend\Code\Reflection\DocBlockReflection;
 
 class DocBlockGenerator extends AbstractGenerator
@@ -41,8 +39,6 @@ class DocBlockGenerator extends AbstractGenerator
      */
     protected $wordwrap = true;
 
-    protected static $tagManager;
-
     /**
      * Build a DocBlock generator object from a reflection object
      *
@@ -60,7 +56,7 @@ class DocBlockGenerator extends AbstractGenerator
         $docBlock->setLongDescription($reflectionDocBlock->getLongDescription());
 
         foreach ($reflectionDocBlock->getTags() as $tag) {
-            $docBlock->setTag(self::getTagManager()->createTagFromReflection($tag));
+            $docBlock->setTag(DocBlockTag::fromReflection($tag));
         }
 
         return $docBlock;
@@ -86,7 +82,6 @@ class DocBlockGenerator extends AbstractGenerator
             switch (strtolower(str_replace(array('.', '-', '_'), '', $name))) {
                 case 'shortdescription':
                     $docBlock->setShortDescription($value);
-                    break;
                 case 'longdescription':
                     $docBlock->setLongDescription($value);
                     break;
@@ -98,16 +93,6 @@ class DocBlockGenerator extends AbstractGenerator
 
         return $docBlock;
     }
-
-    protected static function getTagManager()
-    {
-        if (!isset(static::$tagManager)) {
-            static::$tagManager = new TagManager();
-            static::$tagManager->initializeDefaultTags();
-        }
-        return static::$tagManager;
-    }
-
 
     /**
      * @param  string $shortDescription
@@ -177,20 +162,17 @@ class DocBlockGenerator extends AbstractGenerator
     }
 
     /**
-     * @param array|TagInterface $tag
+     * @param  array|DocBlockTag $tag
      * @throws Exception\InvalidArgumentException
      * @return DocBlockGenerator
      */
     public function setTag($tag)
     {
         if (is_array($tag)) {
-            // use deprecated Tag class for backward compatiblity to old array-keys
-            $genericTag = new Tag();
-            $genericTag->setOptions($tag);
-            $tag = $genericTag;
-        } elseif (!$tag instanceof TagInterface) {
+            $tag = new DocBlockTag($tag);
+        } elseif (!$tag instanceof DocBlockTag) {
             throw new Exception\InvalidArgumentException(sprintf(
-                '%s expects either an array of method options or an instance of %s\DocBlock\Tag\TagInterface',
+                '%s expects either an array of method options or an instance of %s\DocBlock\Tag',
                 __METHOD__,
                 __NAMESPACE__
             ));
@@ -201,7 +183,7 @@ class DocBlockGenerator extends AbstractGenerator
     }
 
     /**
-     * @return TagInterface[]
+     * @return DocBlockTag[]
      */
     public function getTags()
     {
@@ -209,8 +191,10 @@ class DocBlockGenerator extends AbstractGenerator
     }
 
     /**
+     * Set the word wrap
+     *
      * @param bool $value
-     * @return DocBlockGenerator
+     * @return \Zend\Code\Generator\DocBlockGenerator
      */
     public function setWordWrap($value)
     {
@@ -219,6 +203,8 @@ class DocBlockGenerator extends AbstractGenerator
     }
 
     /**
+     * Get the word wrap
+     *
      * @return bool
      */
     public function getWordWrap()
@@ -243,7 +229,6 @@ class DocBlockGenerator extends AbstractGenerator
             $output .= $ld . self::LINE_FEED . self::LINE_FEED;
         }
 
-        /* @var $tag GeneratorInterface */
         foreach ($this->getTags() as $tag) {
             $output .= $tag->generate() . self::LINE_FEED;
         }

@@ -9,43 +9,94 @@
 
 namespace Zend\Code\Generator\DocBlock;
 
-use Zend\Code\Generator\DocBlock\Tag\GenericTag;
-use Zend\Code\Reflection\DocBlock\Tag\TagInterface as ReflectionTagInterface;
+use ReflectionClass;
+use ReflectionMethod;
+use Zend\Code\Generator\AbstractGenerator;
+use Zend\Code\Reflection\DocBlock\Tag\TagInterface as ReflectionDocBlockTag;
 
-/**
- * @deprecated Deprecated in 2.3. Use GenericTag instead
- */
-class Tag extends GenericTag
+class Tag extends AbstractGenerator
 {
+    /**
+     * @var string
+     */
+    protected $name = null;
 
     /**
-     * @param  ReflectionTagInterface $reflectionTag
-     * @return Tag
-     * @deprecated Deprecated in 2.3. Use TagManager::createTagFromReflection() instead
+     * @var string
      */
-    public static function fromReflection(ReflectionTagInterface $reflectionTag)
+    protected $description = null;
+
+    /**
+     * Build a Tag generator object from a reflection object
+     *
+     * @param  ReflectionDocBlockTag $reflectionTag
+     * @return Tag
+     */
+    public static function fromReflection(ReflectionDocBlockTag $reflectionTag)
     {
-        $tagManager = new TagManager();
-        $tagManager->initializeDefaultTags();
-        return $tagManager->createTagFromReflection($reflectionTag);
+        $tagName = $reflectionTag->getName();
+
+        $codeGenDocBlockTag = new static();
+        $codeGenDocBlockTag->setName($tagName);
+
+        // transport any properties via accessors and mutators from reflection to codegen object
+        $reflectionClass = new ReflectionClass($reflectionTag);
+        foreach ($reflectionClass->getMethods(ReflectionMethod::IS_PUBLIC) as $method) {
+            if (substr($method->getName(), 0, 3) == 'get') {
+                $propertyName = substr($method->getName(), 3);
+                if (method_exists($codeGenDocBlockTag, 'set' . $propertyName)) {
+                    $codeGenDocBlockTag->{'set' . $propertyName}($reflectionTag->{'get' . $propertyName}());
+                }
+            }
+        }
+
+        return $codeGenDocBlockTag;
+    }
+
+    /**
+     * @param  string $name
+     * @return Tag
+     */
+    public function setName($name)
+    {
+        $this->name = ltrim($name, '@');
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
     }
 
     /**
      * @param  string $description
      * @return Tag
-     * @deprecated Deprecated in 2.3. Use GenericTag::setContent() instead
      */
     public function setDescription($description)
     {
-        return $this->setContent($description);
+        $this->description = $description;
+        return $this;
     }
 
     /**
      * @return string
-     * @deprecated Deprecated in 2.3. Use GenericTag::getContent() instead
      */
     public function getDescription()
     {
-        return $this->getContent();
+        return $this->description;
+    }
+
+    /**
+     * @return string
+     */
+    public function generate()
+    {
+        $output = '@' . $this->name
+            . (($this->description != null) ? ' ' . $this->description : '');
+
+        return $output;
     }
 }

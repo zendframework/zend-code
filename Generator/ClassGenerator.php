@@ -593,14 +593,14 @@ class ClassGenerator extends AbstractGenerator
     {
         $methodName = $method->getName();
 
-        if ($this->hasMethod($methodName)) {
+        if (isset($this->methods[$methodName])) {
             throw new Exception\InvalidArgumentException(sprintf(
                 'A method by name %s already exists in this class.',
                 $methodName
             ));
         }
 
-        $this->methods[strtolower($methodName)] = $method;
+        $this->methods[$methodName] = $method;
         return $this;
     }
 
@@ -618,7 +618,13 @@ class ClassGenerator extends AbstractGenerator
      */
     public function getMethod($methodName)
     {
-        return $this->hasMethod($methodName) ? $this->methods[strtolower($methodName)] : false;
+        foreach ($this->methods as $method) {
+            if ($method->getName() == $methodName) {
+                return $method;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -627,8 +633,11 @@ class ClassGenerator extends AbstractGenerator
      */
     public function removeMethod($methodName)
     {
-        if ($this->hasMethod($methodName)) {
-            unset($this->methods[strtolower($methodName)]);
+        foreach ($this->methods as $key => $method) {
+            if ($method->getName() == $methodName) {
+                unset($this->methods[$key]);
+                break;
+            }
         }
 
         return $this;
@@ -640,7 +649,7 @@ class ClassGenerator extends AbstractGenerator
      */
     public function hasMethod($methodName)
     {
-        return isset($this->methods[strtolower($methodName)]);
+        return isset($this->methods[$methodName]);
     }
 
     /**

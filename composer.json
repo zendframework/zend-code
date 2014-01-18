@@ -13,21 +13,19 @@
     },
     "target-dir": "Zend/Code",
     "require": {
-        "php": ">=5.3.23",
+        "php": ">=5.3.3",
         "zendframework/zend-eventmanager": "self.version"
     },
     "require-dev": {
-        "doctrine/common": ">=2.1",
-        "zendframework/zend-stdlib": "self.version"
+        "doctrine/common": ">=2.1"
     },
     "suggest": {
-        "doctrine/common": "Doctrine\\Common >=2.1 for annotation features",
-        "zendframework/zend-stdlib": "Zend\\Stdlib component"
+        "doctrine/common": "Doctrine\\Common >=2.1 for annotation features"
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "2.3-dev",
-            "dev-develop": "2.4-dev"
+            "dev-master": "2.2-dev",
+            "dev-develop": "2.3-dev"
         }
     }
 }

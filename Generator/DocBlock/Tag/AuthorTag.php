@@ -9,91 +9,71 @@
 
 namespace Zend\Code\Generator\DocBlock\Tag;
 
-use Zend\Code\Generator\AbstractGenerator;
-use Zend\Code\Generator\DocBlock\TagManager;
-use Zend\Code\Reflection\DocBlock\Tag\TagInterface as ReflectionTagInterface;
+use Zend\Code\Generator\DocBlock\Tag;
+use Zend\Code\Reflection\DocBlock\Tag\TagInterface as ReflectionDocBlockTag;
 
-class AuthorTag extends AbstractGenerator implements TagInterface
+class AuthorTag extends Tag
 {
     /**
      * @var string
      */
-    protected $authorName = null;
+    protected $datatype = null;
 
     /**
      * @var string
      */
-    protected $authorEmail = null;
+    protected $paramName = null;
 
     /**
-     * @param string $authorName
-     * @param string $authorEmail
-     */
-    public function __construct($authorName = null, $authorEmail = null)
-    {
-        if (!empty($authorName)) {
-            $this->setAuthorName($authorName);
-        }
-
-        if (!empty($authorEmail)) {
-            $this->setAuthorEmail($authorEmail);
-        }
-    }
-
-    /**
-     * @param ReflectionTagInterface $reflectionTag
-     * @return ReturnTag
-     * @deprecated Deprecated in 2.3. Use TagManager::createTagFromReflection() instead
-     */
-    public static function fromReflection(ReflectionTagInterface $reflectionTag)
-    {
-        $tagManager = new TagManager();
-        $tagManager->initializeDefaultTags();
-        return $tagManager->createTagFromReflection($reflectionTag);
-    }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return 'author';
-    }
-
-    /**
-     * @param string $authorEmail
+     * @param  ReflectionDocBlockTag $reflectionTagParam
      * @return AuthorTag
      */
-    public function setAuthorEmail($authorEmail)
+    public static function fromReflection(ReflectionDocBlockTag $reflectionTagParam)
     {
-        $this->authorEmail = $authorEmail;
+        $authorTag = new self();
+        $authorTag
+            ->setName('author')
+            ->setAuthorName($reflectionTagParam->getType()) // @todo rename
+            ->setAuthorEmail($reflectionTagParam->getVariableName())
+            ->setDescription($reflectionTagParam->getDescription());
+
+        return $authorTag;
+    }
+
+    /**
+     * @param  string $datatype
+     * @return AuthorTag
+     */
+    public function setDatatype($datatype)
+    {
+        $this->datatype = (string) $datatype;
         return $this;
     }
 
     /**
      * @return string
      */
-    public function getAuthorEmail()
+    public function getDatatype()
     {
-        return $this->authorEmail;
+        return $this->datatype;
     }
 
     /**
-     * @param string $authorName
+     * @param  string $paramName
      * @return AuthorTag
      */
-    public function setAuthorName($authorName)
+    public function setParamName($paramName)
     {
-        $this->authorName = $authorName;
+        $this->paramName = (string) $paramName;
         return $this;
     }
 
     /**
      * @return string
      */
-    public function getAuthorName()
+    public function getParamName()
     {
-        return $this->authorName;
+        return $this->paramName;
     }
 
     /**
@@ -101,9 +81,10 @@ class AuthorTag extends AbstractGenerator implements TagInterface
      */
     public function generate()
     {
-        $output = '@author'
-            . ((!empty($this->authorName)) ? ' ' . $this->authorName : '')
-            . ((!empty($this->authorEmail)) ? ' <' . $this->authorEmail . '>' : '');
+        $output = '@param '
+            . (($this->datatype != null) ? $this->datatype : 'unknown')
+            . (($this->paramName != null) ? ' $' . $this->paramName : '')
+            . (($this->description != null) ? ' ' . $this->description : '');
 
         return $output;
     }

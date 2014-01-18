@@ -111,13 +111,8 @@ class ClassReflection extends ReflectionClass implements ReflectionInterface
      */
     public function getContents($includeDocBlock = true)
     {
-        $fileName = $this->getFileName();
-
-        if (false === $fileName || ! file_exists($fileName)) {
-            return '';
-        }
-
-        $filelines = file($fileName);
+        $filename  = $this->getFileName();
+        $filelines = file($filename);
         $startnum  = $this->getStartLine($includeDocBlock);
         $endnum    = $this->getEndLine() - $this->getStartLine();
 

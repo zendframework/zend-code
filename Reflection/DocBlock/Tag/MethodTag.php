@@ -108,6 +108,8 @@ class MethodTag implements TagInterface, PhpDocTypedTagInterface
     }
 
     /**
+     * Is method static
+     *
      * @return bool
      */
     public function isStatic()
