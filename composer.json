@@ -6,7 +6,6 @@
         "zf2",
         "code"
     ],
-    "homepage": "https://github.com/zendframework/zf2",
     "autoload": {
         "psr-0": {
             "Zend\\Code\\": ""
