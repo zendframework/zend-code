@@ -3,7 +3,7 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2013 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
@@ -459,7 +459,7 @@ class ClassGenerator extends AbstractGenerator
     /**
      * Add property from PropertyGenerator
      *
-     * @param  PropertyGenerator           $property
+     * @param  string|PropertyGenerator           $property
      * @throws Exception\InvalidArgumentException
      * @return ClassGenerator
      */
@@ -593,14 +593,14 @@ class ClassGenerator extends AbstractGenerator
     {
         $methodName = $method->getName();
 
-        if ($this->hasMethod($methodName)) {
+        if (isset($this->methods[$methodName])) {
             throw new Exception\InvalidArgumentException(sprintf(
                 'A method by name %s already exists in this class.',
                 $methodName
             ));
         }
 
-        $this->methods[strtolower($methodName)] = $method;
+        $this->methods[$methodName] = $method;
         return $this;
     }
 
@@ -618,7 +618,13 @@ class ClassGenerator extends AbstractGenerator
      */
     public function getMethod($methodName)
     {
-        return $this->hasMethod($methodName) ? $this->methods[strtolower($methodName)] : false;
+        foreach ($this->methods as $method) {
+            if ($method->getName() == $methodName) {
+                return $method;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -627,8 +633,11 @@ class ClassGenerator extends AbstractGenerator
      */
     public function removeMethod($methodName)
     {
-        if ($this->hasMethod($methodName)) {
-            unset($this->methods[strtolower($methodName)]);
+        foreach ($this->methods as $key => $method) {
+            if ($method->getName() == $methodName) {
+                unset($this->methods[$key]);
+                break;
+            }
         }
 
         return $this;
@@ -640,7 +649,7 @@ class ClassGenerator extends AbstractGenerator
      */
     public function hasMethod($methodName)
     {
-        return isset($this->methods[strtolower($methodName)]);
+        return isset($this->methods[$methodName]);
     }
 
     /**
