@@ -7,14 +7,12 @@
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
-namespace Zend\Code\Reflection\DocBlock\Tag;
+namespace Zend\Code\Generic\Prototype;
 
-interface PhpDocTypedTagInterface
+interface PrototypeGenericInterface extends PrototypeInterface
 {
     /**
-     * Return all types supported by the tag definition
-     *
-     * @return string[]
+     * @param string $name
      */
-    public function getTypes();
+    public function setName($name);
 }

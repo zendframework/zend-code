@@ -7,31 +7,17 @@
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
-namespace Zend\Code\Generator;
+namespace Zend\Code\Generator\DocBlock\Tag;
 
-class BodyGenerator extends AbstractGenerator
+class ThrowsTag extends AbstractTypeableTag implements TagInterface
 {
-    /**
-     * @var string
-     */
-    protected $content = null;
-
-    /**
-     * @param  string $content
-     * @return BodyGenerator
-     */
-    public function setContent($content)
-    {
-        $this->content = (string) $content;
-        return $this;
-    }
 
     /**
      * @return string
      */
-    public function getContent()
+    public function getName()
     {
-        return $this->content;
+        return 'throws';
     }
 
     /**
@@ -39,6 +25,10 @@ class BodyGenerator extends AbstractGenerator
      */
     public function generate()
     {
-        return $this->getContent();
+        $output = '@throws'
+        . ((!empty($this->types)) ? ' ' . $this->getTypesAsString() : '')
+        . ((!empty($this->description)) ? ' ' . $this->description : '');
+
+        return $output;
     }
 }
