@@ -768,6 +768,7 @@ class ClassScanner implements ScannerInterface
         }
 
         if ($tokenType === null && $tokenContent === '{' && $braceCount === 0) {
+
             $braceCount++;
             if ($MACRO_TOKEN_ADVANCE() === false) {
                 goto SCANNER_END;
@@ -930,6 +931,7 @@ class ClassScanner implements ScannerInterface
             SCANNER_CLASS_BODY_END:
 
             goto SCANNER_CONTINUE;
+
         }
 
         SCANNER_CONTINUE:
