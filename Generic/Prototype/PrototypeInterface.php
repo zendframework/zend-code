@@ -7,9 +7,12 @@
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
-namespace Zend\Code\Exception;
+namespace Zend\Code\Generic\Prototype;
 
-class BadMethodCallException extends \BadMethodCallException implements
-    ExceptionInterface
+interface PrototypeInterface
 {
+    /**
+     * @return string
+     */
+    public function getName();
 }

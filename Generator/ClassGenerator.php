@@ -3,7 +3,7 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
@@ -101,7 +101,7 @@ class ClassGenerator extends AbstractGenerator
         }
 
         $interfaceNames = array();
-        foreach ($interfaces AS $interface) {
+        foreach ($interfaces as $interface) {
             /* @var \Zend\Code\Reflection\ClassReflection $interface */
             $interfaceNames[] = $interface->getName();
         }
@@ -198,9 +198,16 @@ class ClassGenerator extends AbstractGenerator
      * @param  array $methods
      * @param  DocBlockGenerator $docBlock
      */
-    public function __construct($name = null, $namespaceName = null, $flags = null, $extends = null,
-                                $interfaces = array(), $properties = array(), $methods = array(), $docBlock = null)
-    {
+    public function __construct(
+        $name = null,
+        $namespaceName = null,
+        $flags = null,
+        $extends = null,
+        $interfaces = array(),
+        $properties = array(),
+        $methods = array(),
+        $docBlock = null
+    ) {
         if ($name !== null) {
             $this->setName($name);
         }
@@ -459,7 +466,7 @@ class ClassGenerator extends AbstractGenerator
     /**
      * Add property from PropertyGenerator
      *
-     * @param  string|PropertyGenerator           $property
+     * @param  PropertyGenerator           $property
      * @throws Exception\InvalidArgumentException
      * @return ClassGenerator
      */
@@ -569,9 +576,13 @@ class ClassGenerator extends AbstractGenerator
      * @throws Exception\InvalidArgumentException
      * @return ClassGenerator
      */
-    public function addMethod($name = null, array $parameters = array(), $flags = MethodGenerator::FLAG_PUBLIC,
-                              $body = null, $docBlock = null)
-    {
+    public function addMethod(
+        $name = null,
+        array $parameters = array(),
+        $flags = MethodGenerator::FLAG_PUBLIC,
+        $body = null,
+        $docBlock = null
+    ) {
         if (!is_string($name)) {
             throw new Exception\InvalidArgumentException(sprintf(
                 '%s expects string for name',

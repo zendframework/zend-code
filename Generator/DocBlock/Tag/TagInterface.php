@@ -7,9 +7,10 @@
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
-namespace Zend\Code\Exception;
+namespace Zend\Code\Generator\DocBlock\Tag;
 
-class BadMethodCallException extends \BadMethodCallException implements
-    ExceptionInterface
+use Zend\Code\Generic\Prototype\PrototypeInterface;
+
+interface TagInterface extends PrototypeInterface
 {
 }
