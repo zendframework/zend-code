@@ -3,7 +3,7 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
@@ -129,17 +129,13 @@ class MethodGenerator extends AbstractMemberGenerator
     /**
      * @param  string $name
      * @param  array $parameters
-     * @param  int $flags
+     * @param  int|array $flags
      * @param  string $body
      * @param  DocBlockGenerator|string $docBlock
      */
-    public function __construct(
-        $name = null,
-        array $parameters = array(),
-        $flags = self::FLAG_PUBLIC,
-        $body = null,
-        $docBlock = null
-    ) {
+    public function __construct($name = null, array $parameters = array(), $flags = self::FLAG_PUBLIC, $body = null,
+                                $docBlock = null)
+    {
         if ($name) {
             $this->setName($name);
         }
@@ -264,7 +260,7 @@ class MethodGenerator extends AbstractMemberGenerator
         $output .= self::LINE_FEED . $indent . '{' . self::LINE_FEED;
 
         if ($this->body) {
-            $output .= preg_replace('#^((?![a-zA-Z0-9_-]+;).+?)$#m', $indent . $indent . '$1', trim($this->body))
+            $output .= preg_replace('#^(.+?)$#m', $indent . $indent . '$1', trim($this->body))
                 . self::LINE_FEED;
         }
 

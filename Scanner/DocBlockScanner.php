@@ -3,7 +3,7 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
@@ -130,7 +130,6 @@ class DocBlockScanner implements ScannerInterface
                     $this->longDescription .= $token[1];
                 }
                 goto SCANNER_CONTINUE;
-                //goto no break needed
 
             case 'DOCBLOCK_WHITESPACE':
             case 'DOCBLOCK_TEXT':
@@ -145,7 +144,6 @@ class DocBlockScanner implements ScannerInterface
                     }
                     goto SCANNER_CONTINUE;
                 }
-                //gotos no break needed
             case 'DOCBLOCK_TAG':
                 array_push($this->tags, array('name'  => $token[1],
                                               'value' => ''));
@@ -153,7 +151,6 @@ class DocBlockScanner implements ScannerInterface
                 $tagIndex = key($this->tags);
                 $mode     = 3;
                 goto SCANNER_CONTINUE;
-                //goto no break needed
 
             case 'DOCBLOCK_COMMENTEND':
                 goto SCANNER_END;
@@ -200,7 +197,8 @@ class DocBlockScanner implements ScannerInterface
             }
             $currentChar = $stream[$streamIndex];
             $matches     = array();
-            $currentLine = (preg_match('#(.*?)\r?\n#', $stream, $matches, null, $streamIndex) === 1) ? $matches[1] : substr($stream, $streamIndex);
+            $currentLine = (preg_match('#(.*?)\r?\n#', $stream, $matches, null,
+                                       $streamIndex) === 1) ? $matches[1] : substr($stream, $streamIndex);
             if ($currentChar === ' ') {
                 $currentWord = (preg_match('#( +)#', $currentLine, $matches) === 1) ? $matches[1] : $currentLine;
             } else {

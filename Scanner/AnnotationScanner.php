@@ -3,7 +3,7 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
@@ -46,11 +46,9 @@ class AnnotationScanner extends AnnotationCollection implements ScannerInterface
      * @param  NameInformation $nameInformation
      * @return AnnotationScanner
      */
-    public function __construct(
-        AnnotationManager $annotationManager,
-        $docComment,
-        NameInformation $nameInformation = null
-    ) {
+    public function __construct(AnnotationManager $annotationManager, $docComment,
+                                NameInformation $nameInformation = null)
+    {
         $this->annotationManager = $annotationManager;
         $this->docComment        = $docComment;
         $this->nameInformation   = $nameInformation;
@@ -89,12 +87,10 @@ class AnnotationScanner extends AnnotationCollection implements ScannerInterface
                 $class                         = $this->nameInformation->resolveName($class);
                 $annotations[$annotationIndex] = array($class, null);
                 goto SCANNER_CONTINUE;
-                // goto no break needed
 
             case 'ANNOTATION_CONTENT_START':
 
                 $annotations[$annotationIndex][1] = '';
-                //fall-through
 
             case 'ANNOTATION_CONTENT_END':
             case 'ANNOTATION_CONTENT':
@@ -160,11 +156,13 @@ class AnnotationScanner extends AnnotationCollection implements ScannerInterface
             }
             $currentChar = $stream[$streamIndex];
             $matches     = array();
-            $currentLine = (preg_match('#(.*)\n#', $stream, $matches, null, $streamIndex) === 1) ? $matches[1] : substr($stream, $streamIndex);
+            $currentLine = (preg_match('#(.*)\n#', $stream, $matches, null,
+                                       $streamIndex) === 1) ? $matches[1] : substr($stream, $streamIndex);
             if ($currentChar === ' ') {
                 $currentWord = (preg_match('#( +)#', $currentLine, $matches) === 1) ? $matches[1] : $currentLine;
             } else {
-                $currentWord = (($matches = strpos($currentLine, ' ')) !== false) ? substr($currentLine, 0, $matches) : $currentLine;
+                $currentWord = (($matches = strpos($currentLine, ' ')) !== false) ? substr($currentLine, 0,
+                                                                                           $matches) : $currentLine;
             }
 
             return $currentChar;
@@ -223,6 +221,7 @@ class AnnotationScanner extends AnnotationCollection implements ScannerInterface
                 }
                 goto TOKENIZER_TOP;
             }
+
         }
 
         if ($currentChar === "\n") {
