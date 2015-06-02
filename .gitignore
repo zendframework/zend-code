@@ -7,7 +7,6 @@
 .*.un~
 nbproject
 tmp/
-composer.phar
 clover.xml
 composer.lock
 coveralls-upload.json
