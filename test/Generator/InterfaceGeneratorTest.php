@@ -451,5 +451,4 @@ CODE;
         $constant  = $interfaceGenerator->getConstant('FOOBAR');
         $this->assertEquals($constant->getDefaultValue()->getValue(), 0x20);
     }
-
 }

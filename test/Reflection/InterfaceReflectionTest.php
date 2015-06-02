@@ -127,6 +127,4 @@ EOS;
         $reflectionInterface = new ClassReflection('Iterator');
         $this->assertSame('', $reflectionInterface->getContents());
     }
-
-
 }

@@ -80,7 +80,6 @@ class MethodDeclarationReflectionTest extends \PHPUnit_Framework_TestCase
             'public int doSomethingElse(int $one, int $two = 2, string $three = \'three\');',
             $reflectionMethod->getPrototype(MethodDeclarationReflection::PROTOTYPE_AS_STRING)
         );
-
     }
 
     public function testGetAnnotationsWithNoNameInformations()
@@ -106,5 +105,4 @@ class MethodDeclarationReflectionTest extends \PHPUnit_Framework_TestCase
 
         $this->assertFalse($reflectionMethod->getAnnotations($annotationManager));
     }
-
 }
