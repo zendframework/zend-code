@@ -10,6 +10,7 @@
 namespace Zend\Code\Generator;
 
 use Zend\Code\Generator\Exception\InvalidArgumentException;
+use Zend\Code\Generator\Exception\RuntimeException;
 use Zend\Code\Reflection\MethodDeclarationReflection;
 
 /**
@@ -246,34 +247,26 @@ class MethodDeclarationGenerator extends AbstractMemberGenerator
     }
 
     /**
-     * @ignore
-     * @throws \LogicException
-     * @param  bool $isAbstract
-     *
-     * @return void
+     * @param  string $visibility
+     * @return AbstractMemberGenerator
      */
-    public function setAbstract($isAbstract)
+    public function setVisibility($visibility)
     {
-        throw new \LogicException(
-            "Abstract methods are not supported. To generate abstract methods use the MethodGenerator. " .
-            "The intended use of this generator is to work with interfaces. See method getMethodImplementation() to export a pre configured instance of this method " .
-            "declaration that you can use to generate your (abstract) class method."
-        );
+        if ($visibility !== self::VISIBILITY_PUBLIC) {
+            throw new RuntimeException("Method declarations for interfaces must be public.");
+        }
+
+        return $this;
     }
 
     /**
-     * @ignore
-     * @throws \LogicException
+     * Method declarations for interfaces are always public.
      *
-     * @return bool
+     * @return string
      */
-    public function isAbstract()
+    public function getVisibility()
     {
-        throw new \LogicException(
-            "Abstract methods are not supported. To generate abstract methods use the MethodGenerator. " .
-            "The intended use of this generator is to work with interfaces. See method getMethodImplementation() to export a pre configured instance of this method " .
-            "declaration that you can use to generate your (abstract) class method."
-        );
+        return self::VISIBILITY_PUBLIC;
     }
 
     /**

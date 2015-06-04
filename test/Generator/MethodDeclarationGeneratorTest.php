@@ -137,4 +137,16 @@ EOS;
         $this->assertTrue($methodGenerator->isStatic());
         $this->assertEquals(MethodDeclarationGenerator::VISIBILITY_PUBLIC, $methodGenerator->getVisibility());
     }
+
+    public function testShouldThrowExceptionsForNonSupportedMethods()
+    {
+        $methodGenerator = new MethodDeclarationGenerator();
+
+        // Abstract methods are not supported for interface method declarations.
+        $this->setExpectedException(
+            'Zend\Code\Generator\Exception\RuntimeException',
+            "Method declarations for interfaces must be public."
+        );
+        $methodGenerator->setVisibility($methodGenerator::VISIBILITY_PROTECTED);
+    }
 }

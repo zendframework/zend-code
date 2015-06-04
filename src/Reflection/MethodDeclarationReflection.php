@@ -1,7 +1,4 @@
 <?php
-
-namespace Zend\Code\Reflection;
-
 /**
  * Zend Framework (http://framework.zend.com/).
  *
@@ -10,12 +7,13 @@ namespace Zend\Code\Reflection;
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
+namespace Zend\Code\Reflection;
+
 use ReflectionMethod as PhpReflectionMethod;
 use Zend\Code\Annotation\AnnotationManager;
 use Zend\Code\Reflection\DocBlock\Tag\ReturnTag;
 use Zend\Code\Scanner\AnnotationScanner;
 use Zend\Code\Scanner\CachingFileScanner;
-
 
 /**
  * Reflection class used for method declarations in interfaces.
