@@ -1,22 +1,27 @@
 <?php
-
-namespace Zend\Code\Generator;
-
 /**
  * Zend Framework (http://framework.zend.com/)
  *
- * @author    Daan Biesterbos <daanbiesterbos@gmail.com>
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
  * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
- *
- *
- * @method add
  */
+
+namespace Zend\Code\Generator;
 
 use Zend\Code\Reflection\InterfaceReflection;
 use Zend\Code\Generator\Exception\InvalidArgumentException;
 
+/**
+ * Interface generator
+ *
+ * A generator used to generate PHP interfaces.
+ *
+ * Class InterfaceGenerator
+ * @package   Zend\Code\Generator
+ * @author    Daan Biesterbos <daanbiesterbos@gmail.com>
+ * @filesource
+ */
 class InterfaceGenerator extends AbstractGenerator
 {
     const OBJECT_TYPE = 'interface';

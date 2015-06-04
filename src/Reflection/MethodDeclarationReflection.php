@@ -12,9 +12,19 @@ namespace Zend\Code\Reflection;
 
 use ReflectionMethod as PhpReflectionMethod;
 use Zend\Code\Annotation\AnnotationManager;
+use Zend\Code\Reflection\DocBlock\Tag\ReturnTag;
 use Zend\Code\Scanner\AnnotationScanner;
 use Zend\Code\Scanner\CachingFileScanner;
 
+
+/**
+ * Reflection class used for method declarations in interfaces.
+ *
+ * Class MethodDeclarationReflection
+ * @package   Zend\Code\Reflection
+ * @author     Daan Biesterbos <daanbiesterbos@gmail.com>
+ * @filesource
+ */
 class MethodDeclarationReflection extends PhpReflectionMethod implements ReflectionInterface
 {
     /**
@@ -111,7 +121,7 @@ class MethodDeclarationReflection extends PhpReflectionMethod implements Reflect
      * (PHP 5)<br/>
      * Gets declaring class for the reflected method.
      * @link http://php.net/manual/en/reflectionmethod.getdeclaringclass.php
-     * @return ReflectionClass A <b>ReflectionClass</b> object of the class that the
+     * @return \ReflectionClass A <b>ReflectionClass</b> object of the class that the
      * reflected method is part of.
      */
     final public function getDeclaringClass()
@@ -129,6 +139,7 @@ class MethodDeclarationReflection extends PhpReflectionMethod implements Reflect
         $returnType = 'mixed';
         $docBlock = $this->getDocBlock();
         if ($docBlock) {
+            /** @var ReturnTag $return */
             $return = $docBlock->getTag('return');
             $returnTypes = $return->getTypes();
             $returnType = count($returnTypes) > 1 ? implode('|', $returnTypes) : $returnTypes[0];

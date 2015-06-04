@@ -1,7 +1,4 @@
 <?php
-
-namespace Zend\Code\Reflection;
-
 /**
  * Zend Framework (http://framework.zend.com/).
  *
@@ -10,6 +7,8 @@ namespace Zend\Code\Reflection;
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
+namespace Zend\Code\Reflection;
+
 use ReflectionClass;
 use Zend\Code\Annotation\AnnotationCollection;
 use Zend\Code\Annotation\AnnotationManager;
@@ -17,6 +16,15 @@ use Zend\Code\Scanner\AnnotationScanner;
 use Zend\Code\Scanner\FileScanner;
 use Zend\Code\Exception\ExceptionInterface;
 
+/**
+ * Reflection class for PHP interfaces. This class adds some functionality that is needed to generate interfaces.
+ *
+ *
+ * Class InterfaceReflection
+ * @package   Zend\Code\Reflection
+ * @author     Daan Biesterbos <daanbiesterbos@gmail.com>
+ * @filesource
+ */
 class InterfaceReflection extends ReflectionClass implements ReflectionInterface
 {
     /**
