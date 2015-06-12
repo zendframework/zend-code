@@ -15,14 +15,6 @@ use Zend\Code\Reflection\DocBlock\Tag\ReturnTag;
 use Zend\Code\Scanner\AnnotationScanner;
 use Zend\Code\Scanner\CachingFileScanner;
 
-/**
- * Reflection class used for method declarations in interfaces.
- *
- * Class MethodDeclarationReflection
- * @package   Zend\Code\Reflection
- * @author     Daan Biesterbos <daanbiesterbos@gmail.com>
- * @filesource
- */
 class MethodDeclarationReflection extends PhpReflectionMethod implements ReflectionInterface
 {
     /**

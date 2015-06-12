@@ -16,15 +16,6 @@ use Zend\Code\Scanner\AnnotationScanner;
 use Zend\Code\Scanner\FileScanner;
 use Zend\Code\Exception\ExceptionInterface;
 
-/**
- * Reflection class for PHP interfaces. This class adds some functionality that is needed to generate interfaces.
- *
- *
- * Class InterfaceReflection
- * @package   Zend\Code\Reflection
- * @author     Daan Biesterbos <daanbiesterbos@gmail.com>
- * @filesource
- */
 class InterfaceReflection extends ReflectionClass implements ReflectionInterface
 {
     /**

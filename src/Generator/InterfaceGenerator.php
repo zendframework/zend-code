@@ -12,16 +12,6 @@ namespace Zend\Code\Generator;
 use Zend\Code\Reflection\InterfaceReflection;
 use Zend\Code\Generator\Exception\InvalidArgumentException;
 
-/**
- * Interface generator
- *
- * A generator used to generate PHP interfaces.
- *
- * Class InterfaceGenerator
- * @package   Zend\Code\Generator
- * @author    Daan Biesterbos <daanbiesterbos@gmail.com>
- * @filesource
- */
 class InterfaceGenerator extends AbstractGenerator
 {
     const OBJECT_TYPE = 'interface';
@@ -54,17 +44,17 @@ class InterfaceGenerator extends AbstractGenerator
     /**
      * @var array Array of string names
      */
-    protected $extendedInterfaces = array();
+    protected $extendedInterfaces = [];
 
     /**
      * @var PropertyGenerator[] Array of constants
      */
-    protected $constants = array();
+    protected $constants = [];
 
     /**
      * @var MethodDeclarationGenerator[] Array of methods
      */
-    protected $methods = array();
+    protected $methods = [];
 
     /**
      * Build a Code Generation Php Object from a Class Reflection.
@@ -90,7 +80,7 @@ class InterfaceGenerator extends AbstractGenerator
 
         /* @var \Zend\Code\Reflection\ClassReflection[] $parentInterfaces */
         $parentInterfaces = $reflection->getParentInterfaces();
-        $interfaceNames = array();
+        $interfaceNames = [];
         if ($parentInterfaces) {
             foreach ($parentInterfaces as $parentInterface) {
                 $interfaceNames[] = $parentInterface->getName();
@@ -99,7 +89,7 @@ class InterfaceGenerator extends AbstractGenerator
 
         $ig->setExtendedInterfaces($interfaceNames);
 
-        $constants = array();
+        $constants = [];
         foreach ($reflection->getConstants() as $name => $value) {
             $constants[] = array(
                 'name' => $name,
@@ -109,7 +99,7 @@ class InterfaceGenerator extends AbstractGenerator
 
         $ig->addConstants($constants);
 
-        $methods = array();
+        $methods = [];
         foreach ($reflection->getMethods() as $reflectionMethod) {
             $className = ($ig->getNamespaceName()) ? $ig->getNamespaceName() . "\\" . $ig->getName() : $ig->getName();
             if ($reflectionMethod->getDeclaringInterface()->getName() == $className) {
@@ -193,8 +183,8 @@ class InterfaceGenerator extends AbstractGenerator
         $name = null,
         $namespaceName = null,
         $flags = null,
-        $parents = array(),
-        $methods = array(),
+        $parents = [],
+        $methods = [],
         $docBlock = null
     ) {
         if ($name !== null) {
@@ -209,7 +199,7 @@ class InterfaceGenerator extends AbstractGenerator
         if (is_array($parents)) {
             $this->setExtendedInterfaces($parents);
         }
-        if ($methods !== array()) {
+        if ($methods !== []) {
             $this->addMethods($methods);
         }
         if ($docBlock !== null) {
@@ -550,7 +540,7 @@ class InterfaceGenerator extends AbstractGenerator
      */
     public function addMethod(
         $name = null,
-        array $parameters = array(),
+        array $parameters = [],
         $flags = MethodDeclarationGenerator::FLAG_PUBLIC,
         $body = null,
         $docBlock = null
