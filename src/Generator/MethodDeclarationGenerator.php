@@ -9,9 +9,11 @@
 
 namespace Zend\Code\Generator;
 
-use Zend\Code\Reflection\MethodReflection;
+use Zend\Code\Generator\Exception\InvalidArgumentException;
+use Zend\Code\Generator\Exception\RuntimeException;
+use Zend\Code\Reflection\MethodDeclarationReflection;
 
-class MethodGenerator extends AbstractMemberGenerator
+class MethodDeclarationGenerator extends AbstractMemberGenerator
 {
     /**
      * @var DocBlockGenerator
@@ -24,79 +26,34 @@ class MethodGenerator extends AbstractMemberGenerator
     protected $parameters = [];
 
     /**
-     * @var string
-     */
-    protected $body = null;
-
-    /**
-     * @param  MethodReflection $reflectionMethod
+     * @param MethodDeclarationReflection $reflectionMethod
+     *
      * @return MethodGenerator
      */
-    public static function fromReflection(MethodReflection $reflectionMethod)
+    public static function fromReflection(MethodDeclarationReflection $reflectionMethod)
     {
         $method = new static();
+        if (!$reflectionMethod->isPublic()) {
+            throw new InvalidArgumentException('Interfaces can only contain public methods!');
+        }
 
-        $method->setSourceContent($reflectionMethod->getContents(false));
         $method->setSourceDirty(false);
-
         if ($reflectionMethod->getDocComment() != '') {
             $method->setDocBlock(DocBlockGenerator::fromReflection($reflectionMethod->getDocBlock()));
         }
 
-        $method->setFinal($reflectionMethod->isFinal());
-
-        if ($reflectionMethod->isPrivate()) {
-            $method->setVisibility(self::VISIBILITY_PRIVATE);
-        } elseif ($reflectionMethod->isProtected()) {
-            $method->setVisibility(self::VISIBILITY_PROTECTED);
-        } else {
-            $method->setVisibility(self::VISIBILITY_PUBLIC);
-        }
-
         $method->setStatic($reflectionMethod->isStatic());
-
         $method->setName($reflectionMethod->getName());
 
         foreach ($reflectionMethod->getParameters() as $reflectionParameter) {
             $method->setParameter(ParameterGenerator::fromReflection($reflectionParameter));
         }
 
-        $method->setBody(static::clearBodyIndention($reflectionMethod->getBody()));
-
         return $method;
     }
 
     /**
-     * Identify the space indention from the first line and remove this indention
-     * from all lines
-     *
-     * @param string $body
-     *
-     * @return string
-     */
-    protected static function clearBodyIndention($body)
-    {
-        if (empty($body)) {
-            return $body;
-        }
-
-        $lines = explode(PHP_EOL, $body);
-
-        $indention = str_replace(trim($lines[1]), '', $lines[1]);
-
-        foreach ($lines as $key => $line) {
-            if (substr($line, 0, strlen($indention)) == $indention) {
-                $lines[$key] = substr($line, strlen($indention));
-            }
-        }
-
-        $body = implode(PHP_EOL, $lines);
-
-        return $body;
-    }
-
-    /**
-     * Generate from array
+     * Generate from array.
      *
      * @configkey name           string        [required] Class Name
      * @configkey docblock       string        The docblock information
@@ -108,22 +65,25 @@ class MethodGenerator extends AbstractMemberGenerator
      * @configkey static         bool
      * @configkey visibility     string
      *
-     * @throws Exception\InvalidArgumentException
-     * @param  array $array
-     * @return MethodGenerator
+     * @throws InvalidArgumentException
+     *
+     * @param array $array
+     *
+     * @return MethodDeclarationGenerator
      */
     public static function fromArray(array $array)
     {
         if (!isset($array['name'])) {
-            throw new Exception\InvalidArgumentException(
+            throw new InvalidArgumentException(
                 'Method generator requires that a name is provided for this object'
             );
         }
 
         $method = new static($array['name']);
+        $method->setVisibility(self::VISIBILITY_PUBLIC);
         foreach ($array as $name => $value) {
             // normalize key
-            switch (strtolower(str_replace(['.', '-', '_'], '', $name))) {
+            switch (strtolower(str_replace(array('.', '-', '_'), '', $name))) {
                 case 'docblock':
                     $docBlock = ($value instanceof DocBlockGenerator) ? $value : DocBlockGenerator::fromArray($value);
                     $method->setDocBlock($docBlock);
@@ -134,20 +94,8 @@ class MethodGenerator extends AbstractMemberGenerator
                 case 'parameters':
                     $method->setParameters($value);
                     break;
-                case 'body':
-                    $method->setBody($value);
-                    break;
-                case 'abstract':
-                    $method->setAbstract($value);
-                    break;
-                case 'final':
-                    $method->setFinal($value);
-                    break;
                 case 'static':
                     $method->setStatic($value);
-                    break;
-                case 'visibility':
-                    $method->setVisibility($value);
                     break;
             }
         }
@@ -156,15 +104,15 @@ class MethodGenerator extends AbstractMemberGenerator
     }
 
     /**
-     * @param  string $name
-     * @param  array $parameters
-     * @param  int $flags
-     * @param  string $body
-     * @param  DocBlockGenerator|string $docBlock
+     * @param string                   $name
+     * @param array                    $parameters
+     * @param int                      $flags
+     * @param string                   $body
+     * @param DocBlockGenerator|string $docBlock
      */
     public function __construct(
         $name = null,
-        array $parameters = [],
+        array $parameters = array(),
         $flags = self::FLAG_PUBLIC,
         $body = null,
         $docBlock = null
@@ -178,17 +126,34 @@ class MethodGenerator extends AbstractMemberGenerator
         if ($flags !== self::FLAG_PUBLIC) {
             $this->setFlags($flags);
         }
-        if ($body) {
-            $this->setBody($body);
-        }
         if ($docBlock) {
             $this->setDocBlock($docBlock);
         }
     }
 
     /**
-     * @param  array $parameters
+     * Export pre configured method generator.
+     *
      * @return MethodGenerator
+     */
+    public function getMethodImplementation()
+    {
+        $generator = new MethodGenerator($this->getName());
+        $generator->setBody('// TODO: Implement logic');
+        $generator->setParameters($this->getParameters());
+        $generator->setIndentation($this->getIndentation());
+        $generator->setVisibility(MethodGenerator::VISIBILITY_PUBLIC);
+        $generator->setStatic($this->isStatic());
+        $generator->setFinal($this->isFinal());
+        $generator->setDocBlock($this->getDocBlock());
+
+        return $generator;
+    }
+
+    /**
+     * @param array $parameters
+     *
+     * @return $this
      */
     public function setParameters(array $parameters)
     {
@@ -200,9 +165,11 @@ class MethodGenerator extends AbstractMemberGenerator
     }
 
     /**
-     * @param  ParameterGenerator|array|string $parameter
-     * @throws Exception\InvalidArgumentException
-     * @return MethodGenerator
+     * @param ParameterGenerator|array|string $parameter
+     *
+     * @throws InvalidArgumentException
+     *
+     * @return $this
      */
     public function setParameter($parameter)
     {
@@ -215,7 +182,7 @@ class MethodGenerator extends AbstractMemberGenerator
         }
 
         if (!$parameter instanceof ParameterGenerator) {
-            throw new Exception\InvalidArgumentException(sprintf(
+            throw new InvalidArgumentException(sprintf(
                 '%s is expecting either a string, array or an instance of %s\ParameterGenerator',
                 __METHOD__,
                 __NAMESPACE__
@@ -236,24 +203,6 @@ class MethodGenerator extends AbstractMemberGenerator
     }
 
     /**
-     * @param  string $body
-     * @return MethodGenerator
-     */
-    public function setBody($body)
-    {
-        $this->body = $body;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getBody()
-    {
-        return $this->body;
-    }
-
-    /**
      * @return string
      */
     public function generate()
@@ -269,15 +218,9 @@ class MethodGenerator extends AbstractMemberGenerator
 
         $output .= $indent;
 
-        if ($this->isAbstract()) {
-            $output .= 'abstract ';
-        } else {
-            $output .= (($this->isFinal()) ? 'final ' : '');
-        }
-
-        $output .= $this->getVisibility()
-            . (($this->isStatic()) ? ' static' : '')
-            . ' function ' . $this->getName() . '(';
+        $output .= self::VISIBILITY_PUBLIC
+            .(($this->isStatic()) ? ' static' : '')
+            .' function '.$this->getName().'(';
 
         $parameters = $this->getParameters();
         $parameterOutput = array();
@@ -288,25 +231,37 @@ class MethodGenerator extends AbstractMemberGenerator
 
             $output .= implode(', ', $parameterOutput);
         }
-
-        $output .= ')';
-
-        if ($this->isAbstract()) {
-            return $output . ';';
-        }
-
-        $output .= self::LINE_FEED . $indent . '{' . self::LINE_FEED;
-
-        if ($this->body) {
-            $output .= preg_replace('#^((?![a-zA-Z0-9_-]+;).+?)$#m', $indent . $indent . '$1', trim($this->body))
-                . self::LINE_FEED;
-        }
-
-        $output .= $indent . '}' . self::LINE_FEED;
+        $output .= ');';
 
         return $output;
     }
 
+    /**
+     * @param  string $visibility
+     * @return AbstractMemberGenerator
+     */
+    public function setVisibility($visibility)
+    {
+        if ($visibility !== self::VISIBILITY_PUBLIC) {
+            throw new RuntimeException("Method declarations for interfaces must be public.");
+        }
+
+        return $this;
+    }
+
+    /**
+     * Method declarations for interfaces are always public.
+     *
+     * @return string
+     */
+    public function getVisibility()
+    {
+        return self::VISIBILITY_PUBLIC;
+    }
+
+    /**
+     * @return string
+     */
     public function __toString()
     {
         return $this->generate();
