@@ -18,11 +18,22 @@ use Zend\Code\Reflection\FileReflection;
  */
 class FileReflectionTest extends \PHPUnit_Framework_TestCase
 {
+    public function setup()
+    {
+        $this->filePath = __DIR__ . '/../../vendor/zendframework/zend-version/src/Version.php';
+        if (!file_exists($this->filePath)) {
+            /* Not a composer tree, fallback to include_path */
+            $this->filePath = stream_resolve_include_path('Zend/Version/Version.php');
+        }
+    }
+
     public function testFileConstructor()
     {
-        $filePath = __DIR__ . '/../../vendor/zendframework/zend-version/src/Version.php';
-        require_once $filePath;
-        $reflectionFile = new FileReflection($filePath);
+        if (!$this->filePath) {
+            $this->markTestSkipped('Can\'t find Version.php');
+        }
+        require_once $this->filePath;
+        $reflectionFile = new FileReflection($this->filePath);
         $this->assertEquals(get_class($reflectionFile), 'Zend\Code\Reflection\FileReflection');
     }
 
@@ -108,17 +119,21 @@ class FileReflectionTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertNull(FileReflection::export());
 
-        $filePath = __DIR__ . '/../../vendor/zendframework/zend-version/src/Version.php';
-        require_once $filePath;
-        $reflectionFile = new FileReflection($filePath);
+        if (!$this->filePath) {
+            $this->markTestSkipped('Can\'t find Version.php');
+        }
+        require_once $this->filePath;
+        $reflectionFile = new FileReflection($this->filePath);
         $this->assertEquals('', $reflectionFile->__toString());
     }
 
     public function testFileGetFilenameReturnsCorrectFilename()
     {
-        $filePath = __DIR__ . '/../../vendor/zendframework/zend-version/src/Version.php';
-        require_once $filePath;
-        $reflectionFile = new FileReflection($filePath);
+        if (!$this->filePath) {
+            $this->markTestSkipped('Can\'t find Version.php');
+        }
+        require_once $this->filePath;
+        $reflectionFile = new FileReflection($this->filePath);
 
         $this->assertEquals('Version.php', $reflectionFile->getFileName());
     }
