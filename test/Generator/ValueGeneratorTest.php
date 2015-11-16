@@ -22,7 +22,7 @@ class ValueGeneratorTest extends \PHPUnit_Framework_TestCase
     public function testPropertyDefaultValueConstructor()
     {
         $valueGenerator = new ValueGenerator();
-        $this->isInstanceOf($valueGenerator, 'Zend\Code\Generator\ValueGenerator');
+        $this->assertInstanceOf(ValueGenerator::class, $valueGenerator);
     }
 
     public function testPropertyDefaultValueIsSettable()
