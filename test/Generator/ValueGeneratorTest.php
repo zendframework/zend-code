@@ -22,7 +22,7 @@ class ValueGeneratorTest extends \PHPUnit_Framework_TestCase
     public function testPropertyDefaultValueConstructor()
     {
         $valueGenerator = new ValueGenerator();
-        $this->isInstanceOf($valueGenerator, 'Zend\Code\Generator\ValueGenerator');
+        $this->assertInstanceOf(ValueGenerator::class, $valueGenerator);
     }
 
     public function testPropertyDefaultValueIsSettable()
@@ -36,7 +36,7 @@ class ValueGeneratorTest extends \PHPUnit_Framework_TestCase
     {
         $valueGenerator = new ValueGenerator();
         $valueGenerator->setValue('foo');
-        $this->assertEquals('\'foo\'', $valueGenerator->generate());
+        $this->assertEquals("'foo'", $valueGenerator->generate());
     }
 
     public function testPropertyDefaultValueCanHandleArray()
