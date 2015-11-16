@@ -36,7 +36,7 @@ class ValueGeneratorTest extends \PHPUnit_Framework_TestCase
     {
         $valueGenerator = new ValueGenerator();
         $valueGenerator->setValue('foo');
-        $this->assertEquals('\'foo\'', $valueGenerator->generate());
+        $this->assertEquals("'foo'", $valueGenerator->generate());
     }
 
     public function testPropertyDefaultValueCanHandleArray()
