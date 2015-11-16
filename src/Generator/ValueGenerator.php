@@ -9,7 +9,7 @@
 
 namespace Zend\Code\Generator;
 
-use Zend\Stdlib\ArrayObject;
+use ArrayObject;
 
 class ValueGenerator extends AbstractGenerator
 {
