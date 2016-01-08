@@ -688,6 +688,53 @@ class ClassGenerator extends AbstractGenerator
     }
 
     /**
+     * @param string $use
+     * @return bool
+     */
+    public function hasUse($use)
+    {
+        return array_key_exists($use, $this->uses);
+    }
+
+    /**
+     * @param  string $methodName
+     * @return ClassGenerator
+     */
+    public function removeUse($use)
+    {
+        if ($this->hasUse($use)) {
+            unset($this->uses[$use]);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param string $use
+     * @return bool
+     */
+    public function hasUseAlias($use)
+    {
+        if ($this->hasUse($use)) {
+            return !empty($this->uses[$use]);
+        }
+
+        return false;
+    }
+
+    /**
+     * @param $use
+     * @return ClassGenerator
+     */
+    public function removeUseAlias($use)
+    {
+        if ($this->hasUse($use)) {
+            $this->addUse($use);
+        }
+        return $this;
+    }
+
+    /**
      * @param  string $propertyName
      * @return bool
      */
