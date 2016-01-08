@@ -30,6 +30,11 @@ class ClassGenerator extends AbstractGenerator
     protected $namespaceName = null;
 
     /**
+     * @var array Array of string names
+     */
+    protected $uses = [];
+
+    /**
      * @var DocBlockGenerator
      */
     protected $docBlock = null;
@@ -663,7 +668,11 @@ class ClassGenerator extends AbstractGenerator
      */
     public function addUse($use, $useAlias = null)
     {
-        $this->traitUsageGenerator->addUse($use, $useAlias);
+        if (! empty($useAlias)) {
+            $use .= ' as ' . $useAlias;
+        }
+
+        $this->uses[$use] = $use;
         return $this;
     }
 
@@ -674,7 +683,7 @@ class ClassGenerator extends AbstractGenerator
      */
     public function getUses()
     {
-        return $this->traitUsageGenerator->getUses();
+        return array_values($this->uses);
     }
 
     /**
