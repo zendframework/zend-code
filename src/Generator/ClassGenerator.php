@@ -668,11 +668,7 @@ class ClassGenerator extends AbstractGenerator
      */
     public function addUse($use, $useAlias = null)
     {
-        if (! empty($useAlias)) {
-            $use .= ' as ' . $useAlias;
-        }
-
-        $this->uses[$use] = $use;
+        $this->uses[$use] = $useAlias;
         return $this;
     }
 
@@ -683,7 +679,12 @@ class ClassGenerator extends AbstractGenerator
      */
     public function getUses()
     {
-        return array_values($this->uses);
+        $uses = [];
+        foreach ($this->uses as $use => $useAlias) {
+            $uses[] = ! empty($useAlias) ? $use . ' as ' . $useAlias : $use;
+        };
+
+        return $uses;
     }
 
     /**
