@@ -24,6 +24,11 @@ final class TypeGenerator implements GeneratorInterface
     private $type;
 
     /**
+     * @var string;
+     */
+    private $alias = false;
+
+    /**
      * @var string[]
      *
      * @link http://php.net/manual/en/functions.arguments.php#functions.arguments.type-declaration
@@ -73,6 +78,32 @@ final class TypeGenerator implements GeneratorInterface
         return $instance;
     }
 
+    /**
+     *  @param array $typeArray
+     *
+     *  @return TypeGenerator
+     *
+     *  @throws InvalidArgumentException
+     */
+    public static function fromTypeArray(array $typeArray)
+    {
+        if (!isset($typeArray['name'])) {
+            throw new InvalidArgumentException(sprintf(
+                'Provided type "%s" is invalid: must conform "%s"',
+                var_export($typeArray, true),
+                self::$validIdentifierMatcher
+            ));
+        }
+
+        $instance = self::fromTypeString($typeArray['name']);
+
+        if (isset($typeArray['alias']) && is_bool($typeArray['alias'])) {
+            $instance->alias = (boolean) $typeArray['alias'];
+        }
+
+        return $instance;
+    }
+
     private function __construct()
     {
     }
@@ -86,7 +117,7 @@ final class TypeGenerator implements GeneratorInterface
             return strtolower($this->type);
         }
 
-        return '\\' . $this->type;
+        return ($this->isAlias()) ? $this->type : '\\' . $this->type;
     }
 
     /**
@@ -120,5 +151,10 @@ final class TypeGenerator implements GeneratorInterface
     private static function isInternalPhpType($type)
     {
         return in_array(strtolower($type), self::$internalPhpTypes, true);
+    }
+
+    private function isAlias()
+    {
+        return $this->alias;
     }
 }

@@ -163,14 +163,20 @@ class ParameterGenerator extends AbstractGenerator
     }
 
     /**
-     * @param  string $type
+     * @param  mixed $type
      * @return ParameterGenerator
      */
     public function setType($type)
     {
-        $this->type = TypeGenerator::fromTypeString($type);
+        if (is_array($type)) {
+            $this->type = TypeGenerator::fromTypeArray($type);
+            return $this;
+        }
 
-        return $this;
+        if (is_string($type)) {
+            $this->type = TypeGenerator::fromTypeString($type);
+            return $this;
+        }
     }
 
     /**
