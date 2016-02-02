@@ -26,7 +26,7 @@ final class TypeGenerator implements GeneratorInterface
     /**
      * @var string;
      */
-    private $alias = false;
+    private $aliased = false;
 
     /**
      * @var string[]
@@ -98,7 +98,7 @@ final class TypeGenerator implements GeneratorInterface
         $instance = self::fromTypeString($typeArray['name']);
 
         if (isset($typeArray['alias']) && is_bool($typeArray['alias'])) {
-            $instance->alias = (boolean) $typeArray['alias'];
+            $instance->aliased = (boolean) $typeArray['alias'];
         }
 
         return $instance;
@@ -117,7 +117,7 @@ final class TypeGenerator implements GeneratorInterface
             return strtolower($this->type);
         }
 
-        return ($this->isAlias()) ? $this->type : '\\' . $this->type;
+        return ($this->aliased) ? $this->type : '\\' . $this->type;
     }
 
     /**
@@ -151,10 +151,5 @@ final class TypeGenerator implements GeneratorInterface
     private static function isInternalPhpType($type)
     {
         return in_array(strtolower($type), self::$internalPhpTypes, true);
-    }
-
-    private function isAlias()
-    {
-        return $this->alias;
     }
 }
