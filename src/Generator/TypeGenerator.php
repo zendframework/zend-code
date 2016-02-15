@@ -49,7 +49,7 @@ final class TypeGenerator implements GeneratorInterface
      *
      * @throws InvalidArgumentException
      */
-    public static function fromTypeString($type)
+    public static function fromTypeString($type, $aliased = false)
     {
         list($wasTrimmed, $trimmedType) = self::trimType($type);
 
@@ -74,32 +74,7 @@ final class TypeGenerator implements GeneratorInterface
 
         $instance->type              = $trimmedType;
         $instance->isInternalPhpType = self::isInternalPhpType($trimmedType);
-
-        return $instance;
-    }
-
-    /**
-     *  @param array $typeArray
-     *
-     *  @return TypeGenerator
-     *
-     *  @throws InvalidArgumentException
-     */
-    public static function fromTypeArray(array $typeArray)
-    {
-        if (!isset($typeArray['name'])) {
-            throw new InvalidArgumentException(sprintf(
-                'Provided type "%s" is invalid: must conform "%s"',
-                var_export($typeArray, true),
-                self::$validIdentifierMatcher
-            ));
-        }
-
-        $instance = self::fromTypeString($typeArray['name']);
-
-        if (isset($typeArray['alias']) && is_bool($typeArray['alias'])) {
-            $instance->aliased = (boolean) $typeArray['alias'];
-        }
+        $instance->aliased           = (boolean) $aliased;
 
         return $instance;
     }

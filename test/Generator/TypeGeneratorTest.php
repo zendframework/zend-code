@@ -87,7 +87,7 @@ class TypeGeneratorTest extends \PHPUnit_Framework_TestCase
      */
     public function testFromValidStringAlias(array $typeArray, string $expectedReturnType)
     {
-        $generator = TypeGenerator::fromTypeArray($typeArray);
+        $generator = TypeGenerator::fromTypeString($typeArray['name'], $typeArray['alias']);
 
         self::assertSame($expectedReturnType, $generator->generate());
     }
