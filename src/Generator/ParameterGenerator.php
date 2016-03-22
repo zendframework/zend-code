@@ -163,25 +163,19 @@ class ParameterGenerator extends AbstractGenerator
     }
 
     /**
-     * @param  mixed $type
+     * @param  string|TypeGenerator $type
      * @throws Exception\InvalidArgumentException
      * @return ParameterGenerator
      */
     public function setType($type)
     {
-        if (is_array($type) && !isset($type['name'])) {
-            throw new Exception\InvalidArgumentException(
-                'Type generator requires that a name is provided for this object'
-            );
-        }
-
-        if (is_array($type)) {
-            $this->type = TypeGenerator::fromTypeString($type['name'], true);
+        if (is_string($type)) {
+            $this->type = TypeGenerator::fromTypeString($type);
             return $this;
         }
 
-        if (is_string($type)) {
-            $this->type = TypeGenerator::fromTypeString($type);
+        if ($type instanceof TypeGenerator) {
+            $this->type = $type;
             return $this;
         }
 
