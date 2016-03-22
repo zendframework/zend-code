@@ -95,15 +95,19 @@ class MethodGenerator extends AbstractMemberGenerator
 
         $lines = explode(PHP_EOL, $body);
 
-        $indention = str_replace(trim($lines[1]), '', $lines[1]);
+        if (count($lines) > 1) {
+            $indention = str_replace(trim($lines[1]), '', $lines[1]);
 
-        foreach ($lines as $key => $line) {
-            if (substr($line, 0, strlen($indention)) == $indention) {
-                $lines[$key] = substr($line, strlen($indention));
+            foreach ($lines as $key => $line) {
+                if (substr($line, 0, strlen($indention)) == $indention) {
+                    $lines[$key] = substr($line, strlen($indention));
+                }
             }
-        }
 
-        $body = implode(PHP_EOL, $lines);
+            $body = implode(PHP_EOL, $lines);
+        } else {
+            $body = trim($body);
+        }
 
         return $body;
     }
