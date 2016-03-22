@@ -103,6 +103,8 @@ class MethodGenerator extends AbstractMemberGenerator
                     $lines[$key] = substr($line, strlen($indention));
                 }
             }
+        } else {
+            $lines[0] = trim($lines[0]);
         }
 
         $body = implode(PHP_EOL, $lines);
