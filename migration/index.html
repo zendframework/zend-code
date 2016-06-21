@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    <title>Migration - zend-code</title>
+
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/2.018/css/hack.min.css">
+    <link href="//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin" rel="stylesheet" type="text/css">
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin" rel="stylesheet" type="text/css">
+    <link href="//fonts.googleapis.com/css?family=Libre+Baskerville:400,400italic,700&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+    <link href="../css/base.css" rel="stylesheet">
+    <link href="../css/zf.css" rel="stylesheet">
+    <link href="../css/prism-zf.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.5.18/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+            <span class="navbar-brand">
+              <a class="logo-link" href="http://framework.zend.com" data-toggle="tooltip" data-placement="bottom" title="Zend Framework"><img src="../img/zf-logo-mark.png" height="28" alt="Zend Framework" /></a>
+              <a href="..">zend-code</a>
+            </span>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+            
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="..">Home</a>
+                    </li>
+                
+                
+                
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Code Generation <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        
+                            
+<li >
+    <a href="../generator/intro/">Intro</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../generator/examples/">Examples</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../generator/reference/">Reference</a>
+</li>
+
+                        
+                        </ul>
+                    </li>
+                
+                
+                
+                    <li class="active">
+                        <a href="./">Migration</a>
+                    </li>
+                
+                
+                </ul>
+            
+
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="#" class="component-toggle" data-toggle="tooltip" data-placement="bottom" title="Show component list">
+                        <i class="fa fa-book"></i> Components
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                        <i class="fa fa-search"></i> Search
+                    </a>
+                </li>
+                
+                    <li>
+                        <a href="https://github.com/zendframework/zend-code">
+                            
+                                <i class="fa fa-github"></i>
+                            
+                            GitHub
+                        </a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <!-- content:begin -->
+    <div class="container">
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+    
+        <li class="main active"><a href="#migrating-from-zend-code-v2-to-v3">Migrating from zend-code v2 to v3</a></li>
+        
+            <li><a href="#string-int-float-bool-are-no-longer-ignored">string, int, float, bool are no longer ignored</a></li>
+        
+            <li><a href="#parameterreflectiongettype-changes">ParameterReflection::getType() changes</a></li>
+        
+            <li><a href="#docblock-types-ignored-by-parametergeneratorfromreflection">DocBlock types ignored by ParameterGenerator::fromReflection()</a></li>
+        
+            <li><a href="#type-strings-are-validated">Type strings are validated</a></li>
+        
+            <li><a href="#generated-type-hints-are-now-prefixed-by">Generated type-hints are now prefixed by "\"</a></li>
+        
+            <li><a href="#parametergeneratorsimple-was-removed">ParameterGenerator::$simple was removed</a></li>
+        
+            <li><a href="#parametergeneratortype-has-changed">ParameterGenerator::$type has changed</a></li>
+        
+    
+    </ul>
+
+    
+    <ul class="pager hidden-print">
+      <li class="previous">
+        <a rel="prev" href="../generator/reference/"><i class="fa fa-arrow-left"></i> Previous</a>
+      </li>
+      <li class="next disabled ">
+        <a rel="next" >Next <i class="fa fa-arrow-right"></i></a>
+      </li>
+    </ul>
+    
+</div></div>
+        <div class="col-md-9" role="main">
+
+<ol class="breadcrumb" role="navigation" aria-label="breadcrumbs navigation">
+  <li><a href="..">Docs</a> &raquo;</li>
+  
+    
+  
+  <li class="active">Migration</li>
+</ol>
+
+<h1 id="migrating-from-zend-code-v2-to-v3">Migrating from zend-code v2 to v3</h1>
+<h2 id="string-int-float-bool-are-no-longer-ignored"><code>string</code>, <code>int</code>, <code>float</code>, <code>bool</code> are no longer ignored</h2>
+<p>In 2.x, a <code>Zend\Code\Generator\ParameterGenerator</code> with name <code>foo</code> and type 
+<code>string</code>, <code>int</code>, <code>float</code> or <code>bool</code> simply generated code <code>"$foo"</code>:</p>
+<pre class="codehilite"><code class="language-php">$generator = new \Zend\Code\ParameterGenerator('foo');
+
+$generator-&gt;setType('string');
+
+echo $generator-&gt;generate(); // &quot;$foo&quot;</code></pre>
+
+
+<p>In 3.x, this code will instead produce <code>"string $foo"</code>.
+If you generate code that should run in PHP 5.x, it is advisable to strip
+<code>string</code>, <code>int</code>, <code>float</code> and <code>bool</code> from type definitions passed to
+<code>Zend\Code\ParameterGenerator</code> instances. The quickest way is to set the 
+type to <code>null</code>, if it matches any of these scalar types:</p>
+<pre class="codehilite"><code class="language-php">if (in_array($type, ['string', 'int', 'float', 'bool'])) {
+    $type = null;
+}
+
+$generator-&gt;setType($type);</code></pre>
+
+
+<h2 id="parameterreflectiongettype-changes"><code>ParameterReflection::getType()</code> changes</h2>
+<p>PHP 7 introduced <a href="http://php.net/manual/en/reflectionparameter.gettype.php"><code>ReflectionParameter#getType()</code></a>.</p>
+<p>In order to not override this method, <code>Zend\Code\Reflection\ParameterReflection#getType()</code>
+was renamed to <code>Zend\Code\Reflection\ParameterReflection#detectType()</code>.</p>
+<p>If you relied on <code>Zend\Code\Reflection\ParameterReflection#getType()</code>, you can
+simply replace the method calls in your code.</p>
+<h2 id="docblock-types-ignored-by-parametergeneratorfromreflection">DocBlock types ignored by <code>ParameterGenerator::fromReflection()</code></h2>
+<p>As a direct consequence of the previous change, calls to 
+<code>Zend\Code\Generator\ParameterGenerator::fromReflection()</code> will not mirror the
+type hints read from a method's DocBlock.</p>
+<p>As an example, take following code:</p>
+<pre class="codehilite"><code class="language-php">class Foo
+{
+    /**
+     * @param string $baz
+     */
+    public function bar($baz)
+    {
+    }
+}
+
+$methodGenerator = \Zend\Code\Generator\MethodGenerator::fromReflection(
+    new \Zend\Code\Reflection\MethodReflection('Foo', 'bar')
+);
+
+var_dump($methodGenerator-&gt;getParameters()[0]-&gt;getType());</code></pre>
+
+
+<p>In version 2.x, this code produces <code>"string"</code>, in version 3.x it returns <code>null</code>. If you 
+need to rely on the types in the annotations, please use
+<code>Zend\Code\Reflection\ParameterReflection#detectType()</code> instead, and build a
+<code>MethodGenerator</code> instance manually.</p>
+<p>This change is required: since signatures in PHP 7 include scalar type hints.
+That also means that reflecting scalar type hints from DocBlocks into the
+signature of a generated method may lead to fatal errors (due to signature
+mismatch) at runtime.</p>
+<h2 id="type-strings-are-validated">Type strings are validated</h2>
+<p>If you attempt to generate type-hints for parameters or return types, those types are
+now validated before the code is generated.</p>
+<p>Be sure to check which values you pass to <code>Zend\Code\Generator\MethodGenerator#setReturnType()</code>
+or <code>Zend\Code\Generator\ParameterGenerator#setType()</code>, as you may incur in a
+<code>Zend\Code\Generator\Exception\InvalidArgumentException</code> being thrown if any
+of those types are invalid strings:</p>
+<pre class="codehilite"><code class="language-php">$parameterGenerator-&gt;setType('foo'); // valid
+$parameterGenerator-&gt;setType('array'); // valid
+$parameterGenerator-&gt;setType('bool'); // valid
+$parameterGenerator-&gt;setType('123'); // invalid (throws exception)
+$parameterGenerator-&gt;setType(''); // invalid (throws exception)
+$parameterGenerator-&gt;setType('*'); // invalid (throws exception)
+$parameterGenerator-&gt;setType('\\'); // invalid (throws exception)</code></pre>
+
+
+<h2 id="generated-type-hints-are-now-prefixed-by">Generated type-hints are now prefixed by <code>"\"</code></h2>
+<p>Generated type-hints are now prefixed with the <code>NAMESPACE_SEPARATOR</code>,
+<code>"\"</code>.</p>
+<p>Take following example code:</p>
+<pre class="codehilite"><code class="language-php">$parameter = new \Zend\Code\Generator\ParameterGenerator('bar', 'baz');
+$method    = new \Zend\Code\Generator\MethodGenerator('foo', [$parameter]);
+
+$method-&gt;setReturnType('tab');
+
+echo $method-&gt;generate();</code></pre>
+
+
+<p>This code produces <code>public function foo(baz $bar) {}</code> in 2.x.
+In version 3.x, it produces <code>public function foo(\baz $bar) : \tab {}</code>.</p>
+<p>In order to avoid migration problems, be sure to always pass fully qualified class
+names to <code>Zend\Code\Generator\MethodGenerator</code> and <code>Zend\Code\Generator\ParameterGenerator</code>.</p>
+<h2 id="parametergeneratorsimple-was-removed"><code>ParameterGenerator::$simple</code> was removed</h2>
+<p>If you extended <code>Zend\Code\Generator\ParameterGenerator</code>, be sure to check if you
+are accessing the protected static variable <code>$simple</code>: it was removed, and you should
+adapt your code by either copying it into your class or avoiding its usage.</p>
+<h2 id="parametergeneratortype-has-changed"><code>ParameterGenerator::$type</code> has changed</h2>
+<p>If you extended <code>Zend\Code\Generator\ParameterGenerator</code>, be sure to check if you
+are accessing the protected variable <code>$type</code>: its type has changed.
+While it can still be used as a string via an explicit <code>(string)</code> cast, the type of
+this protected member is now <code>null|Zend\Code\Generator\TypeGenerator</code>.</p>
+
+<hr />
+
+
+<nav>
+  <ul class="pager hidden-print">
+    <li class="previous">
+      <a rel="prev" href="../generator/reference/"><i class="fa fa-arrow-left"></i> Previous</a>
+    </li>
+    <li class="next disabled ">
+      <a rel="next" >Next <i class="fa fa-arrow-right"></i></a>
+    </li>
+  </ul>
+</nav>
+</div>
+        
+    </div>
+    <!-- content:end -->
+
+    <footer class="col-md-12 text-center">
+        <hr>
+        <p>
+        <small>Copyright (c) 2016 <a href="http://www.zend.com/">Zend Technologies USA Inc.</a><br></small>
+        </p>
+        <p><small><a href="http://framework.zend.com">Learn more about Zend Framework</a></small></p>
+    </footer>
+
+    <script src="../js/jquery-1.10.2.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/prism-zf.js"></script>
+
+    <script>var base_url = '..';</script>
+    <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script>
+    <script src="../js/base.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="zf-components">
+  <div class="zf-components-grid">
+    <div class="zf-logo">
+      <a href="http://framework.zend.com" data-toggle="tooltip" data-placement="bottom" title="Go to the ZF homepage"><img src="../img/zf-logo-mark.png" alt="Zend Framework" width="250" /></a>
+    </div>
+
+    <div class="component-list"></div>
+
+    <p class="zf-components-rollup"><a href="#">Hide list</a></p>
+  </div>
+</div>
+
+    <script>
+  // Prepare the component list dropdown for display
+  $(function () {
+    var components = $(".zf-components"),
+        componentList = components.find(".component-list"),
+        sidebar = $(".bs-sidebar.affix"),
+        sidebarInitialPos = sidebar.css("position"),
+        hidden,
+        componentToggle = $(".component-toggle"),
+        navbar = $(".navbar-fixed-top"),
+        rollUpLink = $(".zf-components-rollup a");
+
+    // Initial setup on document load
+    components.insertBefore(navbar);
+    $(".zf-logo a").tooltip();
+    componentToggle.tooltip();
+    rollUpLink.attr({ href: "#", alt: "Hide component list" });
+
+    // Cast initial sidebar position value
+    if (undefined === sidebarInitialPos) {
+      sidebarInitialPos = "fixed";
+    }
+
+    // Setup onclick events to toggle list
+    componentToggle.click(toggleComponentList);
+    rollUpLink.click(toggleComponentList);
+
+    // Toggle the component list display
+    function toggleComponentList(event) {
+      event.preventDefault();
+
+      if (hidden === undefined) {
+        // Not loaded yet; load and display.
+        loadComponentList();
+        return;
+      }
+
+      if (hidden) {
+        // Hidden; display.
+        showComponentList();
+        return;
+      }
+
+      // Currently visible; hide
+      hideComponentList();
+    }
+
+    // Show the component list
+    function showComponentList() {
+      navbar.css({position: "relative"});
+      sidebar.css({position: "relative"});
+      components
+        .css({"margin-top": "-" + components.outerHeight() + "px"})
+        .show()
+        .animate({"margin-top": 0}, {
+          complete: function () {
+            componentToggle
+              .data("placement", "top")
+              .attr("data-original-title", "Hide component list");
+            hidden = false;
+          },
+          queue: false
+        });
+    }
+
+    // Hide the component list
+    function hideComponentList() {
+      components.animate({"margin-top": "-" + components.outerHeight() + "px"}, {
+        complete: function () {
+          navbar.css({position: "fixed"});
+          sidebar.css({position: sidebarInitialPos});
+          componentToggle
+            .data("placement", "bottom")
+            .attr("data-original-title", "Show component list");
+          components.hide();
+          hidden = true;
+        },
+        queue: false
+      });
+      sidebar.animate({ top: sidebarInitialTop + "px" }, { queue: false});
+    }
+
+    // Inject a component into the componet list DOM.
+    function injectComponent(index, component) {
+      componentList.append('<div class="component"><h4><a href="' + component.url + '">' + component.name + '</a></h4><p>' + component.description + '</p></div>');
+    }
+
+    // Parse the component list, build the DOM, and display it.
+    function parseComponentList(components) {
+      $.each(components, injectComponent);
+      showComponentList();
+    }
+
+    // Fetch the component list and display it.
+    function loadComponentList () {
+      $.ajax({
+        url: "//docs.zendframework.com/zf-mkdoc-theme/scripts/zf-component-list.json",
+        dataType: "text json",
+        success: parseComponentList,
+        error: function (e) {
+          console.log("Error occurred with XHR call", e);
+        }
+      });
+    }
+  });
+</script>
+    </body>
+
+</html>

@@ -1,0 +1,13 @@
+<ol class="breadcrumb" role="navigation" aria-label="breadcrumbs navigation">
+  <li><a href="{{ homepage_url }}">Docs</a> &raquo;</li>
+  {% if current_page %}
+    {% for doc in current_page.ancestors %}
+      {% if doc.link %}
+        <li><a href="{{ doc.link|e }}">{{ doc.title }}</a> &raquo;</li>
+      {% else %}
+        <li>{{ doc.title }} &raquo;</li>
+      {% endif %}
+    {% endfor %}
+  {% endif %}
+  {% if current_page %}<li class="active">{{ current_page.title }}</li>{% endif %}
+</ol>

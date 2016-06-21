@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="shortcut icon" href="../../img/favicon.ico">
+
+    <title>Examples - zend-code</title>
+
+    <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/2.018/css/hack.min.css">
+    <link href="//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin" rel="stylesheet" type="text/css">
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin" rel="stylesheet" type="text/css">
+    <link href="//fonts.googleapis.com/css?family=Libre+Baskerville:400,400italic,700&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+    <link href="../../css/base.css" rel="stylesheet">
+    <link href="../../css/zf.css" rel="stylesheet">
+    <link href="../../css/prism-zf.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.5.18/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+            <span class="navbar-brand">
+              <a class="logo-link" href="http://framework.zend.com" data-toggle="tooltip" data-placement="bottom" title="Zend Framework"><img src="../../img/zf-logo-mark.png" height="28" alt="Zend Framework" /></a>
+              <a href="../..">zend-code</a>
+            </span>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+            
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../..">Home</a>
+                    </li>
+                
+                
+                
+                    <li class="dropdown active">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Code Generation <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        
+                            
+<li >
+    <a href="../intro/">Intro</a>
+</li>
+
+                        
+                            
+<li class="active">
+    <a href="./">Examples</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../reference/">Reference</a>
+</li>
+
+                        
+                        </ul>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../../migration/">Migration</a>
+                    </li>
+                
+                
+                </ul>
+            
+
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="#" class="component-toggle" data-toggle="tooltip" data-placement="bottom" title="Show component list">
+                        <i class="fa fa-book"></i> Components
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                        <i class="fa fa-search"></i> Search
+                    </a>
+                </li>
+                
+                    <li>
+                        <a href="https://github.com/zendframework/zend-code">
+                            
+                                <i class="fa fa-github"></i>
+                            
+                            GitHub
+                        </a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <!-- content:begin -->
+    <div class="container">
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+    
+        <li class="main active"><a href="#zend92code92generator-examples">Zend\Code\Generator Examples</a></li>
+        
+            <li><a href="#generating-php-classes">Generating PHP classes</a></li>
+        
+            <li><a href="#generating-php-files">Generating PHP files</a></li>
+        
+            <li><a href="#add-code-to-existing-php-files-and-classes">Add code to existing PHP files and classes</a></li>
+        
+    
+    </ul>
+
+    
+    <ul class="pager hidden-print">
+      <li class="previous">
+        <a rel="prev" href="../intro/"><i class="fa fa-arrow-left"></i> Previous</a>
+      </li>
+      <li class="next">
+        <a rel="next" href="../reference/">Next <i class="fa fa-arrow-right"></i></a>
+      </li>
+    </ul>
+    
+</div></div>
+        <div class="col-md-9" role="main">
+
+<ol class="breadcrumb" role="navigation" aria-label="breadcrumbs navigation">
+  <li><a href="../..">Docs</a> &raquo;</li>
+  
+    
+      
+        <li>Code Generation &raquo;</li>
+      
+    
+  
+  <li class="active">Examples</li>
+</ol>
+
+<h1 id="zend92code92generator-examples">Zend\Code\Generator Examples</h1>
+<h2 id="generating-php-classes">Generating PHP classes</h2>
+<p>The following example generates an empty class with a class-level DocBlock.</p>
+<pre class="codehilite"><code class="language-php">use Zend\Code\Generator\ClassGenerator;
+use Zend\Code\Generator\DocBlockGenerator;
+
+$foo      = new ClassGenerator();
+$docblock = DocBlockGenerator::fromArray([
+    'shortDescription' =&gt; 'Sample generated class',
+    'longDescription'  =&gt; 'This is a class generated with Zend\Code\Generator.',
+    'tags'             =&gt; [
+        [
+            'name'        =&gt; 'version',
+            'description' =&gt; '$Rev:$',
+        ],
+        [
+            'name'        =&gt; 'license',
+            'description' =&gt; 'New BSD',
+        ],
+    ],
+]);
+$foo-&gt;setName('Foo')
+    -&gt;setDocblock($docblock);
+echo $foo-&gt;generate();</code></pre>
+
+
+<p>The above code will result in the following:</p>
+<pre class="codehilite"><code class="language-php">/**
+ * Sample generated class
+ *
+ * This is a class generated with Zend\Code\Generator.
+ *
+ * @version $Rev:$
+ * @license New BSD
+ *
+ */
+class Foo
+{
+
+}</code></pre>
+
+
+<h3 id="generating-php-classes-with-class-properties">Generating PHP classes with class properties</h3>
+<p>Building on the previous example, we now add properties to our generated class.</p>
+<pre class="codehilite"><code class="language-php">use Zend\Code\Generator\ClassGenerator;
+use Zend\Code\Generator\DocBlockGenerator;
+use Zend\Code\Generator\PropertyGenerator;
+
+$foo      = new ClassGenerator();
+$docblock = DocBlockGenerator::fromArray([
+    'shortDescription' =&gt; 'Sample generated class',
+    'longDescription'  =&gt; 'This is a class generated with Zend\Code\Generator.',
+    'tags'             =&gt; [
+        [
+            'name'        =&gt; 'version',
+            'description' =&gt; '$Rev:$',
+        ],
+        [
+            'name'        =&gt; 'license',
+            'description' =&gt; 'New BSD',
+        ],
+    ],
+]);
+$foo-&gt;setName('Foo')
+    -&gt;setDocblock($docblock)
+    -&gt;addProperties([
+         ['_bar', 'baz', PropertyGenerator::FLAG_PROTECTED],
+         ['baz',  'bat', PropertyGenerator::FLAG_PUBLIC]
+   ])
+   -&gt;addConstants([
+         ['bat',  'foobarbazbat']
+    ]);
+echo $foo-&gt;generate();</code></pre>
+
+
+<p>The above results in the following class definition:</p>
+<pre class="codehilite"><code class="language-php">/**
+ * Sample generated class
+ *
+ * This is a class generated with Zend\Code\Generator.
+ *
+ * @version $Rev:$
+ * @license New BSD
+ *
+ */
+class Foo
+{
+
+    protected $_bar = 'baz';
+
+    public $baz = 'bat';
+
+    const bat = 'foobarbazbat';
+
+}</code></pre>
+
+
+<h3 id="generating-php-classes-with-class-methods">Generating PHP classes with class methods</h3>
+<p><code>Zend\Code\Generator\ClassGenerator</code> allows you to attach methods with optional content to your
+classes. Methods may be attached as either arrays or concrete <code>Zend\Code\Generator\MethodGenerator</code>
+instances.</p>
+<pre class="codehilite"><code class="language-php">use Zend\Code\Generator\ClassGenerator;
+use Zend\Code\Generator\DocBlockGenerator;
+use Zend\Code\Generator\DocBlock\Tag;
+use Zend\Code\Generator\MethodGenerator;
+use Zend\Code\Generator\PropertyGenerator;
+
+$foo      = new ClassGenerator();
+$docblock = DocBlockGenerator::fromArray([
+    'shortDescription' =&gt; 'Sample generated class',
+    'longDescription'  =&gt; 'This is a class generated with Zend\Code\Generator.',
+    'tags'             =&gt; [
+        [
+            'name'        =&gt; 'version',
+            'description' =&gt; '$Rev:$',
+        ],
+        [
+            'name'        =&gt; 'license',
+            'description' =&gt; 'New BSD',
+        ],
+    ],
+]);
+$foo-&gt;setName('Foo')
+    -&gt;setDocblock($docblock)
+    -&gt;addProperties([
+        ['_bar', 'baz',          PropertyGenerator::FLAG_PROTECTED],
+        ['baz',  'bat',          PropertyGenerator::FLAG_PUBLIC]
+    ])
+    -&gt;addConstants([
+        ['bat',  'foobarbazbat', PropertyGenerator::FLAG_CONSTANT]
+    ])
+    -&gt;addMethods([
+        // Method passed as array
+        MethodGenerator::fromArray([
+            'name'       =&gt; 'setBar',
+            'parameters' =&gt; ['bar'],
+            'body'       =&gt; '$this-&gt;_bar = $bar;' . &quot;\n&quot; . 'return $this;',
+            'docblock'   =&gt; DocBlockGenerator::fromArray([
+                'shortDescription' =&gt; 'Set the bar property',
+                'longDescription'  =&gt; null,
+                'tags'             =&gt; [
+                    new Tag\ParamTag([
+                        'paramName' =&gt; 'bar',
+                        'datatype'  =&gt; 'string'
+                    ]),
+                    new Tag\ReturnTag([
+                        'datatype'  =&gt; 'string',
+                    ]),
+                ],
+            ]),
+        ]),
+        // Method passed as concrete instance
+        new MethodGenerator(
+            'getBar',
+            [],
+            MethodGenerator::FLAG_PUBLIC,
+            'return $this-&gt;_bar;',
+            DocBlockGenerator::fromArray([
+                'shortDescription' =&gt; 'Retrieve the bar property',
+                'longDescription'  =&gt; null,
+                'tags'             =&gt; [
+                    new Tag\ReturnTag([
+                        'datatype'  =&gt; 'string|null',
+                    ]),
+                ],
+            ])
+        ),
+    ]);
+
+echo $foo-&gt;generate();</code></pre>
+
+
+<p>The above generates the following output:</p>
+<pre class="codehilite"><code class="language-php">/**
+ * Sample generated class
+ *
+ * This is a class generated with Zend\Code\Generator.
+ *
+ * @version $Rev:$
+ * @license New BSD
+ */
+class Foo
+{
+
+    protected $_bar = 'baz';
+
+    public $baz = 'bat';
+
+    const bat = 'foobarbazbat';
+
+    /**
+     * Set the bar property
+     *
+     * @param string bar
+     * @return string
+     */
+    public function setBar($bar)
+    {
+        $this-&gt;_bar = $bar;
+        return $this;
+    }
+
+    /**
+     * Retrieve the bar property
+     *
+     * @return string|null
+     */
+    public function getBar()
+    {
+        return $this-&gt;_bar;
+    }
+
+}</code></pre>
+
+
+<h2 id="generating-php-files">Generating PHP files</h2>
+<p><code>Zend\Code\Generator\FileGenerator</code> can be used to generate the contents of a <em>PHP</em> file. You can
+include classes as well as arbitrary content body. When attaching classes, you should attach either
+concrete <code>Zend\Code\Generator\ClassGenerator</code> instances or an array defining the class.</p>
+<p>In the example below, we will assume you've defined <code>$foo</code> per one of the class definitions in a
+previous example.</p>
+<pre class="codehilite"><code class="language-php">use Zend\Code\Generator\DocBlockGenerator;
+use Zend\Code\Generator\FileGenerator;
+
+$file = FileGenerator::fromArray([
+    'classes'  =&gt; [$foo],
+    'docblock' =&gt; DocBlockGenerator::fromArray([
+        'shortDescription' =&gt; 'Foo class file',
+        'longDescription'   =&gt; null,
+        'tags'             =&gt; [
+            [
+                'name'        =&gt; 'license',
+                'description' =&gt; 'New BSD',
+            ],
+        ],
+    ]),
+    'body'     =&gt; 'define(\'APPLICATION_ENV\', \'testing\');',
+]);</code></pre>
+
+
+<p>Calling <code>generate()</code> will generate the code -- but not write it to a file. You will need to capture
+the contents and write them to a file yourself. As an example:</p>
+<pre class="codehilite"><code class="language-php">$code = $file-&gt;generate();
+file_put_contents('Foo.php', $code);</code></pre>
+
+
+<p>The above will generate the following file:</p>
+<pre class="codehilite"><code class="language-php">&lt;?php
+/**
+ * Foo class file
+ *
+ * @license New BSD
+ */
+
+/**
+ * Sample generated class
+ *
+ * This is a class generated with Zend\Code\Generator.
+ *
+ * @version $Rev:$
+ * @license New BSD
+ */
+class Foo
+{
+
+    protected $_bar = 'baz';
+
+    public $baz = 'bat';
+
+    const bat = 'foobarbazbat';
+
+    /**
+     * Set the bar property
+     *
+     * @param string bar
+     * @return string
+     */
+    public function setBar($bar)
+    {
+        $this-&gt;_bar = $bar;
+        return $this;
+    }
+
+    /**
+     * Retrieve the bar property
+     *
+     * @return string|null
+     */
+    public function getBar()
+    {
+        return $this-&gt;_bar;
+    }
+
+}
+
+define('APPLICATION_ENV', 'testing');</code></pre>
+
+
+<h2 id="add-code-to-existing-php-files-and-classes">Add code to existing PHP files and classes</h2>
+<h3 id="seeding-php-file-code-generation-via-reflection">Seeding PHP file code generation via reflection</h3>
+<p>You can add <em>PHP</em> code to an existing <em>PHP</em> file using the code generator. To do so, you need to
+first do reflection on it. The static method <code>fromReflectedFileName()</code> allows you to do this.</p>
+<pre class="codehilite"><code class="language-php">$generator = Zend\Code\Generator\FileGenerator::fromReflectedFileName($path);   
+$generator-&gt;setBody(&quot;\$foo-&gt;bar();&quot;);
+file_put_contents($path, $generator-&gt;generate());</code></pre>
+
+
+<h3 id="seeding-php-class-generation-via-reflection">Seeding PHP class generation via reflection</h3>
+<p>You may add code to an existing class. To do so, first use the static <code>fromReflection()</code> method to
+map the class into a generator object. From there, you may add additional properties or methods, and
+then regenerate the class.</p>
+<pre class="codehilite"><code class="language-php">use Zend\Code\Generator\ClassGenerator;
+use Zend\Code\Generator\DocBlockGenerator;
+use Zend\Code\Generator\DocBlock\Tag;
+use Zend\Code\Generator\MethodGenerator;
+use Zend\Code\Reflection\ClassReflection;
+
+$generator = ClassGenerator::fromReflection(
+    new ClassReflection($class)
+);
+$generator-&gt;addMethod(
+    'setBaz',
+    ['baz'],
+    MethodGenerator::FLAG_PUBLIC,
+    '$this-&gt;_baz = $baz;' . &quot;\n&quot; . 'return $this;',
+    DocBlockGenerator::fromArray([
+        'shortDescription' =&gt; 'Set the baz property',
+        'longDescription'  =&gt; null,
+        'tags'             =&gt; [
+            new Tag\ParamTag([
+                'paramName' =&gt; 'baz',
+                'datatype'  =&gt; 'string'
+            ]),
+            new Tag\ReturnTag([
+                'datatype'  =&gt; 'string',
+            ]),
+        ],
+    ])
+);
+$code = $generator-&gt;generate();</code></pre>
+
+<hr />
+
+
+<nav>
+  <ul class="pager hidden-print">
+    <li class="previous">
+      <a rel="prev" href="../intro/"><i class="fa fa-arrow-left"></i> Previous</a>
+    </li>
+    <li class="next">
+      <a rel="next" href="../reference/">Next <i class="fa fa-arrow-right"></i></a>
+    </li>
+  </ul>
+</nav>
+</div>
+        
+    </div>
+    <!-- content:end -->
+
+    <footer class="col-md-12 text-center">
+        <hr>
+        <p>
+        <small>Copyright (c) 2016 <a href="http://www.zend.com/">Zend Technologies USA Inc.</a><br></small>
+        </p>
+        <p><small><a href="http://framework.zend.com">Learn more about Zend Framework</a></small></p>
+    </footer>
+
+    <script src="../../js/jquery-1.10.2.min.js"></script>
+    <script src="../../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../../js/prism-zf.js"></script>
+
+    <script>var base_url = '../..';</script>
+    <script data-main="../../mkdocs/js/search.js" src="../../mkdocs/js/require.js"></script>
+    <script src="../../js/base.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="zf-components">
+  <div class="zf-components-grid">
+    <div class="zf-logo">
+      <a href="http://framework.zend.com" data-toggle="tooltip" data-placement="bottom" title="Go to the ZF homepage"><img src="../../img/zf-logo-mark.png" alt="Zend Framework" width="250" /></a>
+    </div>
+
+    <div class="component-list"></div>
+
+    <p class="zf-components-rollup"><a href="#">Hide list</a></p>
+  </div>
+</div>
+
+    <script>
+  // Prepare the component list dropdown for display
+  $(function () {
+    var components = $(".zf-components"),
+        componentList = components.find(".component-list"),
+        sidebar = $(".bs-sidebar.affix"),
+        sidebarInitialPos = sidebar.css("position"),
+        hidden,
+        componentToggle = $(".component-toggle"),
+        navbar = $(".navbar-fixed-top"),
+        rollUpLink = $(".zf-components-rollup a");
+
+    // Initial setup on document load
+    components.insertBefore(navbar);
+    $(".zf-logo a").tooltip();
+    componentToggle.tooltip();
+    rollUpLink.attr({ href: "#", alt: "Hide component list" });
+
+    // Cast initial sidebar position value
+    if (undefined === sidebarInitialPos) {
+      sidebarInitialPos = "fixed";
+    }
+
+    // Setup onclick events to toggle list
+    componentToggle.click(toggleComponentList);
+    rollUpLink.click(toggleComponentList);
+
+    // Toggle the component list display
+    function toggleComponentList(event) {
+      event.preventDefault();
+
+      if (hidden === undefined) {
+        // Not loaded yet; load and display.
+        loadComponentList();
+        return;
+      }
+
+      if (hidden) {
+        // Hidden; display.
+        showComponentList();
+        return;
+      }
+
+      // Currently visible; hide
+      hideComponentList();
+    }
+
+    // Show the component list
+    function showComponentList() {
+      navbar.css({position: "relative"});
+      sidebar.css({position: "relative"});
+      components
+        .css({"margin-top": "-" + components.outerHeight() + "px"})
+        .show()
+        .animate({"margin-top": 0}, {
+          complete: function () {
+            componentToggle
+              .data("placement", "top")
+              .attr("data-original-title", "Hide component list");
+            hidden = false;
+          },
+          queue: false
+        });
+    }
+
+    // Hide the component list
+    function hideComponentList() {
+      components.animate({"margin-top": "-" + components.outerHeight() + "px"}, {
+        complete: function () {
+          navbar.css({position: "fixed"});
+          sidebar.css({position: sidebarInitialPos});
+          componentToggle
+            .data("placement", "bottom")
+            .attr("data-original-title", "Show component list");
+          components.hide();
+          hidden = true;
+        },
+        queue: false
+      });
+      sidebar.animate({ top: sidebarInitialTop + "px" }, { queue: false});
+    }
+
+    // Inject a component into the componet list DOM.
+    function injectComponent(index, component) {
+      componentList.append('<div class="component"><h4><a href="' + component.url + '">' + component.name + '</a></h4><p>' + component.description + '</p></div>');
+    }
+
+    // Parse the component list, build the DOM, and display it.
+    function parseComponentList(components) {
+      $.each(components, injectComponent);
+      showComponentList();
+    }
+
+    // Fetch the component list and display it.
+    function loadComponentList () {
+      $.ajax({
+        url: "//docs.zendframework.com/zf-mkdoc-theme/scripts/zf-component-list.json",
+        dataType: "text json",
+        success: parseComponentList,
+        error: function (e) {
+          console.log("Error occurred with XHR call", e);
+        }
+      });
+    }
+  });
+</script>
+    </body>
+
+</html>
