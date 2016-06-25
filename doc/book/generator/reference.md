@@ -102,6 +102,7 @@ class Zend\Code\Generator\ClassGenerator extends Zend\Code\Generator\AbstractGen
     )
     public function addConstants(Array $properties)
     public function addConstant($property)
+    public function removeConstant($constantName)
     public function getConstants()
     public function getConstant($propertyName)       
     public function setDocblock(Zend\Code\Generator\DocBlockGenerator $docblock)
@@ -116,6 +117,7 @@ class Zend\Code\Generator\ClassGenerator extends Zend\Code\Generator\AbstractGen
     public function getImplementedInterfaces()
     public function addProperties(Array $properties)
     public function addProperty($property)
+    public function removeProperty($propertyName)
     public function getProperties()
     public function getProperty($propertyName)
     public function addMethods(Array $methods)
@@ -126,6 +128,7 @@ class Zend\Code\Generator\ClassGenerator extends Zend\Code\Generator\AbstractGen
         $body = null,
         $docBlock = null
     )
+    public function removeMethod($methodName)
     public function getMethods()
     public function getMethod($methodName)
     public function hasMethod($methodName)
