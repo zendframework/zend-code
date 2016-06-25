@@ -535,6 +535,20 @@ class ClassGenerator extends AbstractGenerator
     }
 
     /**
+     * @param $constantName
+     *
+     * @return $this
+     */
+    public function removeConstant($constantName)
+    {
+        if ($this->hasConstant($constantName)) {
+            unset($this->constants[$constantName]);
+        }
+
+        return $this;
+    }
+
+    /**
      * @param  PropertyGenerator[]|array[] $constants
      *
      * @return ClassGenerator
@@ -601,6 +615,19 @@ class ClassGenerator extends AbstractGenerator
         }
 
         return $this->addPropertyFromGenerator(new PropertyGenerator($name, $defaultValue, $flags));
+    }
+
+    /**
+     * @param  string $propertyName
+     * @return ClassGenerator
+     */
+    public function removeProperty($propertyName)
+    {
+        if ($this->hasProperty($propertyName)) {
+            unset($this->properties[$propertyName]);
+        }
+
+        return $this;
     }
 
     /**
