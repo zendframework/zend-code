@@ -248,8 +248,7 @@ class World
 
 <p>Another common use case is to update existing code -- for instance, to add a method to a class. In
 such a case, you must first inspect the existing code using reflection, and then add your new
-method. <code>Zend\Code\Generator</code> makes this trivially simple, by leveraging
-[ZendCodeReflection](zend.code.reflection).</p>
+method. <code>Zend\Code\Generator</code> makes this trivially simple, by leveraging <code>Zend\Code\Reflection</code>.</p>
 <p>As an example, let's say we've saved the above to the file <code>World.php</code>, and have already included
 it. We could then do the following:</p>
 <pre class="codehilite"><code class="language-php">$class = Zend\Code\Generator\ClassGenerator::fromReflection(
