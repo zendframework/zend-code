@@ -19,7 +19,6 @@
     <link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin" rel="stylesheet" type="text/css">
     <link href="//fonts.googleapis.com/css?family=Libre+Baskerville:400,400italic,700&subset=latin,latin-ext" rel="stylesheet" type="text/css">
     <link href="{{ base_url }}/css/base.css" rel="stylesheet">
-    <link href="{{ base_url }}/css/zf-web.css" rel="stylesheet">
     <link href="{{ base_url }}/css/zf.css" rel="stylesheet">
     <link href="{{ base_url }}/css/prism-zf.css" rel="stylesheet">
      {%- for path in extra_css %}
@@ -67,7 +66,7 @@
     {% include "nav.html" %}
 
     <!-- content:begin -->
-    <div id="page-top" class="container docs">
+    <div class="container">
         {% block content %}
         <div class="col-md-3">{% include "toc.html" %}</div>
         <div class="col-md-9" role="main">{% include "content.html" %}</div>
@@ -75,7 +74,13 @@
     </div>
     <!-- content:end -->
 
-    {% include "footer.html" %}
+    <footer class="col-md-12 text-center">
+        <hr>
+        <p>{% if copyright %}
+        <small>{{ copyright }}<br></small>
+        {% endif %}</p>
+        <p><small><a href="http://framework.zend.com">Learn more about Zend Framework</a></small></p>
+    </footer>
 
     <script src="{{ base_url }}/js/jquery-1.10.2.min.js"></script>
     <script src="{{ base_url }}/js/bootstrap-3.0.3.min.js"></script>

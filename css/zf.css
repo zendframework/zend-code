@@ -54,50 +54,34 @@
   }
 }
 
-.docs, .zf-components {
+body {
     font-family:"Libre Baskerville", Georgia, Palatino, "Times New Roman", serif;
     font-size: 20px;
     line-height: 1.5;
     background-color: #FFF;
     color: #343838;
 }
-
-.docs h1, .docs h2, .docs h3, .docs h4, .docs h5, .docs h6,
-.zf-components h1, .zf-components h2, .zf-components h3, .zf-components h4, .zf-components h5, .zf-components h6
-{
+h1, h2, h3, h4, h5, h6 {
     font-family:'PT Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     color: #222;
 }
 h1 small, h2 small, h3 small, h4 small, h5 small, h6 small, .h1 small, .h2 small, .h3 small, .h4 small, .h5 small, .h6 small, h1 .small, h2 .small, h3 .small, h4 .small, h5 .small, h6 .small, .h1 .small, .h2 .small, .h3 .small, .h4 .small, .h5 .small, .h6 .small {
     color: #B1B7B9;
 }
-.docs h1, .docs h2, .docs h3,
-.zf-components h1, .zf-components h2, .zf-components h3 {
+h1, h2, h3 {
     font-weight: 700;
 }
-.docs h4, .zf-components h4 {
+h4 {
     font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     font-weight: 300;
     margin-top: 20px;
     font-style: italic;
 }
-.docs h5, .zf-components h5 {
+h5 {
     font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     font-weight: 300;
     font-variant: small-caps;
 }
-
-.docs p, .zf-components h5 {
-    font-family:"Libre Baskerville", Georgia, Palatino, "Times New Roman", serif;
-    font-size: 20px;
-    line-height: 1.5;
-}
-
-#footerwrap {
-  position: relative;
-  z-index: 100;
-}
-
 pre, code {
     background-color: #FCFDFF;
 }
@@ -114,6 +98,11 @@ pre {
     line-height: 1.4;
     letter-spacing: 0.0312em;
     color: #B1B7B9;
+}
+.navbar-default {
+    /* background-color: #343838; */
+    background-color: #2E2E2D;
+    border-bottom: 8px #EBF2F2 solid;
 }
 .bs-sidenav {
     background-image: url("../img/grid11.png");
@@ -188,15 +177,9 @@ pre {
     text-decoration: none;
 }
 
-.logo-link img {
-  height: 28px;
-  width: auto;
-}
-
 .jumbotron {
     background-color: #018D74;
     padding: 21px;
-    margin-top: 0.5em;;
 }
 
 .jumbotron > h1, .jumbotron p {
@@ -216,8 +199,9 @@ pre {
     background-color: #2E2E2D;
 }
 
-ol.breadcrumb {
-  margin-top: 1em;
+.navbar-default {
+    border-bottom: 0;
+    border-radius: 0;
 }
 
 .zf-components {
