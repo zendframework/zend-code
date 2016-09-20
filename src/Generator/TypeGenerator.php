@@ -24,6 +24,11 @@ final class TypeGenerator implements GeneratorInterface
     private $type;
 
     /**
+     * @var string;
+     */
+    private $aliased = false;
+
+    /**
      * @var string[]
      *
      * @link http://php.net/manual/en/functions.arguments.php#functions.arguments.type-declaration
@@ -44,7 +49,7 @@ final class TypeGenerator implements GeneratorInterface
      *
      * @throws InvalidArgumentException
      */
-    public static function fromTypeString($type)
+    public static function fromTypeString($type, $aliased = false)
     {
         list($wasTrimmed, $trimmedType) = self::trimType($type);
 
@@ -69,6 +74,7 @@ final class TypeGenerator implements GeneratorInterface
 
         $instance->type              = $trimmedType;
         $instance->isInternalPhpType = self::isInternalPhpType($trimmedType);
+        $instance->aliased           = (boolean) $aliased;
 
         return $instance;
     }
@@ -86,7 +92,7 @@ final class TypeGenerator implements GeneratorInterface
             return strtolower($this->type);
         }
 
-        return '\\' . $this->type;
+        return ($this->aliased) ? $this->type : '\\' . $this->type;
     }
 
     /**

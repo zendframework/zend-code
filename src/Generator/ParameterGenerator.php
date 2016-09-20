@@ -96,7 +96,7 @@ class ParameterGenerator extends AbstractGenerator
     {
         if (!isset($array['name'])) {
             throw new Exception\InvalidArgumentException(
-                'Paramerer generator requires that a name is provided for this object'
+                'Parameter generator requires that a name is provided for this object'
             );
         }
 
@@ -163,14 +163,25 @@ class ParameterGenerator extends AbstractGenerator
     }
 
     /**
-     * @param  string $type
+     * @param  string|TypeGenerator $type
+     * @throws Exception\InvalidArgumentException
      * @return ParameterGenerator
      */
     public function setType($type)
     {
-        $this->type = TypeGenerator::fromTypeString($type);
+        if (is_string($type)) {
+            $this->type = TypeGenerator::fromTypeString($type);
+            return $this;
+        }
 
-        return $this;
+        if ($type instanceof TypeGenerator) {
+            $this->type = $type;
+            return $this;
+        }
+
+        throw new Exception\InvalidArgumentException(
+            'Unknown parameter type passed in'
+        );
     }
 
     /**

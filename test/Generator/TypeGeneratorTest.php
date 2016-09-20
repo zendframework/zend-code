@@ -80,6 +80,87 @@ class TypeGeneratorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @dataProvider validTypeArrayProvider
+     *
+     * @param string $typeArray
+     * @param string $expectedReturnType
+     */
+    public function testFromValidStringAlias(array $typeArray, string $expectedReturnType)
+    {
+        $generator = TypeGenerator::fromTypeString($typeArray['name'], $typeArray['alias']);
+
+        self::assertSame($expectedReturnType, $generator->generate());
+    }
+
+    public function validTypeArrayProvider()
+    {
+        return [
+            [['name' => 'foo', 'alias' => true], 'foo'],
+            [['name' => 'foo', 'alias' => false], '\\foo'],
+            [['name' => '\\foo', 'alias' => false], '\\foo'],
+            [['name' => '\\foo', 'alias' => true], 'foo'],
+            [['name' => 'a\\b\\c', 'alias' => false], '\\a\\b\\c'],
+            [['name' => 'a\\b\\c', 'alias' => true], 'a\\b\\c'],
+            [['name' => 'array', 'alias' => false], 'array'],
+            [['name' => 'array', 'alias' => true], 'array'],
+            [['name' => 'Array', 'alias' => false], 'array'],
+            [['name' => 'Array', 'alias' => true], 'array'],
+            [['name' => 'ARRAY', 'alias' => false], 'array'],
+            [['name' => 'ARRAY', 'alias' => true], 'array'],
+            [['name' => 'callable', 'alias' => false], 'callable'],
+            [['name' => 'callable', 'alias' => true], 'callable'],
+            [['name' => 'Callable', 'alias' => false], 'callable'],
+            [['name' => 'Callable', 'alias' => true], 'callable'],
+            [['name' => 'CALLABLE', 'alias' => false], 'callable'],
+            [['name' => 'CALLABLE', 'alias' => true], 'callable'],
+            [['name' => 'string', 'alias' => false], 'string'],
+            [['name' => 'string', 'alias' => true], 'string'],
+            [['name' => 'String', 'alias' => false], 'string'],
+            [['name' => 'String', 'alias' => true], 'string'],
+            [['name' => 'STRING', 'alias' => false], 'string'],
+            [['name' => 'STRING', 'alias' => true], 'string'],
+            [['name' => 'int', 'alias' => false], 'int'],
+            [['name' => 'int', 'alias' => true], 'int'],
+            [['name' => 'Int', 'alias' => false], 'int'],
+            [['name' => 'Int', 'alias' => true], 'int'],
+            [['name' => 'INT', 'alias' => false], 'int'],
+            [['name' => 'INT', 'alias' => true], 'int'],
+            [['name' => 'float', 'alias' => false], 'float'],
+            [['name' => 'float', 'alias' => true], 'float'],
+            [['name' => 'Float', 'alias' => false], 'float'],
+            [['name' => 'Float', 'alias' => true], 'float'],
+            [['name' => 'FLOAT', 'alias' => false], 'float'],
+            [['name' => 'FLOAT', 'alias' => true], 'float'],
+            [['name' => 'bool', 'alias' => false], 'bool'],
+            [['name' => 'bool', 'alias' => true], 'bool'],
+            [['name' => 'Bool', 'alias' => false], 'bool'],
+            [['name' => 'Bool', 'alias' => true], 'bool'],
+            [['name' => 'BOOL', 'alias' => false], 'bool'],
+            [['name' => 'BOOL', 'alias' => true], 'bool'],
+            [['name' => 'object', 'alias' => false], '\\object'],
+            [['name' => 'object', 'alias' => true], 'object'],
+            [['name' => 'Object', 'alias' => false], '\\Object'],
+            [['name' => 'Object', 'alias' => true], 'Object'],
+            [['name' => 'OBJECT', 'alias' => false], '\\OBJECT'],
+            [['name' => 'OBJECT', 'alias' => true], 'OBJECT'],
+            [['name' => 'mixed', 'alias' => false], '\\mixed'],
+            [['name' => 'mixed', 'alias' => true], 'mixed'],
+            [['name' => 'Mixed', 'alias' => false], '\\Mixed'],
+            [['name' => 'Mixed', 'alias' => true], 'Mixed'],
+            [['name' => 'MIXED', 'alias' => false], '\\MIXED'],
+            [['name' => 'MIXED', 'alias' => true], 'MIXED'],
+            [['name' => 'resource', 'alias' => false], '\\resource'],
+            [['name' => 'resource', 'alias' => true], 'resource'],
+            [['name' => 'Resource', 'alias' => false], '\\Resource'],
+            [['name' => 'Resource', 'alias' => true], 'Resource'],
+            [['name' => 'RESOURCE', 'alias' => false], '\\RESOURCE'],
+            [['name' => 'RESOURCE', 'alias' => true], 'RESOURCE'],
+            [['name' => 'foo_bar', 'alias' => false], '\\foo_bar'],
+            [['name' => 'foo_bar', 'alias' => true], 'foo_bar'],
+        ];
+    }
+
+    /**
      * @return string[][]
      */
     public function validTypeProvider()

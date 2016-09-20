@@ -9,8 +9,10 @@
 
 namespace ZendTest\Code\Generator;
 
+use Zend\Code\Exception\InvalidArgumentException;
 use Zend\Code\Generator\ParameterGenerator;
 use Zend\Code\Generator\ValueGenerator;
+use Zend\Code\Generator\TypeGenerator;
 use Zend\Code\Reflection\ParameterReflection;
 use ZendTest\Code\TestAsset\ClassTypeHintedClass;
 use ZendTest\Code\TestAsset\DocBlockOnlyHintsClass;
@@ -28,6 +30,21 @@ class ParameterGeneratorTest extends \PHPUnit_Framework_TestCase
         $parameterGenerator = new ParameterGenerator();
         $parameterGenerator->setType('Foo');
         $this->assertEquals('Foo', $parameterGenerator->getType());
+    }
+
+    public function testTypeSetterWithTypeGenerator()
+    {
+        $parameterGenerator = new ParameterGenerator();
+        $parameterGenerator->setType(TypeGenerator::fromTypeString('Foo'));
+        $this->assertEquals('Foo', $parameterGenerator->getType());
+    }
+
+    public function testTypeSetterRejectInvalidType()
+    {
+        $this->setExpectedException(InvalidArgumentException::class);
+
+        $parameterGenerator = new ParameterGenerator();
+        $parameterGenerator->setType(new \stdclass);
     }
 
     public function testNameGetterAndSetterPersistValue()
