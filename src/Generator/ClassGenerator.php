@@ -30,6 +30,11 @@ class ClassGenerator extends AbstractGenerator
     protected $namespaceName = null;
 
     /**
+     * @var array Array of string names
+     */
+    protected $uses = [];
+
+    /**
      * @var DocBlockGenerator
      */
     protected $docBlock = null;
@@ -663,7 +668,7 @@ class ClassGenerator extends AbstractGenerator
      */
     public function addUse($use, $useAlias = null)
     {
-        $this->traitUsageGenerator->addUse($use, $useAlias);
+        $this->uses[$use] = $useAlias;
         return $this;
     }
 
@@ -674,7 +679,59 @@ class ClassGenerator extends AbstractGenerator
      */
     public function getUses()
     {
-        return $this->traitUsageGenerator->getUses();
+        $uses = [];
+        foreach ($this->uses as $use => $useAlias) {
+            $uses[] = ! empty($useAlias) ? $use . ' as ' . $useAlias : $use;
+        };
+
+        return $uses;
+    }
+
+    /**
+     * @param string $use
+     * @return bool
+     */
+    public function hasUse($use)
+    {
+        return array_key_exists($use, $this->uses);
+    }
+
+    /**
+     * @param  string $methodName
+     * @return ClassGenerator
+     */
+    public function removeUse($use)
+    {
+        if ($this->hasUse($use)) {
+            unset($this->uses[$use]);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param string $use
+     * @return bool
+     */
+    public function hasUseAlias($use)
+    {
+        if ($this->hasUse($use)) {
+            return !empty($this->uses[$use]);
+        }
+
+        return false;
+    }
+
+    /**
+     * @param $use
+     * @return ClassGenerator
+     */
+    public function removeUseAlias($use)
+    {
+        if ($this->hasUse($use)) {
+            $this->addUse($use);
+        }
+        return $this;
     }
 
     /**

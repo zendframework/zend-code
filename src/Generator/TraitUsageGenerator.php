@@ -33,35 +33,9 @@ class TraitUsageGenerator extends AbstractGenerator
      */
     protected $traitOverrides = [];
 
-    /**
-     * @var array Array of string names
-     */
-    protected $uses = [];
-
     public function __construct(ClassGenerator $classGenerator)
     {
         $this->classGenerator = $classGenerator;
-    }
-
-    /**
-     * @inherit Zend\Code\Generator\TraitUsageInterface
-     */
-    public function addUse($use, $useAlias = null)
-    {
-        if (! empty($useAlias)) {
-            $use .= ' as ' . $useAlias;
-        }
-
-        $this->uses[$use] = $use;
-        return $this;
-    }
-
-    /**
-     * @inherit Zend\Code\Generator\TraitUsageInterface
-     */
-    public function getUses()
-    {
-        return array_values($this->uses);
     }
 
     /**
