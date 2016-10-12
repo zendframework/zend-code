@@ -126,7 +126,7 @@ class ValueGenerator extends AbstractGenerator
      *
      * @param string $constant
      *
-     * @return $this
+     * @return ValueGenerator Provides a fluent interface
      */
     public function addConstant($constant)
     {
@@ -193,7 +193,7 @@ class ValueGenerator extends AbstractGenerator
 
     /**
      * @param  mixed $value
-     * @return ValueGenerator
+     * @return ValueGenerator Provides a fluent interface
      */
     public function setValue($value)
     {
@@ -211,7 +211,7 @@ class ValueGenerator extends AbstractGenerator
 
     /**
      * @param  string $type
-     * @return ValueGenerator
+     * @return ValueGenerator Provides a fluent interface
      */
     public function setType($type)
     {
@@ -229,7 +229,7 @@ class ValueGenerator extends AbstractGenerator
 
     /**
      * @param  int $arrayDepth
-     * @return ValueGenerator
+     * @return ValueGenerator Provides a fluent interface
      */
     public function setArrayDepth($arrayDepth)
     {
@@ -446,7 +446,7 @@ class ValueGenerator extends AbstractGenerator
 
     /**
      * @param  string $outputMode
-     * @return ValueGenerator
+     * @return ValueGenerator Provides a fluent interface
      */
     public function setOutputMode($outputMode)
     {

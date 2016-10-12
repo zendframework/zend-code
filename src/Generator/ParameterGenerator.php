@@ -165,7 +165,7 @@ class ParameterGenerator extends AbstractGenerator
 
     /**
      * @param  string $type
-     * @return ParameterGenerator
+     * @return ParameterGenerator Provides a fluent interface
      */
     public function setType($type)
     {
@@ -186,7 +186,7 @@ class ParameterGenerator extends AbstractGenerator
 
     /**
      * @param  string $name
-     * @return ParameterGenerator
+     * @return ParameterGenerator Provides a fluent interface
      */
     public function setName($name)
     {
@@ -208,7 +208,7 @@ class ParameterGenerator extends AbstractGenerator
      * Certain variables are difficult to express
      *
      * @param  null|bool|string|int|float|array|ValueGenerator $defaultValue
-     * @return ParameterGenerator
+     * @return ParameterGenerator Provides a fluent interface
      */
     public function setDefaultValue($defaultValue)
     {
@@ -230,7 +230,7 @@ class ParameterGenerator extends AbstractGenerator
 
     /**
      * @param  int $position
-     * @return ParameterGenerator
+     * @return ParameterGenerator Provides a fluent interface
      */
     public function setPosition($position)
     {
@@ -256,7 +256,7 @@ class ParameterGenerator extends AbstractGenerator
 
     /**
      * @param  bool $passedByReference
-     * @return ParameterGenerator
+     * @return ParameterGenerator Provides a fluent interface
      */
     public function setPassedByReference($passedByReference)
     {
@@ -267,7 +267,7 @@ class ParameterGenerator extends AbstractGenerator
     /**
      * @param bool $variadic
      *
-     * @return ParameterGenerator
+     * @return ParameterGenerator Provides a fluent interface
      */
     public function setVariadic($variadic)
     {
@@ -387,8 +387,6 @@ class ParameterGenerator extends AbstractGenerator
     }
 
     /**
-     * @param string|null $type
-     *
      * @return string
      */
     private function generateTypeHint()

@@ -139,7 +139,7 @@ class PropertyGenerator extends AbstractMemberGenerator
 
     /**
      * @param  bool $const
-     * @return PropertyGenerator
+     * @return PropertyGenerator Provides a fluent interface
      */
     public function setConst($const)
     {
@@ -166,7 +166,7 @@ class PropertyGenerator extends AbstractMemberGenerator
      * @param string                       $defaultValueType
      * @param string                       $defaultValueOutputMode
      *
-     * @return PropertyGenerator
+     * @return PropertyGenerator Provides a fluent interface
      */
     public function setDefaultValue(
         $defaultValue,

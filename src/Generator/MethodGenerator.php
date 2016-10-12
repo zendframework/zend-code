@@ -208,7 +208,7 @@ class MethodGenerator extends AbstractMemberGenerator
 
     /**
      * @param  array $parameters
-     * @return MethodGenerator
+     * @return MethodGenerator Provides a fluent interface
      */
     public function setParameters(array $parameters)
     {
@@ -222,7 +222,7 @@ class MethodGenerator extends AbstractMemberGenerator
     /**
      * @param  ParameterGenerator|array|string $parameter
      * @throws Exception\InvalidArgumentException
-     * @return MethodGenerator
+     * @return MethodGenerator Provides a fluent interface
      */
     public function setParameter($parameter)
     {
@@ -257,7 +257,7 @@ class MethodGenerator extends AbstractMemberGenerator
 
     /**
      * @param  string $body
-     * @return MethodGenerator
+     * @return MethodGenerator Provides a fluent interface
      */
     public function setBody($body)
     {
@@ -276,7 +276,7 @@ class MethodGenerator extends AbstractMemberGenerator
     /**
      * @param string|null
      *
-     * @return MethodGenerator
+     * @return MethodGenerator Provides a fluent interface
      */
     public function setReturnType($returnType = null)
     {
@@ -298,7 +298,7 @@ class MethodGenerator extends AbstractMemberGenerator
     /**
      * @param bool $returnsReference
      *
-     * @return MethodGenerator
+     * @return MethodGenerator Provides a fluent interface
      */
     public function setReturnsReference($returnsReference)
     {

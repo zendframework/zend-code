@@ -16,8 +16,8 @@ trait TestTrait
 	}
 
 	/**
-	* @param bool $autoFetchingAllowed
-	* @return Model_AbstractModel
+	* @param bool $dummy
+	* @return TestTrait Provides a fluent interface
 	*/
 	public function setDummy($dummy)
 	{

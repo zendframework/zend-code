@@ -100,7 +100,7 @@ class TraitUsageGenerator extends AbstractGenerator
 
     /**
      * @param $use
-     * @return TraitUsageGenerator
+     * @return TraitUsageGenerator Provides a fluent interface
      */
     public function removeUse($use)
     {
@@ -116,7 +116,7 @@ class TraitUsageGenerator extends AbstractGenerator
 
     /**
      * @param $use
-     * @return TraitUsageGenerator
+     * @return TraitUsageGenerator Provides a fluent interface
      */
     public function removeUseAlias($use)
     {

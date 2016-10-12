@@ -41,7 +41,7 @@ class GenericTag extends AbstractGenerator implements TagInterface, PrototypeGen
 
     /**
      * @param  string $name
-     * @return GenericTag
+     * @return GenericTag Provides a fluent interface
      */
     public function setName($name)
     {
@@ -59,7 +59,7 @@ class GenericTag extends AbstractGenerator implements TagInterface, PrototypeGen
 
     /**
      * @param string $content
-     * @return GenericTag
+     * @return GenericTag Provides a fluent interface
      */
     public function setContent($content)
     {

@@ -128,7 +128,7 @@ class DocBlockGenerator extends AbstractGenerator
 
     /**
      * @param  string $shortDescription
-     * @return DocBlockGenerator
+     * @return DocBlockGenerator Provides a fluent interface
      */
     public function setShortDescription($shortDescription)
     {
@@ -146,7 +146,7 @@ class DocBlockGenerator extends AbstractGenerator
 
     /**
      * @param  string $longDescription
-     * @return DocBlockGenerator
+     * @return DocBlockGenerator Provides a fluent interface
      */
     public function setLongDescription($longDescription)
     {
@@ -164,7 +164,7 @@ class DocBlockGenerator extends AbstractGenerator
 
     /**
      * @param  array $tags
-     * @return DocBlockGenerator
+     * @return DocBlockGenerator Provides a fluent interface
      */
     public function setTags(array $tags)
     {
@@ -178,7 +178,7 @@ class DocBlockGenerator extends AbstractGenerator
     /**
      * @param array|TagInterface $tag
      * @throws Exception\InvalidArgumentException
-     * @return DocBlockGenerator
+     * @return DocBlockGenerator Provides a fluent interface
      */
     public function setTag($tag)
     {
@@ -209,7 +209,7 @@ class DocBlockGenerator extends AbstractGenerator
 
     /**
      * @param bool $value
-     * @return DocBlockGenerator
+     * @return DocBlockGenerator Provides a fluent interface
      */
     public function setWordWrap($value)
     {
