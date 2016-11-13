@@ -633,7 +633,7 @@ CODE;
         $classGenerator = new ClassGenerator();
 
         $classGenerator->addConstants([
-            [ 'name'=> 'x', 'value' => 'value1'],
+            [ 'name' => 'x', 'value' => 'value1'],
             ['name' => 'y', 'value' => 'value2']
         ]);
 
