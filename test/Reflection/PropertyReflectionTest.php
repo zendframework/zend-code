@@ -41,7 +41,7 @@ class PropertyReflectionTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($annotations->hasAnnotation(TestAsset\SampleAnnotation::class));
         $found = false;
         foreach ($annotations as $key => $annotation) {
-            if (!$annotation instanceof TestAsset\SampleAnnotation) {
+            if (! $annotation instanceof TestAsset\SampleAnnotation) {
                 continue;
             }
             $this->assertEquals(get_class($annotation) . ': {"foo":"bar"}', $annotation->content);
