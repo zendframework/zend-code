@@ -123,6 +123,10 @@ class ClassGeneratorTest extends \PHPUnit_Framework_TestCase
         // add a new property
         $classGenerator->addProperty('prop3');
         $this->assertEquals(count($classGenerator->getProperties()), 3);
+
+        // Remove a property
+        $classGenerator->removeProperty('prop3');
+        $this->assertEquals(count($classGenerator->getProperties()), 2);
     }
 
     public function testSetPropertyAlreadyExistsThrowsException()
@@ -606,6 +610,20 @@ CODE;
         $this->assertInstanceOf('Zend\Code\Generator\PropertyGenerator', $constant);
         $this->assertTrue($constant->isConst());
         $this->assertEquals($constant->getDefaultValue()->getValue(), 'value');
+    }
+
+    /**
+     * @group 6274
+     */
+    public function testCanRemoveConstant()
+    {
+        $classGenerator = new ClassGenerator();
+
+        $classGenerator->setName('My\Class');
+        $classGenerator->addConstant('x', 'value');
+
+        $classGenerator->removeConstant('x');
+        $this->assertEquals(count($classGenerator->getConstants()), 0);
     }
 
     /**
