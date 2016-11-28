@@ -1128,6 +1128,6 @@ class ClassGenerator extends AbstractGenerator
             return $className;
         }
 
-        return '\\' . $fqnClassName;
+        return '\\' . trim($fqnClassName, '\\');
     }
 }
