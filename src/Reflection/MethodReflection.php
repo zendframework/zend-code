@@ -228,7 +228,7 @@ class MethodReflection extends PhpReflectionMethod implements ReflectionInterfac
             true
         );
 
-        $functionLine = implode("\n", $lines);
+        $functionLine = implode(PHP_EOL, $lines);
         $tokens = token_get_all("<?php ". $functionLine);
 
         //remove first entry which is php open tag
