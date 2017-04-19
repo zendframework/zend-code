@@ -22,7 +22,7 @@ class PropertyGeneratorTest extends \PHPUnit_Framework_TestCase
     public function testPropertyConstructor()
     {
         $codeGenProperty = new PropertyGenerator();
-        $this->isInstanceOf($codeGenProperty, 'Zend\Code\Generator\PropertyGenerator');
+        $this->assertInstanceOf('Zend\Code\Generator\PropertyGenerator', $codeGenProperty);
     }
 
     /**
@@ -257,7 +257,7 @@ EOS;
         $this->assertInternalType('array', $tags);
         $this->assertEquals(1, count($tags));
         $tag = array_shift($tags);
-        $this->assertInstanceOf('Zend\Code\Generator\DocBlock\Tag\GenericTag', $tag);
+        $this->assertInstanceOf('Zend\Code\Generator\DocBlock\Tag\VarTag', $tag);
         $this->assertEquals('var', $tag->getName());
     }
 
@@ -266,9 +266,8 @@ EOS;
      * @dataProvider dataSetTypeSetValueGenerate
      * @param string $type
      * @param mixed $value
-     * @param string $code
      */
-    public function testSetDefaultValue($type, $value, $code)
+    public function testSetDefaultValue($type, $value)
     {
         $property = new PropertyGenerator();
         $property->setDefaultValue($value, $type);
