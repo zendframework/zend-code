@@ -53,9 +53,8 @@ class InterfaceGeneratorTest extends \PHPUnit_Framework_TestCase
         $classGenerator1->addProperty('prop3');
         $classGenerator2->addProperties([
             'propOne',
-            new PropertyGenerator('propTwo')
+            new PropertyGenerator('propTwo'),
         ]);
-
 
         $this->assertCount(0, $classGenerator1->getProperties());
         $this->assertCount(0, $classGenerator2->getProperties());
@@ -66,7 +65,7 @@ class InterfaceGeneratorTest extends \PHPUnit_Framework_TestCase
         $classGenerator = new InterfaceGenerator();
         $classGenerator->addMethods([
             'methodOne',
-            new MethodGenerator('methodTwo')
+            new MethodGenerator('methodTwo'),
         ]);
 
         $this->assertCount(2, $classGenerator->getMethods());
@@ -80,7 +79,7 @@ class InterfaceGeneratorTest extends \PHPUnit_Framework_TestCase
         $classGenerator = InterfaceGenerator::fromArray([
             'name' => 'SampleInterface',
             'methods' => [
-                ['name' => 'baz']
+                ['name' => 'baz'],
             ],
         ]);
 
@@ -115,7 +114,6 @@ interface MyInterface
 CODE;
         $this->assertEquals($expected, $classGeneratorClass->generate());
     }
-
 
     public function testSetextendedclassShouldNotIgnoreNonEmptyClassnameOnGenerate()
     {

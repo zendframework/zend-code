@@ -109,7 +109,7 @@ class ClassGeneratorTest extends \PHPUnit_Framework_TestCase
         $classGenerator = new ClassGenerator();
         $classGenerator->addProperties([
             'propOne',
-            new PropertyGenerator('propTwo')
+            new PropertyGenerator('propTwo'),
         ]);
 
         $properties = $classGenerator->getProperties();
@@ -153,7 +153,7 @@ class ClassGeneratorTest extends \PHPUnit_Framework_TestCase
         $classGenerator = new ClassGenerator();
         $classGenerator->addMethods([
             'methodOne',
-            new MethodGenerator('methodTwo')
+            new MethodGenerator('methodTwo'),
         ]);
 
         $methods = $classGenerator->getMethods();
@@ -184,9 +184,9 @@ class ClassGeneratorTest extends \PHPUnit_Framework_TestCase
     public function testSetMethodNameAlreadyExistsThrowsException()
     {
         $methodA = new MethodGenerator();
-        $methodA->setName("foo");
+        $methodA->setName('foo');
         $methodB = new MethodGenerator();
-        $methodB->setName("foo");
+        $methodB->setName('foo');
 
         $classGenerator = new ClassGenerator();
         $classGenerator->addMethodFromGenerator($methodA);
@@ -248,11 +248,12 @@ class ClassGeneratorTest extends \PHPUnit_Framework_TestCase
             'flags' => ClassGenerator::FLAG_ABSTRACT,
             'extendedClass' => 'ExtendedClassName',
             'implementedInterfaces' => ['Iterator', 'Traversable'],
-            'properties' => ['foo',
-                ['name' => 'bar']
+            'properties' => [
+                'foo',
+                ['name' => 'bar'],
             ],
             'methods' => [
-                ['name' => 'baz']
+                ['name' => 'baz'],
             ],
         ]);
 
@@ -617,7 +618,7 @@ CODE;
 
         $classGenerator->addConstants([
             new PropertyGenerator('x', 'value1', PropertyGenerator::FLAG_CONSTANT),
-            new PropertyGenerator('y', 'value2', PropertyGenerator::FLAG_CONSTANT)
+            new PropertyGenerator('y', 'value2', PropertyGenerator::FLAG_CONSTANT),
         ]);
 
         $this->assertCount(2, $classGenerator->getConstants());
@@ -633,8 +634,8 @@ CODE;
         $classGenerator = new ClassGenerator();
 
         $classGenerator->addConstants([
-            [ 'name'=> 'x', 'value' => 'value1'],
-            ['name' => 'y', 'value' => 'value2']
+            ['name' => 'x', 'value' => 'value1'],
+            ['name' => 'y', 'value' => 'value2'],
         ]);
 
         $this->assertCount(2, $classGenerator->getConstants());
@@ -761,7 +762,7 @@ CODE;
     {
         $constants = [
             new PropertyGenerator('x', 'value1', PropertyGenerator::FLAG_CONSTANT),
-            new PropertyGenerator('y', 'value2', PropertyGenerator::FLAG_CONSTANT)
+            new PropertyGenerator('y', 'value2', PropertyGenerator::FLAG_CONSTANT),
         ];
         $classGenerator = new ClassGenerator();
 
@@ -825,6 +826,7 @@ CODE;
 
         $this->assertEquals($classGenerator->generate(), $contents);
     }
+
     /**
      * @group 6253
      */
@@ -833,7 +835,7 @@ CODE;
         $reflector = new ClassReflection('ZendTest\Code\Generator\TestAsset\TestClassWithHeredoc');
         $classGenerator = new ClassGenerator();
         $methods = $reflector->getMethods();
-        $classGenerator->setName("OutputClass");
+        $classGenerator->setName('OutputClass');
 
         foreach ($methods as $method) {
             $methodGenerator = MethodGenerator::fromReflection($method);
@@ -989,7 +991,7 @@ CODE;
         );
 
         $classGenerator->addTrait('myTrait');
-        $classGenerator->addTraitAlias('myTrait::method', new ClassGenerator, 'public');
+        $classGenerator->addTraitAlias('myTrait::method', new ClassGenerator(), 'public');
     }
 
     public function testCanAddTraitOverride()
@@ -1145,7 +1147,7 @@ CODE;
         $classGenerator->addTrait('myTrait');
         $classGenerator->addTrait('hisTrait');
         $classGenerator->addTrait('thatTrait');
-        $classGenerator->addTraitAlias("hisTrait::foo", "test", ReflectionMethod::IS_PUBLIC);
+        $classGenerator->addTraitAlias('hisTrait::foo', 'test', ReflectionMethod::IS_PUBLIC);
         $classGenerator->addTraitOverride('myTrait::bar', ['hisTrait', 'thatTrait']);
 
         $output = <<<'CODE'
@@ -1170,7 +1172,7 @@ CODE;
     {
         $classGenerator = ClassGenerator::fromArray([
             'name' => 'SomeClass',
-            'flags' => ClassGenerator::FLAG_FINAL
+            'flags' => ClassGenerator::FLAG_FINAL,
         ]);
 
         $expectedOutput = <<<EOS
@@ -1243,9 +1245,9 @@ EOS;
         $classGenerator->setNamespaceName('SomeNamespace');
         $classGenerator->addUse('Zend\Code\Generator\GeneratorInterface');
         $classGenerator->setImplementedInterfaces([
-           'SomeNamespace\ClassInterface',
-           'Zend\Code\Generator\GeneratorInterface',
-           'Iteratable'
+            'SomeNamespace\ClassInterface',
+            'Zend\Code\Generator\GeneratorInterface',
+            'Iteratable',
         ]);
 
         $expected = 'class ClassName implements ClassInterface, GeneratorInterface, \Iteratable';

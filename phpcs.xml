@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<ruleset name="Zend Framework Coding Standard">
+    <rule ref="./vendor/zendframework/zend-coding-standard/ruleset.xml"/>
+
+    <rule ref="ZendCodingStandard.Commenting.FunctionComment.TypeHintMissing">
+        <severity>0</severity>
+    </rule>
+
+    <!-- Paths to check -->
+    <file>src</file>
+    <file>test</file>
+    <exclude-pattern>*/TestAsset/*</exclude-pattern>
+    <exclude-pattern>*/_files/*</exclude-pattern>
+</ruleset>

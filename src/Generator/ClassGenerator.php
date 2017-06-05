@@ -13,8 +13,8 @@ use Zend\Code\Reflection\ClassReflection;
 
 class ClassGenerator extends AbstractGenerator
 {
-    const OBJECT_TYPE = "class";
-    const IMPLEMENTS_KEYWORD = "implements";
+    const OBJECT_TYPE = 'class';
+    const IMPLEMENTS_KEYWORD = 'implements';
 
     const FLAG_ABSTRACT = 0x01;
     const FLAG_FINAL    = 0x02;
@@ -22,22 +22,22 @@ class ClassGenerator extends AbstractGenerator
     /**
      * @var FileGenerator
      */
-    protected $containingFileGenerator = null;
+    protected $containingFileGenerator;
 
     /**
      * @var string
      */
-    protected $namespaceName = null;
+    protected $namespaceName;
 
     /**
      * @var DocBlockGenerator
      */
-    protected $docBlock = null;
+    protected $docBlock;
 
     /**
      * @var string
      */
-    protected $name = null;
+    protected $name;
 
     /**
      * @var bool
@@ -47,7 +47,7 @@ class ClassGenerator extends AbstractGenerator
     /**
      * @var string
      */
-    protected $extendedClass = null;
+    protected $extendedClass;
 
     /**
      * @var array Array of string names
@@ -131,7 +131,7 @@ class ClassGenerator extends AbstractGenerator
         foreach ($classReflection->getConstants() as $name => $value) {
             $constants[] = [
                 'name' => $name,
-                'value' => $value
+                'value' => $value,
             ];
         }
 
@@ -140,7 +140,7 @@ class ClassGenerator extends AbstractGenerator
         $methods = [];
 
         foreach ($classReflection->getMethods() as $reflectionMethod) {
-            $className = ($cg->getNamespaceName()) ? $cg->getNamespaceName() . "\\" . $cg->getName() : $cg->getName();
+            $className = $cg->getNamespaceName() ? $cg->getNamespaceName() . '\\' . $cg->getName() : $cg->getName();
 
             if ($reflectionMethod->getDeclaringClass()->getName() == $className) {
                 $methods[] = MethodGenerator::fromReflection($reflectionMethod);
@@ -171,7 +171,7 @@ class ClassGenerator extends AbstractGenerator
      */
     public static function fromArray(array $array)
     {
-        if (!isset($array['name'])) {
+        if (! isset($array['name'])) {
             throw new Exception\InvalidArgumentException(
                 'Class generator requires that a name is provided for this object'
             );
@@ -188,7 +188,7 @@ class ClassGenerator extends AbstractGenerator
                     $cg->setNamespaceName($value);
                     break;
                 case 'docblock':
-                    $docBlock = ($value instanceof DocBlockGenerator) ? $value : DocBlockGenerator::fromArray($value);
+                    $docBlock = $value instanceof DocBlockGenerator ? $value : DocBlockGenerator::fromArray($value);
                     $cg->setDocBlock($docBlock);
                     break;
                 case 'flags':
@@ -383,7 +383,7 @@ class ClassGenerator extends AbstractGenerator
      */
     public function setAbstract($isAbstract)
     {
-        return (($isAbstract) ? $this->addFlag(self::FLAG_ABSTRACT) : $this->removeFlag(self::FLAG_ABSTRACT));
+        return $isAbstract ? $this->addFlag(self::FLAG_ABSTRACT) : $this->removeFlag(self::FLAG_ABSTRACT);
     }
 
     /**
@@ -400,7 +400,7 @@ class ClassGenerator extends AbstractGenerator
      */
     public function setFinal($isFinal)
     {
-        return (($isFinal) ? $this->addFlag(self::FLAG_FINAL) : $this->removeFlag(self::FLAG_FINAL));
+        return $isFinal ? $this->addFlag(self::FLAG_FINAL) : $this->removeFlag(self::FLAG_FINAL);
     }
 
     /**
@@ -408,7 +408,7 @@ class ClassGenerator extends AbstractGenerator
      */
     public function isFinal()
     {
-        return ($this->flags & self::FLAG_FINAL);
+        return $this->flags & self::FLAG_FINAL;
     }
 
     /**
@@ -434,7 +434,7 @@ class ClassGenerator extends AbstractGenerator
      */
     public function hasExtentedClass()
     {
-        return !empty($this->extendedClass);
+        return ! empty($this->extendedClass);
     }
 
     /**
@@ -572,7 +572,7 @@ class ClassGenerator extends AbstractGenerator
      */
     public function addConstant($name, $value)
     {
-        if (empty($name) || !is_string($name)) {
+        if (empty($name) || ! is_string($name)) {
             throw new Exception\InvalidArgumentException(sprintf(
                 '%s expects string for name',
                 __METHOD__
@@ -638,7 +638,7 @@ class ClassGenerator extends AbstractGenerator
      */
     public function addProperty($name, $defaultValue = null, $flags = PropertyGenerator::FLAG_PUBLIC)
     {
-        if (!is_string($name)) {
+        if (! is_string($name)) {
             throw new Exception\InvalidArgumentException(sprintf(
                 '%s::%s expects string for name',
                 get_class($this),
@@ -767,7 +767,6 @@ class ClassGenerator extends AbstractGenerator
         return $this->traitUsageGenerator->getUses();
     }
 
-
     /**
      * @param  string $propertyName
      * @return self
@@ -827,7 +826,7 @@ class ClassGenerator extends AbstractGenerator
         $body = null,
         $docBlock = null
     ) {
-        if (!is_string($name)) {
+        if (! is_string($name)) {
             throw new Exception\InvalidArgumentException(sprintf(
                 '%s::%s expects string for name',
                 get_class($this),
@@ -1012,9 +1011,9 @@ class ClassGenerator extends AbstractGenerator
      */
     public function generate()
     {
-        if (!$this->isSourceDirty()) {
+        if (! $this->isSourceDirty()) {
             $output = $this->getSourceContent();
-            if (!empty($output)) {
+            if (! empty($output)) {
                 return $output;
             }
         }
@@ -1028,7 +1027,7 @@ class ClassGenerator extends AbstractGenerator
 
         $uses = $this->getUses();
 
-        if (!empty($uses)) {
+        if (! empty($uses)) {
             foreach ($uses as $use) {
                 $output .= 'use ' . $use . ';' . self::LINE_FEED;
             }
@@ -1049,13 +1048,13 @@ class ClassGenerator extends AbstractGenerator
 
         $output .= static::OBJECT_TYPE . ' ' . $this->getName();
 
-        if (!empty($this->extendedClass)) {
-            $output .= ' extends ' .  $this->generateShortOrCompleteClassname($this->extendedClass);
+        if (! empty($this->extendedClass)) {
+            $output .= ' extends ' . $this->generateShortOrCompleteClassname($this->extendedClass);
         }
 
         $implemented = $this->getImplementedInterfaces();
 
-        if (!empty($implemented)) {
+        if (! empty($implemented)) {
             $implemented = array_map([$this, 'generateShortOrCompleteClassname'], $implemented);
             $output .= ' ' . static::IMPLEMENTS_KEYWORD . ' ' . implode(', ', $implemented);
         }

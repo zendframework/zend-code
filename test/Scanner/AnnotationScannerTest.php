@@ -25,14 +25,14 @@ class AnnotationScannerTest extends \PHPUnit_Framework_TestCase
         $parser = new GenericAnnotationParser();
         $parser->registerAnnotations([
             $foo = new TestAsset\Annotation\Foo(),
-            $bar = new TestAsset\Annotation\Bar()
+            $bar = new TestAsset\Annotation\Bar(),
         ]);
         $annotationManager->attach($parser);
 
         $docComment = '/**' . $newLine
             . ' * @Test\Foo(\'anything I want()' . $newLine
             . ' * to be\')' . $newLine
-            . ' * @Test\Bar' . $newLine . " */";
+            . ' * @Test\Bar' . $newLine . ' */';
 
         $nameInfo = new NameInformation();
         $nameInfo->addUse('ZendTest\Code\Scanner\TestAsset\Annotation', 'Test');

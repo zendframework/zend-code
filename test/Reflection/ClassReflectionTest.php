@@ -13,7 +13,6 @@ use Zend\Code\Reflection\ClassReflection;
 use ZendTest\Code\Reflection\TestAsset\InjectableClassReflection;
 
 /**
- *
  * @group      Zend_Reflection
  * @group      Zend_Reflection_Class
  */

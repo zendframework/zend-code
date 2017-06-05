@@ -16,12 +16,12 @@ class FileReflection implements ReflectionInterface
     /**
      * @var string
      */
-    protected $filePath = null;
+    protected $filePath;
 
     /**
      * @var string
      */
-    protected $docComment = null;
+    protected $docComment;
 
     /**
      * @var int
@@ -31,7 +31,7 @@ class FileReflection implements ReflectionInterface
     /**
      * @var int
      */
-    protected $endLine = null;
+    protected $endLine;
 
     /**
      * @var string[]
@@ -61,7 +61,7 @@ class FileReflection implements ReflectionInterface
     /**
      * @var string
      */
-    protected $contents = null;
+    protected $contents;
 
     /**
      * @param  string $filename
@@ -75,15 +75,15 @@ class FileReflection implements ReflectionInterface
             $fileRealPath = stream_resolve_include_path($filename);
         }
 
-        if (!$fileRealPath) {
+        if (! $fileRealPath) {
             throw new Exception\InvalidArgumentException(sprintf(
                 'No file for %s was found.',
                 $filename
             ));
         }
 
-        if (!in_array($fileRealPath, get_included_files())) {
-            if (!$includeIfNotAlreadyIncluded) {
+        if (! in_array($fileRealPath, get_included_files())) {
+            if (! $includeIfNotAlreadyIncluded) {
                 throw new Exception\RuntimeException(sprintf(
                     'File %s must be required before it can be reflected',
                     $filename
@@ -151,7 +151,7 @@ class FileReflection implements ReflectionInterface
      */
     public function getDocBlock()
     {
-        if (!($docComment = $this->getDocComment())) {
+        if (! ($docComment = $this->getDocComment())) {
             return false;
         }
 

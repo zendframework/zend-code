@@ -102,7 +102,7 @@ class MethodReflectionTest extends \PHPUnit_Framework_TestCase
             'emptyFunction'
         );
         $body = $reflectionMethod->getBody();
-        $this->assertEquals(trim($body), "");
+        $this->assertEquals(trim($body), '');
 
         $reflectionMethod = new MethodReflection('ZendTest\Code\Reflection\TestAsset\TestSampleClass11', 'visibility');
         $body = $reflectionMethod->getBody();
@@ -328,7 +328,7 @@ CONTENTS;
     public function testGetContentsWithCoreClass()
     {
         $reflectionMethod = new MethodReflection('DateTime', 'format');
-        $this->assertEquals("", $reflectionMethod->getContents(false));
+        $this->assertEquals('', $reflectionMethod->getContents(false));
     }
 
     public function testGetContentsReturnsEmptyContentsOnEvaldCode()
@@ -354,7 +354,6 @@ CONTENTS;
      */
     public function testCodeGetContentsDoesNotThrowExceptionOnDocBlock()
     {
-
         $contents = <<<'CONTENTS'
     function getCacheKey() {
         $args = func_get_args();
@@ -396,8 +395,8 @@ CONTENTS;
      */
     public function testCanParseClassBodyWhenUsingTrait()
     {
-        require_once __DIR__ .'/TestAsset/TestTraitClass1.php';
-        require_once __DIR__. '/TestAsset/TestTraitClass2.php';
+        require_once __DIR__ . '/TestAsset/TestTraitClass1.php';
+        require_once __DIR__ . '/TestAsset/TestTraitClass2.php';
         // $method = new \Zend\Code\Reflection\ClassReflection('\FooClass');
         // $traits = current($method->getTraits());
         $method = new \Zend\Code\Reflection\MethodReflection('FooClass', 'getDummy');

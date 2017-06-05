@@ -10,7 +10,6 @@
 namespace ZendTest\Code\Annotation;
 
 use PHPUnit_Framework_TestCase as TestCase;
-use Zend\Code\Annotation;
 use Zend\Code\Annotation\Parser\DoctrineAnnotationParser;
 use Zend\EventManager\Event;
 
@@ -23,7 +22,7 @@ class DoctrineAnnotationParserTest extends TestCase
 
     public function setUp()
     {
-        if (!getenv('TESTS_ZEND_CODE_ANNOTATION_DOCTRINE_SUPPORT')) {
+        if (! getenv('TESTS_ZEND_CODE_ANNOTATION_DOCTRINE_SUPPORT')) {
             $this->markTestSkipped(
                 'Enable TESTS_ZEND_CODE_ANNOTATION_DOCTRINE_SUPPORT to test doctrine annotation parsing'
             );

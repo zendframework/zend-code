@@ -171,8 +171,8 @@ class FileReflectionTest extends \PHPUnit_Framework_TestCase
         $expected = [
             ['use' => 'Zend\Config', 'as' => 'ZendConfig'],
             ['use' => 'FooBar\Foo\Bar', 'as' => null],
-            ['use' => 'One\Two\Three\Four\Five', 'as' => 'ottff']
-            ];
+            ['use' => 'One\Two\Three\Four\Five', 'as' => 'ottff'],
+        ];
         $this->assertSame($expected, $reflectionFile->getUses());
     }
 

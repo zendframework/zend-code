@@ -84,7 +84,6 @@ class MethodGeneratorTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($docblockGenerator, $method->getDocBlock());
     }
 
-
     public function testMethodFromReflection()
     {
         $ref = new MethodReflection('ZendTest\Code\Generator\TestAsset\TestSampleSingleClass', 'someMethod');
@@ -104,7 +103,6 @@ class MethodGeneratorTest extends \PHPUnit_Framework_TestCase
 EOS;
         $this->assertEquals($target, (string) $methodGenerator);
     }
-
 
     public function testMethodFromReflectionMultiLinesIndention()
     {
@@ -261,7 +259,7 @@ EOS;
             'interface'  => true,
             'docblock'   => [
                 'shortdescription' => 'Short Description',
-            ]
+            ],
         ]);
 
         $expected = <<<'CODE'

@@ -70,30 +70,30 @@ CLASS;
             $value = $property->getValue();
             $valueType = $property->getValueType();
             switch ($property->getName()) {
-                case "empty":
+                case 'empty':
                     $this->assertNull($value);
                     $this->assertEquals('unknown', $valueType);
                     break;
-                case "string":
+                case 'string':
                     $this->assertEquals('string', $value);
                     $this->assertEquals('string', $valueType);
                     break;
-                case "int":
+                case 'int':
                     $this->assertEquals('123', $value);
                     $this->assertEquals('int', $valueType);
                     break;
-                case "array":
+                case 'array':
                     $this->assertEquals("array('test'=>2,2)", $value);
                     $this->assertEquals('array', $valueType);
                     break;
-                case "arraynew":
+                case 'arraynew':
                     $this->assertEquals("['test'=>2,2]", $value);
                     $this->assertEquals('array', $valueType);
                     break;
-                case "notarray":
+                case 'notarray':
                     $this->assertEquals('string', $valueType);
                     break;
-                case "status":
+                case 'status':
                     $this->assertEquals('false', $value);
                     $this->assertEquals('boolean', $valueType);
                     break;

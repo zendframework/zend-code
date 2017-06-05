@@ -19,39 +19,39 @@ class DocBlockReflection implements ReflectionInterface
     /**
      * @var Reflector
      */
-    protected $reflector = null;
+    protected $reflector;
 
     /**
      * @var string
      */
-    protected $docComment = null;
+    protected $docComment;
 
     /**
      * @var DocBlockTagManager
      */
-    protected $tagManager = null;
+    protected $tagManager;
 
     /**#@+
      * @var int
      */
-    protected $startLine = null;
-    protected $endLine = null;
+    protected $startLine;
+    protected $endLine;
     /**#@-*/
 
     /**
      * @var string
      */
-    protected $cleanDocComment = null;
+    protected $cleanDocComment;
 
     /**
      * @var string
      */
-    protected $longDescription = null;
+    protected $longDescription;
 
     /**
      * @var string
      */
-    protected $shortDescription = null;
+    protected $shortDescription;
 
     /**
      * @var array
@@ -83,7 +83,7 @@ class DocBlockReflection implements ReflectionInterface
      */
     public function __construct($commentOrReflector, DocBlockTagManager $tagManager = null)
     {
-        if (!$tagManager) {
+        if (! $tagManager) {
             $tagManager = new DocBlockTagManager();
             $tagManager->initializeDefaultTags();
         }
@@ -91,7 +91,7 @@ class DocBlockReflection implements ReflectionInterface
 
         if ($commentOrReflector instanceof Reflector) {
             $this->reflector = $commentOrReflector;
-            if (!method_exists($commentOrReflector, 'getDocComment')) {
+            if (! method_exists($commentOrReflector, 'getDocComment')) {
                 throw new Exception\InvalidArgumentException('Reflector must contain method "getDocComment"');
             }
             /* @var MethodReflection $commentOrReflector */
@@ -222,7 +222,7 @@ class DocBlockReflection implements ReflectionInterface
     public function getTags($filter = null)
     {
         $this->reflect();
-        if ($filter === null || !is_string($filter)) {
+        if ($filter === null || ! is_string($filter)) {
             return $this->tags;
         }
 
@@ -271,15 +271,15 @@ class DocBlockReflection implements ReflectionInterface
      */
     public function toString()
     {
-        $str = "DocBlock [ /* DocBlock */ ] {" . "\n" . "\n";
-        $str .= "  - Tags [" . count($this->tags) . "] {" . "\n";
+        $str = 'DocBlock [ /* DocBlock */ ] {' . "\n" . "\n";
+        $str .= '  - Tags [' . count($this->tags) . '] {' . "\n";
 
         foreach ($this->tags as $tag) {
-            $str .= "    " . $tag;
+            $str .= '    ' . $tag;
         }
 
-        $str .= "  }" . "\n";
-        $str .= "}" . "\n";
+        $str .= '  }' . "\n";
+        $str .= '}' . "\n";
 
         return $str;
     }

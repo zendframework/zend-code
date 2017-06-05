@@ -70,7 +70,7 @@ class TraitGeneratorTest extends \PHPUnit_Framework_TestCase
         $classGenerator = new TraitGenerator();
         $classGenerator->addProperties([
             'propOne',
-            new PropertyGenerator('propTwo')
+            new PropertyGenerator('propTwo'),
         ]);
 
         $properties = $classGenerator->getProperties();
@@ -114,7 +114,7 @@ class TraitGeneratorTest extends \PHPUnit_Framework_TestCase
         $classGenerator = new TraitGenerator();
         $classGenerator->addMethods([
             'methodOne',
-            new MethodGenerator('methodTwo')
+            new MethodGenerator('methodTwo'),
         ]);
 
         $methods = $classGenerator->getMethods();
@@ -145,9 +145,9 @@ class TraitGeneratorTest extends \PHPUnit_Framework_TestCase
     public function testSetMethodNameAlreadyExistsThrowsException()
     {
         $methodA = new MethodGenerator();
-        $methodA->setName("foo");
+        $methodA->setName('foo');
         $methodB = new MethodGenerator();
-        $methodB->setName("foo");
+        $methodB->setName('foo');
 
         $classGenerator = new TraitGenerator();
         $classGenerator->addMethodFromGenerator($methodA);
@@ -196,11 +196,12 @@ class TraitGeneratorTest extends \PHPUnit_Framework_TestCase
     {
         $classGenerator = TraitGenerator::fromArray([
             'name' => 'SampleClass',
-            'properties' => ['foo',
-                ['name' => 'bar']
+            'properties' => [
+                'foo',
+                ['name' => 'bar'],
             ],
             'methods' => [
-                ['name' => 'baz']
+                ['name' => 'baz'],
             ],
         ]);
 

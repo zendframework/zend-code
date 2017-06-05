@@ -19,12 +19,12 @@ class PropertyTag implements TagInterface, PhpDocTypedTagInterface
     /**
      * @var string
      */
-    protected $propertyName = null;
+    protected $propertyName;
 
     /**
      * @var string
      */
-    protected $description = null;
+    protected $description;
 
     /**
      * @return string
@@ -42,7 +42,7 @@ class PropertyTag implements TagInterface, PhpDocTypedTagInterface
     public function initialize($tagDocblockLine)
     {
         $match = [];
-        if (!preg_match('#^(.+)?(\$[\S]+)[\s]*(.*)$#m', $tagDocblockLine, $match)) {
+        if (! preg_match('#^(.+)?(\$[\S]+)[\s]*(.*)$#m', $tagDocblockLine, $match)) {
             return;
         }
 

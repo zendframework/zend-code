@@ -23,6 +23,7 @@ class ReturnTagTest extends \PHPUnit_Framework_TestCase
      * @var ReturnTag
      */
     protected $tag;
+
     /**
      * @var TagManager
      */

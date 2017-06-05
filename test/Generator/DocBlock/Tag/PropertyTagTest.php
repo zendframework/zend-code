@@ -23,6 +23,7 @@ class PropertyTagTest extends \PHPUnit_Framework_TestCase
      * @var PropertyTag
      */
     protected $tag;
+
     /**
      * @var TagManager
      */
@@ -46,7 +47,6 @@ class PropertyTagTest extends \PHPUnit_Framework_TestCase
         $this->tag->setPropertyName('property');
         $this->assertEquals('property', $this->tag->getPropertyName());
     }
-
 
     public function testGetterForVariableNameTrimsCorrectly()
     {
@@ -72,7 +72,7 @@ class PropertyTagTest extends \PHPUnit_Framework_TestCase
         $this->tag->setOptions([
             'propertyName' => 'property',
             'types' => ['string'],
-            'description' => 'description'
+            'description' => 'description',
         ]);
         $tagWithOptionsFromConstructor = new PropertyTag('property', ['string'], 'description');
         $this->assertEquals($this->tag->generate(), $tagWithOptionsFromConstructor->generate());

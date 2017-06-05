@@ -48,10 +48,9 @@ class FileGeneratorTest extends \PHPUnit_Framework_TestCase
                 'flags' => ClassGenerator::FLAG_ABSTRACT,
                 'name' => 'SampleClass',
                 'extendedClass' => 'ExtendedClassName',
-                'implementedInterfaces' => ['Iterator', 'Traversable']
-            ]
+                'implementedInterfaces' => ['Iterator', 'Traversable'],
+            ],
         ]);
-
 
         $expectedOutput = <<<EOS
 <?php
@@ -77,8 +76,8 @@ EOS;
 
         $codeGenFile = FileGenerator::fromArray([
             'class' => [
-                'name' => 'SampleClass'
-            ]
+                'name' => 'SampleClass',
+            ],
         ]);
 
         file_put_contents($tempFile, $codeGenFile->generate());
@@ -162,7 +161,7 @@ EOS;
 
         $targetLength = strlen('require_once \'SampleClass.php\';');
         $this->assertEquals($targetLength, strlen($lines[2]));
-        $this->assertEquals(';', $lines[2]{$targetLength-1});
+        $this->assertEquals(';', $lines[2]{$targetLength - 1});
     }
 
     /**
@@ -201,8 +200,8 @@ EOS;
     {
         $file = new FileGenerator();
         $file->setUses([
-                 ['use' => 'Your\Bar', 'as' => 'bar'],
-                 ['use' => 'Your\Bar', 'as' => 'bar'],
+            ['use' => 'Your\Bar', 'as' => 'bar'],
+            ['use' => 'Your\Bar', 'as' => 'bar'],
         ]);
         $generated = $file->generate();
         $this->assertSame(strpos($generated, 'use Your\\Bar as bar;'), strrpos($generated, 'use Your\\Bar as bar;'));
@@ -212,8 +211,8 @@ EOS;
     {
         $file = new FileGenerator();
         $file->setUses([
-                 ['use' => 'Your\Bar', 'as' => 'bar'],
-                 ['use' => 'Your\Bar', 'as' => 'bar2'],
+            ['use' => 'Your\Bar', 'as' => 'bar'],
+            ['use' => 'Your\Bar', 'as' => 'bar2'],
         ]);
         $generated = $file->generate();
         $this->assertContains('use Your\\Bar as bar;', $generated);
@@ -224,9 +223,9 @@ EOS;
     {
         $file = new FileGenerator();
         $file->setUses([
-                 ['use' => 'Your\\Bar', 'as' => 'bar'],
-                 ['use' => 'My\\Baz', 'as' => 'FooBaz']
-             ]);
+            ['use' => 'Your\\Bar', 'as' => 'bar'],
+            ['use' => 'My\\Baz', 'as' => 'FooBaz'],
+        ]);
         $generated = $file->generate();
         $this->assertContains('use My\\Baz as FooBaz;', $generated);
         $this->assertContains('use Your\\Bar as bar;', $generated);
@@ -238,7 +237,7 @@ EOS;
         $file->setUses([
             'Your\\Bar',
             'My\\Baz',
-            ['use' => 'Another\\Baz', 'as' => 'Baz2']
+            ['use' => 'Another\\Baz', 'as' => 'Baz2'],
         ]);
         $generated = $file->generate();
         $this->assertContains('use My\\Baz;', $generated);
@@ -252,7 +251,7 @@ EOS;
         $uses = [
             'Your\\Bar',
             'My\\Baz',
-            ['use' => 'Another\\Baz', 'as' => 'Baz2']
+            ['use' => 'Another\\Baz', 'as' => 'Baz2'],
         ];
         $file->setUses($uses);
         $file->setUses($file->getUses());
@@ -354,7 +353,7 @@ CODE;
         $g = $g->fromReflectedFileName(__DIR__ . '/TestAsset/ClassWithUses.php');
         $g->setFilename(sys_get_temp_dir() . '/result_class.php');
         $g->getClass()->addMethod('added');
-        $g->setBody("\$foo->bar();");
+        $g->setBody('$foo->bar();');
         $g->write();
 
         $expected = <<<'CODE'

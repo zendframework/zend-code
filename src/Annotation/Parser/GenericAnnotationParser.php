@@ -53,7 +53,7 @@ class GenericAnnotationParser implements ParserInterface
     public function onCreateAnnotation(EventInterface $e)
     {
         $class = $e->getParam('class', false);
-        if (!$class || !$this->hasAnnotation($class)) {
+        if (! $class || ! $this->hasAnnotation($class)) {
             return false;
         }
 
@@ -91,12 +91,12 @@ class GenericAnnotationParser implements ParserInterface
             $annotation = new $annotation();
         }
 
-        if (!$annotation instanceof AnnotationInterface) {
+        if (! $annotation instanceof AnnotationInterface) {
             throw new Exception\InvalidArgumentException(sprintf(
                 '%s: expects an instance of %s\AnnotationInterface; received "%s"',
                 __METHOD__,
                 __NAMESPACE__,
-                (is_object($annotation) ? get_class($annotation) : gettype($annotation))
+                is_object($annotation) ? get_class($annotation) : gettype($annotation)
             ));
         }
 
@@ -122,11 +122,11 @@ class GenericAnnotationParser implements ParserInterface
      */
     public function registerAnnotations($annotations)
     {
-        if (!is_array($annotations) && !$annotations instanceof Traversable) {
+        if (! is_array($annotations) && ! $annotations instanceof Traversable) {
             throw new Exception\InvalidArgumentException(sprintf(
                 '%s: expects an array or Traversable; received "%s"',
                 __METHOD__,
-                (is_object($annotations) ? get_class($annotations) : gettype($annotations))
+                is_object($annotations) ? get_class($annotations) : gettype($annotations)
             ));
         }
 
@@ -166,7 +166,7 @@ class GenericAnnotationParser implements ParserInterface
      */
     public function setAlias($alias, $class)
     {
-        if (!in_array($class, $this->annotationNames) && !$this->hasAlias($class)) {
+        if (! in_array($class, $this->annotationNames) && ! $this->hasAlias($class)) {
             throw new Exception\InvalidArgumentException(sprintf(
                 '%s: Cannot alias "%s" to "%s", as class "%s" is not currently a registered annotation or alias',
                 __METHOD__,
@@ -203,7 +203,7 @@ class GenericAnnotationParser implements ParserInterface
     {
         $alias = $this->normalizeAlias($alias);
 
-        return (isset($this->aliases[$alias]));
+        return isset($this->aliases[$alias]);
     }
 
     /**

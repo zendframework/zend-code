@@ -31,7 +31,7 @@ abstract class AbstractGenerator implements GeneratorInterface
     /**
      * @var string
      */
-    protected $sourceContent = null;
+    protected $sourceContent;
 
     /**
      * @param  array $options
@@ -104,11 +104,11 @@ abstract class AbstractGenerator implements GeneratorInterface
      */
     public function setOptions($options)
     {
-        if (!is_array($options) && !$options instanceof Traversable) {
+        if (! is_array($options) && ! $options instanceof Traversable) {
             throw new Exception\InvalidArgumentException(sprintf(
                 '%s expects an array or Traversable object; received "%s"',
                 __METHOD__,
-                (is_object($options) ? get_class($options) : gettype($options))
+                is_object($options) ? get_class($options) : gettype($options)
             ));
         }
 

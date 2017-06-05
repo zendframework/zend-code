@@ -24,27 +24,27 @@ class ClassScanner implements ScannerInterface
     /**
      * @var string
      */
-    protected $docComment = null;
+    protected $docComment;
 
     /**
      * @var string
      */
-    protected $name = null;
+    protected $name;
 
     /**
      * @var string
      */
-    protected $shortName = null;
+    protected $shortName;
 
     /**
      * @var int
      */
-    protected $lineStart = null;
+    protected $lineStart;
 
     /**
      * @var int
      */
-    protected $lineEnd = null;
+    protected $lineEnd;
 
     /**
      * @var bool
@@ -69,12 +69,12 @@ class ClassScanner implements ScannerInterface
     /**
      * @var string
      */
-    protected $parentClass = null;
+    protected $parentClass;
 
     /**
      * @var string
      */
-    protected $shortParentClass = null;
+    protected $shortParentClass;
 
     /**
      * @var array
@@ -94,7 +94,7 @@ class ClassScanner implements ScannerInterface
     /**
      * @var NameInformation
      */
-    protected $nameInformation = null;
+    protected $nameInformation;
 
     /**
      * @var array
@@ -156,7 +156,7 @@ class ClassScanner implements ScannerInterface
      */
     public function getDocBlock()
     {
-        if (!$docComment = $this->getDocComment()) {
+        if (! $docComment = $this->getDocComment()) {
             return false;
         }
 
@@ -220,6 +220,7 @@ class ClassScanner implements ScannerInterface
 
     /**
      * Verify if class is a trait
+     *
      * @return bool
      */
     public function isTrait()
@@ -236,7 +237,7 @@ class ClassScanner implements ScannerInterface
     public function isInstantiable()
     {
         $this->scan();
-        return (!$this->isAbstract && !$this->isInterface && !$this->isTrait);
+        return ! $this->isAbstract && ! $this->isInterface && ! $this->isTrait;
     }
 
     /**
@@ -269,7 +270,7 @@ class ClassScanner implements ScannerInterface
     public function hasParentClass()
     {
         $this->scan();
-        return ($this->parentClass !== null);
+        return $this->parentClass !== null;
     }
 
     /**
@@ -366,7 +367,7 @@ class ClassScanner implements ScannerInterface
                     break;
                 }
             }
-            if (!$constantFound) {
+            if (! $constantFound) {
                 return false;
             }
         } else {
@@ -374,7 +375,7 @@ class ClassScanner implements ScannerInterface
                 'Invalid constant name of info index type.  Must be of type int or string'
             );
         }
-        if (!isset($info)) {
+        if (! isset($info)) {
             return false;
         }
         $p = new ConstantScanner(
@@ -471,7 +472,7 @@ class ClassScanner implements ScannerInterface
                     break;
                 }
             }
-            if (!$propertyFound) {
+            if (! $propertyFound) {
                 return false;
             }
         } else {
@@ -479,7 +480,7 @@ class ClassScanner implements ScannerInterface
                 'Invalid property name of info index type.  Must be of type int or string'
             );
         }
-        if (!isset($info)) {
+        if (! isset($info)) {
             return false;
         }
         $p = new PropertyScanner(
@@ -715,7 +716,7 @@ class ClassScanner implements ScannerInterface
             }
 
             // Merge in trait methods
-            if ($info['type'] === "use") {
+            if ($info['type'] === 'use') {
                 $traitMethods = [];
                 $traits       = $this->getTraits();
                 $insteadof    = $this->getBlockedTraitMethods();
@@ -849,14 +850,13 @@ class ClassScanner implements ScannerInterface
             return;
         }
 
-        if (!$this->tokens) {
+        if (! $this->tokens) {
             throw new Exception\RuntimeException('No tokens were provided');
         }
 
         /**
          * Variables & Setup
          */
-
         $tokens       = &$this->tokens; // localize
         $infos        = &$this->infos; // localize
         $tokenIndex   = null;
@@ -880,8 +880,8 @@ class ClassScanner implements ScannerInterface
             &$tokenLine
         ) {
             static $lastTokenArray = null;
-            $tokenIndex = ($tokenIndex === null) ? 0 : $tokenIndex + 1;
-            if (!isset($tokens[$tokenIndex])) {
+            $tokenIndex = $tokenIndex === null ? 0 : $tokenIndex + 1;
+            if (! isset($tokens[$tokenIndex])) {
                 $token        = false;
                 $tokenContent = false;
                 $tokenType    = false;
@@ -916,7 +916,6 @@ class ClassScanner implements ScannerInterface
         /**
          * START FINITE STATE MACHINE FOR SCANNING TOKENS
          */
-
         // Initialize token
         $MACRO_TOKEN_ADVANCE();
 
@@ -1003,7 +1002,7 @@ class ClassScanner implements ScannerInterface
                         $classContext = $tokenType;
                         if (($this->isInterface && $classContext === T_EXTENDS) || $classContext === T_IMPLEMENTS) {
                             $this->shortInterfaces[$classInterfaceIndex] = '';
-                        } elseif (!$this->isInterface && $classContext === T_EXTENDS) {
+                        } elseif (! $this->isInterface && $classContext === T_EXTENDS) {
                             $this->shortParentClass = '';
                         }
                         goto SCANNER_CLASS_INFO_CONTINUE;
@@ -1112,16 +1111,16 @@ class ClassScanner implements ScannerInterface
                     SCANNER_USE_TOP:
 
                     if ($tokenType === null) {
-                        if ($tokenContent === "{") {
+                        if ($tokenContent === '{') {
                             $useStatementIndex = 0;
                             $useAliasContext   = true;
                             $infos[$infoIndex]['aliases'][$useStatementIndex] = [
                                 'original'   => null,
                                 'alias'      => null,
                                 'visibility' => null,
-                                'type'       => 'as'
+                                'type'       => 'as',
                             ];
-                        } elseif ($tokenContent === "}") {
+                        } elseif ($tokenContent === '}') {
                             $useAliasContext = false;
                             goto SCANNER_USE_END;
                         } elseif ($tokenContent === ';') {
@@ -1154,13 +1153,13 @@ class ClassScanner implements ScannerInterface
                                     'original'   => null,
                                     'visibility' => null,
                                     'alias'      => null,
-                                    'type'       => null
+                                    'type'       => null,
                                 ];
                             }
 
                             if ($tokenType == T_AS || $tokenType == T_INSTEADOF) {
                                 $useAsContext = true;
-                                $infos[$infoIndex]['aliases'][$useStatementIndex]['type'] = ($tokenType == T_INSTEADOF)
+                                $infos[$infoIndex]['aliases'][$useStatementIndex]['type'] = $tokenType == T_INSTEADOF
                                     ? 'insteadof'
                                     : 'as';
                                 goto SCANNER_USE_CONTINUE;
