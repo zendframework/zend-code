@@ -17,7 +17,9 @@ use Zend\Code\Annotation\Parser\GenericAnnotationParser;
 class AnnotationScannerTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @dataProvider scannerWorksDataProvider
+     * @dataProvider newLine
+     *
+     * @param string $newLine
      */
     public function testScannerWorks($newLine)
     {
@@ -43,7 +45,7 @@ class AnnotationScannerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(get_class($bar), get_class($annotationScanner[1]));
     }
 
-    public function scannerWorksDataProvider()
+    public function newLine()
     {
         return [
             ["\n"],

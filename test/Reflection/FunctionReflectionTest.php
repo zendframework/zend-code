@@ -12,8 +12,8 @@ namespace ZendTest\Code\Reflection;
 use Zend\Code\Reflection\FunctionReflection;
 
 /**
- * @group      Zend_Reflection
- * @group      Zend_Reflection_Function
+ * @group Zend_Reflection
+ * @group Zend_Reflection_Function
  */
 class FunctionReflectionTest extends \PHPUnit_Framework_TestCase
 {
@@ -267,7 +267,7 @@ class FunctionReflectionTest extends \PHPUnit_Framework_TestCase
     {
         $functionName = uniqid('generatedFunction');
 
-        eval('name' . 'space ' . __NAMESPACE__ . '; ' . 'fun' . 'ction ' . $functionName . '()' . '{}');
+        eval('namespace ' . __NAMESPACE__ . '; function ' . $functionName . '(){}');
 
         $reflectionFunction = new FunctionReflection(__NAMESPACE__ . '\\' . $functionName);
 
