@@ -84,7 +84,6 @@ class MethodGeneratorTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($docblockGenerator, $method->getDocBlock());
     }
 
-
     public function testMethodFromReflection()
     {
         $ref = new MethodReflection('ZendTest\Code\Generator\TestAsset\TestSampleSingleClass', 'someMethod');
@@ -104,7 +103,6 @@ class MethodGeneratorTest extends \PHPUnit_Framework_TestCase
 EOS;
         $this->assertEquals($target, (string) $methodGenerator);
     }
-
 
     public function testMethodFromReflectionMultiLinesIndention()
     {
@@ -261,7 +259,7 @@ EOS;
             'interface'  => true,
             'docblock'   => [
                 'shortdescription' => 'Short Description',
-            ]
+            ],
         ]);
 
         $expected = <<<'CODE'
@@ -326,20 +324,20 @@ PHP;
      *
      * @requires PHP 7.0
      *
-     * @dataProvider returnTypeHintClassesProvider
+     * @dataProvider returnTypeHintClasses
      *
      * @param string $className
      * @param string $methodName
      * @param string $expectedReturnSignature
      */
-    public function testFrom(string $className, string $methodName, string $expectedReturnSignature)
+    public function testFrom($className, $methodName, $expectedReturnSignature)
     {
         $methodGenerator = MethodGenerator::fromReflection(new MethodReflection($className, $methodName));
 
         self::assertStringMatchesFormat('%A) : ' . $expectedReturnSignature . '%A{%A', $methodGenerator->generate());
     }
 
-    public function returnTypeHintClassesProvider()
+    public function returnTypeHintClasses()
     {
         $parameters = [
             [ReturnTypeHintedClass::class, 'voidReturn', 'void'],

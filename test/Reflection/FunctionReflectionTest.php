@@ -12,8 +12,8 @@ namespace ZendTest\Code\Reflection;
 use Zend\Code\Reflection\FunctionReflection;
 
 /**
- * @group      Zend_Reflection
- * @group      Zend_Reflection_Function
+ * @group Zend_Reflection
+ * @group Zend_Reflection_Function
  */
 class FunctionReflectionTest extends \PHPUnit_Framework_TestCase
 {
@@ -218,7 +218,7 @@ class FunctionReflectionTest extends \PHPUnit_Framework_TestCase
 
         $function = new FunctionReflection('ZendTest\Code\Reflection\TestAsset\function12');
         $content = $function->getContents(false);
-        $this->assertEquals("function function12() {}", trim($content));
+        $this->assertEquals('function function12() {}', trim($content));
     }
 
     /**
@@ -234,7 +234,7 @@ class FunctionReflectionTest extends \PHPUnit_Framework_TestCase
 
         $function = new FunctionReflection($function9);
         $content = $function->getContents(false);
-        $this->assertEquals("function() {}", trim($content));
+        $this->assertEquals('function() {}', trim($content));
 
         $function = new FunctionReflection($function10);
         $content = $function->getContents(false);
@@ -267,7 +267,7 @@ class FunctionReflectionTest extends \PHPUnit_Framework_TestCase
     {
         $functionName = uniqid('generatedFunction');
 
-        eval('name' . 'space ' . __NAMESPACE__ . '; ' . 'fun' . 'ction ' . $functionName . '()' . '{}');
+        eval('namespace ' . __NAMESPACE__ . '; function ' . $functionName . '(){}');
 
         $reflectionFunction = new FunctionReflection(__NAMESPACE__ . '\\' . $functionName);
 

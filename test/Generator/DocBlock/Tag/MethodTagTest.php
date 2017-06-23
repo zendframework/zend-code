@@ -76,7 +76,7 @@ class MethodTagTest extends \PHPUnit_Framework_TestCase
             'isStatic' => true,
             'methodName' => 'method',
             'types' => ['string'],
-            'description' => 'description'
+            'description' => 'description',
         ]);
         $tagWithOptionsFromConstructor = new MethodTag('method', ['string'], 'description', true);
         $this->assertEquals($this->tag->generate(), $tagWithOptionsFromConstructor->generate());

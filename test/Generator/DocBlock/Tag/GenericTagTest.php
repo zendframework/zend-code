@@ -23,6 +23,7 @@ class GenericTagTest extends \PHPUnit_Framework_TestCase
      * @var GenericTag
      */
     protected $tag;
+
     /**
      * @var TagManager
      */

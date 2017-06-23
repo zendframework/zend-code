@@ -35,7 +35,6 @@ class DocBlockReflectionTest extends \PHPUnit_Framework_TestCase
         $expectedOutput = 'This is a long description for the docblock of this class, it should be longer '
             . 'than 3 lines. It indeed is longer than 3 lines now.';
 
-
         $this->assertEquals($expectedOutput, $classReflection->getDocBlock()->getLongDescription());
     }
 

@@ -9,15 +9,17 @@
 
 namespace ZendTest\Code\Scanner;
 
-use Zend\Code\Scanner\AnnotationScanner;
-use Zend\Code\NameInformation;
 use Zend\Code\Annotation\AnnotationManager;
 use Zend\Code\Annotation\Parser\GenericAnnotationParser;
+use Zend\Code\NameInformation;
+use Zend\Code\Scanner\AnnotationScanner;
 
 class AnnotationScannerTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @dataProvider scannerWorksDataProvider
+     * @dataProvider newLine
+     *
+     * @param string $newLine
      */
     public function testScannerWorks($newLine)
     {
@@ -25,14 +27,14 @@ class AnnotationScannerTest extends \PHPUnit_Framework_TestCase
         $parser = new GenericAnnotationParser();
         $parser->registerAnnotations([
             $foo = new TestAsset\Annotation\Foo(),
-            $bar = new TestAsset\Annotation\Bar()
+            $bar = new TestAsset\Annotation\Bar(),
         ]);
         $annotationManager->attach($parser);
 
         $docComment = '/**' . $newLine
             . ' * @Test\Foo(\'anything I want()' . $newLine
             . ' * to be\')' . $newLine
-            . ' * @Test\Bar' . $newLine . " */";
+            . ' * @Test\Bar' . $newLine . ' */';
 
         $nameInfo = new NameInformation();
         $nameInfo->addUse('ZendTest\Code\Scanner\TestAsset\Annotation', 'Test');
@@ -43,7 +45,7 @@ class AnnotationScannerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(get_class($bar), get_class($annotationScanner[1]));
     }
 
-    public function scannerWorksDataProvider()
+    public function newLine()
     {
         return [
             ["\n"],

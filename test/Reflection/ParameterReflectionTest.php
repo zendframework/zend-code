@@ -15,8 +15,8 @@ use ZendTest\Code\TestAsset\DocBlockOnlyHintsClass;
 use ZendTest\Code\TestAsset\InternalHintsClass;
 
 /**
- * @group      Zend_Reflection
- * @group      Zend_Reflection_Parameter
+ * @group Zend_Reflection
+ * @group Zend_Reflection_Parameter
  */
 class ParameterReflectionTest extends \PHPUnit_Framework_TestCase
 {
@@ -48,7 +48,10 @@ class ParameterReflectionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider paramTypeTestProvider
+     * @dataProvider paramType
+     *
+     * @param string $param
+     * @param string $type
      */
     public function testTypeReturn($param, $type)
     {
@@ -68,14 +71,14 @@ class ParameterReflectionTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('callable', $parameter->detectType());
     }
 
-    public function paramTypeTestProvider()
+    public function paramType()
     {
         return [
-            ['one','int'],
-            ['two','int'],
-            ['three','string'],
-            ['array','array'],
-            ['class','ZendTest\Code\Reflection\TestAsset\TestSampleClass']
+            ['one', 'int'],
+            ['two', 'int'],
+            ['three', 'string'],
+            ['array', 'array'],
+            ['class', 'ZendTest\Code\Reflection\TestAsset\TestSampleClass'],
         ];
     }
 
@@ -84,7 +87,7 @@ class ParameterReflectionTest extends \PHPUnit_Framework_TestCase
      *
      * @requires PHP 7.0
      *
-     * @dataProvider reflectionHintsProvider
+     * @dataProvider reflectionHints
      *
      * @param string $className
      * @param string $methodName
@@ -109,7 +112,7 @@ class ParameterReflectionTest extends \PHPUnit_Framework_TestCase
      *
      * @requires PHP 7.0
      *
-     * @dataProvider reflectionHintsProvider
+     * @dataProvider reflectionHints
      *
      * @param string $className
      * @param string $methodName
@@ -134,7 +137,7 @@ class ParameterReflectionTest extends \PHPUnit_Framework_TestCase
     /**
      * @return string[][]
      */
-    public function reflectionHintsProvider()
+    public function reflectionHints()
     {
         return [
             [InternalHintsClass::class, 'arrayParameter', 'foo', 'array'],
@@ -156,7 +159,7 @@ class ParameterReflectionTest extends \PHPUnit_Framework_TestCase
      *
      * @requires PHP 7.0
      *
-     * @dataProvider docBlockHintsProvider
+     * @dataProvider docBlockHints
      *
      * @param string $className
      * @param string $methodName
@@ -175,7 +178,7 @@ class ParameterReflectionTest extends \PHPUnit_Framework_TestCase
     /**
      * @group zendframework/zend-code#29
      *
-     * @dataProvider docBlockHintsProvider
+     * @dataProvider docBlockHints
      *
      * @param string $className
      * @param string $methodName
@@ -195,7 +198,7 @@ class ParameterReflectionTest extends \PHPUnit_Framework_TestCase
     /**
      * @return string[][]
      */
-    public function docBlockHintsProvider()
+    public function docBlockHints()
     {
         return [
             [DocBlockOnlyHintsClass::class, 'arrayParameter', 'foo', 'array'],

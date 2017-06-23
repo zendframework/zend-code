@@ -33,7 +33,7 @@ class DirectoryScanner implements ScannerInterface
     /**
      * @var array
      */
-    protected $classToFileScanner = null;
+    protected $classToFileScanner;
 
     /**
      * @param null|string|array $directory
@@ -62,7 +62,7 @@ class DirectoryScanner implements ScannerInterface
             $this->directories[] = $directory;
         } elseif (is_string($directory)) {
             $realDir = realpath($directory);
-            if (!$realDir || !is_dir($realDir)) {
+            if (! $realDir || ! is_dir($realDir)) {
                 throw new Exception\InvalidArgumentException(sprintf(
                     'Directory "%s" does not exist',
                     $realDir
@@ -141,7 +141,7 @@ class DirectoryScanner implements ScannerInterface
 
         $return = [];
         foreach ($this->fileScanners as $fileScanner) {
-            $return[] = ($returnFileScanners) ? $fileScanner : $fileScanner->getFile();
+            $return[] = $returnFileScanners ? $fileScanner : $fileScanner->getFile();
         }
 
         return $return;
@@ -197,7 +197,7 @@ class DirectoryScanner implements ScannerInterface
             $this->createClassToFileScannerCache();
         }
 
-        return (isset($this->classToFileScanner[$class]));
+        return isset($this->classToFileScanner[$class]);
     }
 
     /**
@@ -214,7 +214,7 @@ class DirectoryScanner implements ScannerInterface
             $this->createClassToFileScannerCache();
         }
 
-        if (!isset($this->classToFileScanner[$class])) {
+        if (! isset($this->classToFileScanner[$class])) {
             throw new Exception\InvalidArgumentException('Class not found.');
         }
 
@@ -222,7 +222,7 @@ class DirectoryScanner implements ScannerInterface
         $fs          = $this->fileScanners[$this->classToFileScanner[$class]];
         $returnClass = $fs->getClass($class);
 
-        if (($returnClass instanceof ClassScanner) && $returnDerivedScannerClass) {
+        if ($returnClass instanceof ClassScanner && $returnDerivedScannerClass) {
             return new DerivedClassScanner($returnClass, $this);
         }
 
@@ -241,6 +241,7 @@ class DirectoryScanner implements ScannerInterface
         }
 
         $this->classToFileScanner = [];
+
         /** @var FileScanner $fileScanner */
         foreach ($this->fileScanners as $fsIndex => $fileScanner) {
             $fsClasses = $fileScanner->getClassNames();

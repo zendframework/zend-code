@@ -20,7 +20,7 @@ class AbstractGeneratorTest extends \PHPUnit_Framework_TestCase
         $generator = $this->getMockForAbstractClass('Zend\Code\Generator\AbstractGenerator', [
             [
                 'indentation' => 'foo',
-            ]
+            ],
         ]);
 
         $this->assertInstanceOf('Zend\Code\Generator\GeneratorInterface', $generator);

@@ -13,8 +13,6 @@ use PHPUnit_Framework_TestCase as TestCase;
 use Zend\Code\Annotation;
 use Zend\Code\Scanner\FileScanner;
 use Zend\Stdlib\ErrorHandler;
-use ZendTest\Code\TestAsset\TraitWithSameMethods;
-use ZendTest\Code\TestAsset\TestClassWithTraitAliases;
 
 class ClassScannerTest extends TestCase
 {
@@ -229,8 +227,8 @@ class ClassScannerTest extends TestCase
     public function testClassScannerCanGetTraitMethodsInGetMethods()
     {
         //load files or test may fail due to autoload issues
-        require_once(__DIR__ . '/../TestAsset/TraitWithSameMethods.php');
-        require_once(__DIR__ . '/../TestAsset/BarTrait.php');
+        require_once __DIR__ . '/../TestAsset/TraitWithSameMethods.php';
+        require_once __DIR__ . '/../TestAsset/BarTrait.php';
 
         $file  = new FileScanner(__DIR__ . '/../TestAsset/TestClassWithTraitAliases.php');
 
@@ -249,7 +247,7 @@ class ClassScannerTest extends TestCase
         $this->assertEquals($class->getMethodNames(), array_keys($testMethods));
 
         foreach ($testMethods as $methodName => $testMethod) {
-            $this->assertTrue($class->hasMethod($methodName), "Cannot find method $methodName");
+            $this->assertTrue($class->hasMethod($methodName), sprintf('Cannot find method %s', $methodName));
 
             $method = $class->getMethod($methodName);
             $this->assertInstanceOf('Zend\Code\Scanner\MethodScanner', $method, $methodName . ' not found.');
@@ -257,7 +255,7 @@ class ClassScannerTest extends TestCase
             $this->assertTrue($method->$testMethod());
 
             // test that we got the right ::bar method based on declaration
-            if ($testMethod === "bar") {
+            if ($testMethod === 'bar') {
                 $this->assertEquals(trim($method->getBody), 'echo "foo";');
             }
         }

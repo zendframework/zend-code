@@ -23,7 +23,7 @@ class CachingFileScanner extends FileScanner
     /**
      * @var null|FileScanner
      */
-    protected $fileScanner = null;
+    protected $fileScanner;
 
     /**
      * @param  string $file
@@ -32,7 +32,7 @@ class CachingFileScanner extends FileScanner
      */
     public function __construct($file, AnnotationManager $annotationManager = null)
     {
-        if (!file_exists($file)) {
+        if (! file_exists($file)) {
             throw new Exception\InvalidArgumentException(sprintf(
                 'File "%s" not found',
                 $file
@@ -41,9 +41,9 @@ class CachingFileScanner extends FileScanner
 
         $file = realpath($file);
 
-        $cacheId = md5($file) . '/' . ((isset($annotationManager)
+        $cacheId = md5($file) . '/' . (isset($annotationManager)
             ? spl_object_hash($annotationManager)
-            : 'no-annotation'));
+            : 'no-annotation');
 
         if (isset(static::$cache[$cacheId])) {
             $this->fileScanner = static::$cache[$cacheId];

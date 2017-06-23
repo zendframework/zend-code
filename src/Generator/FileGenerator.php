@@ -17,12 +17,12 @@ class FileGenerator extends AbstractGenerator
     /**
      * @var string
      */
-    protected $filename = null;
+    protected $filename;
 
     /**
      * @var DocBlockGenerator
      */
-    protected $docBlock = null;
+    protected $docBlock;
 
     /**
      * @var array
@@ -32,7 +32,7 @@ class FileGenerator extends AbstractGenerator
     /**
      * @var string
      */
-    protected $namespace = null;
+    protected $namespace;
 
     /**
      * @var array
@@ -47,7 +47,7 @@ class FileGenerator extends AbstractGenerator
     /**
      * @var string
      */
-    protected $body = null;
+    protected $body;
 
     /**
      * Passes $options to {@link setOptions()}.
@@ -113,7 +113,7 @@ class FileGenerator extends AbstractGenerator
             $file->setUses($uses);
         }
 
-        if (($fileReflection->getDocComment() != '')) {
+        if ($fileReflection->getDocComment() != '') {
             $docBlock = $fileReflection->getDocBlock();
             $file->setDocBlock(DocBlockGenerator::fromReflection($docBlock));
         }
@@ -127,7 +127,7 @@ class FileGenerator extends AbstractGenerator
      */
     public static function fromArray(array $values)
     {
-        $fileGenerator = new static;
+        $fileGenerator = new static();
         foreach ($values as $name => $value) {
             switch (strtolower(str_replace(['.', '-', '_'], '', $name))) {
                 case 'filename':
@@ -135,7 +135,7 @@ class FileGenerator extends AbstractGenerator
                     continue;
                 case 'class':
                     $fileGenerator->setClass(
-                        ($value instanceof ClassGenerator)
+                        $value instanceof ClassGenerator
                         ? $value
                         : ClassGenerator::fromArray($value)
                     );
@@ -168,7 +168,7 @@ class FileGenerator extends AbstractGenerator
 
         if (is_array($docBlock)) {
             $docBlock = new DocBlockGenerator($docBlock);
-        } elseif (!$docBlock instanceof DocBlockGenerator) {
+        } elseif (! $docBlock instanceof DocBlockGenerator) {
             throw new Exception\InvalidArgumentException(sprintf(
                 '%s is expecting either a string, array or an instance of %s\DocBlockGenerator',
                 __METHOD__,
@@ -281,7 +281,7 @@ class FileGenerator extends AbstractGenerator
      */
     public function setUse($use, $as = null)
     {
-        if (!in_array([$use, $as], $this->uses)) {
+        if (! in_array([$use, $as], $this->uses)) {
             $this->uses[] = [$use, $as];
         }
         return $this;
@@ -326,7 +326,7 @@ class FileGenerator extends AbstractGenerator
             $class = ClassGenerator::fromArray($class);
         } elseif (is_string($class)) {
             $class = new ClassGenerator($class);
-        } elseif (!$class instanceof ClassGenerator) {
+        } elseif (! $class instanceof ClassGenerator) {
             throw new Exception\InvalidArgumentException(sprintf(
                 '%s is expecting either a string, array or an instance of %s\ClassGenerator',
                 __METHOD__,
@@ -429,8 +429,7 @@ class FileGenerator extends AbstractGenerator
         if (preg_match('#/\* Zend_Code_Generator_Php_File-(.*?)Marker:#m', $body)) {
             $tokens = token_get_all($body);
             foreach ($tokens as $token) {
-                if (is_array($token) && in_array($token[0], [T_OPEN_TAG, T_COMMENT, T_DOC_COMMENT, T_WHITESPACE])
-                ) {
+                if (is_array($token) && in_array($token[0], [T_OPEN_TAG, T_COMMENT, T_DOC_COMMENT, T_WHITESPACE])) {
                     $output .= $token[1];
                 }
             }
@@ -472,7 +471,7 @@ class FileGenerator extends AbstractGenerator
         // process required files
         // @todo marker replacement for required files
         $requiredFiles = $this->getRequiredFiles();
-        if (!empty($requiredFiles)) {
+        if (! empty($requiredFiles)) {
             foreach ($requiredFiles as $requiredFile) {
                 $output .= 'require_once \'' . $requiredFile . '\';' . self::LINE_FEED;
             }
@@ -486,14 +485,14 @@ class FileGenerator extends AbstractGenerator
         foreach ($classes as $class) {
             //check for duplicate use statements
             $uses = $class->getUses();
-            if (!empty($uses) && is_array($uses)) {
+            if (! empty($uses) && is_array($uses)) {
                 $classUses = array_merge($classUses, $uses);
             }
         }
 
         // process import statements
         $uses = $this->getUses();
-        if (!empty($uses)) {
+        if (! empty($uses)) {
             $useOutput = '';
 
             foreach ($uses as $use) {
@@ -505,8 +504,8 @@ class FileGenerator extends AbstractGenerator
                 }
 
                 //don't duplicate use statements
-                if (!in_array($tempOutput, $classUses)) {
-                    $useOutput .= "use ". $tempOutput .";";
+                if (! in_array($tempOutput, $classUses)) {
+                    $useOutput .= 'use ' . $tempOutput . ';';
                     $useOutput .= self::LINE_FEED;
                 }
             }
@@ -525,7 +524,7 @@ class FileGenerator extends AbstractGenerator
         }
 
         // process classes
-        if (!empty($classes)) {
+        if (! empty($classes)) {
             foreach ($classes as $class) {
                 // @codingStandardsIgnoreStart
                 $regex = str_replace('&', $class->getName(), '/\* Zend_Code_Generator_Php_File-ClassMarker: \{[A-Za-z0-9\\\]+?&\} \*/');
@@ -541,9 +540,9 @@ class FileGenerator extends AbstractGenerator
             }
         }
 
-        if (!empty($body)) {
+        if (! empty($body)) {
             // add an extra space between classes and
-            if (!empty($classes)) {
+            if (! empty($classes)) {
                 $output .= self::LINE_FEED;
             }
 
@@ -559,7 +558,7 @@ class FileGenerator extends AbstractGenerator
      */
     public function write()
     {
-        if ($this->filename == '' || !is_writable(dirname($this->filename))) {
+        if ($this->filename == '' || ! is_writable(dirname($this->filename))) {
             throw new Exception\RuntimeException('This code generator object is not writable.');
         }
         file_put_contents($this->filename, $this->generate());

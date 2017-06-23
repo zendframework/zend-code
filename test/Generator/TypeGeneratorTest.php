@@ -28,12 +28,12 @@ class TypeGeneratorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider validTypeProvider
+     * @dataProvider validType
      *
      * @param string $typeString
      * @param string $expectedReturnType
      */
-    public function testFromValidTypeString(string $typeString, string $expectedReturnType)
+    public function testFromValidTypeString($typeString, $expectedReturnType)
     {
         $generator = TypeGenerator::fromTypeString($typeString);
 
@@ -41,12 +41,12 @@ class TypeGeneratorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider validTypeProvider
+     * @dataProvider validType
      *
      * @param string $typeString
      * @param string $expectedReturnType
      */
-    public function testStringCastFromValidTypeString(string $typeString, string $expectedReturnType)
+    public function testStringCastFromValidTypeString($typeString, $expectedReturnType)
     {
         $generator = TypeGenerator::fromTypeString($typeString);
 
@@ -54,12 +54,12 @@ class TypeGeneratorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider validClassNameProvider
+     * @dataProvider validClassName
      *
      * @param string $typeString
      * @param string $expectedReturnType
      */
-    public function testStripsPrefixingBackslashFromClassNames(string $typeString, string $expectedReturnType)
+    public function testStripsPrefixingBackslashFromClassNames($typeString, $expectedReturnType)
     {
         $generator = TypeGenerator::fromTypeString('\\' . $typeString);
 
@@ -68,11 +68,11 @@ class TypeGeneratorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider invalidTypeProvider
+     * @dataProvider invalidType
      *
      * @param string $typeString
      */
-    public function testRejectsInvalidTypeString(string $typeString)
+    public function testRejectsInvalidTypeString($typeString)
     {
         $this->setExpectedException(InvalidArgumentException::class);
 
@@ -82,7 +82,7 @@ class TypeGeneratorTest extends \PHPUnit_Framework_TestCase
     /**
      * @return string[][]
      */
-    public function validTypeProvider()
+    public function validType()
     {
         $valid = [
             ['foo', '\\foo'],
@@ -179,14 +179,14 @@ class TypeGeneratorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Valid class names - just the same as validTypeProvider, but with only those elements prefixed by '\\'
+     * Valid class names - just the same as validType, but with only those elements prefixed by '\\'
      *
      * @return string[][]
      */
-    public function validClassNameProvider()
+    public function validClassName()
     {
         return array_filter(
-            $this->validTypeProvider(),
+            $this->validType(),
             function (array $pair) {
                 return 0 === strpos($pair[1], '\\');
             }
@@ -196,7 +196,7 @@ class TypeGeneratorTest extends \PHPUnit_Framework_TestCase
     /**
      * @return string[][]
      */
-    public function invalidTypeProvider()
+    public function invalidType()
     {
         $invalid = [
             [''],

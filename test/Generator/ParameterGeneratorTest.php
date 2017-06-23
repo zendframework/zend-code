@@ -148,6 +148,7 @@ class ParameterGeneratorTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider dataFromReflectionGenerate
+     *
      * @param string $methodName
      * @param string $expectedCode
      */
@@ -176,12 +177,12 @@ class ParameterGeneratorTest extends \PHPUnit_Framework_TestCase
             ['defaultZero', '$number = 0'],
             ['defaultNumber', '$number = 1234'],
             ['defaultFloat', '$float = 1.34'],
-            ['defaultConstant', '$con = \'foo\'']
+            ['defaultConstant', '$con = \'foo\''],
         ];
     }
 
     /**
-     * @param  string                               $method
+     * @param string $method
      * @return \Zend\Code\Reflection\ParameterReflection
      */
     protected function getFirstReflectionParameter($method)
@@ -270,12 +271,12 @@ class ParameterGeneratorTest extends \PHPUnit_Framework_TestCase
      *
      * @requires PHP 7.0
      *
-     * @dataProvider simpleHintsProvider
+     * @dataProvider simpleHints
      *
      * @param string $type
      * @param string $expectedType
      */
-    public function testGeneratesSimpleHints(string $type, string $expectedType)
+    public function testGeneratesSimpleHints($type, $expectedType)
     {
         $parameter = new ParameterGenerator();
 
@@ -288,7 +289,7 @@ class ParameterGeneratorTest extends \PHPUnit_Framework_TestCase
     /**
      * @return string[][]
      */
-    public function simpleHintsProvider()
+    public function simpleHints()
     {
         return [
             ['callable', 'callable'],
@@ -317,11 +318,11 @@ class ParameterGeneratorTest extends \PHPUnit_Framework_TestCase
      *
      * @requires PHP 7.0
      *
-     * @dataProvider validClassNameProvider
+     * @dataProvider validClassName
      *
      * @param string $className
      */
-    public function testTypeHintWithValidClassName(string $className)
+    public function testTypeHintWithValidClassName($className)
     {
         $parameter = new ParameterGenerator();
 
@@ -334,7 +335,7 @@ class ParameterGeneratorTest extends \PHPUnit_Framework_TestCase
     /**
      * @return string[][]
      */
-    public function validClassNameProvider()
+    public function validClassName()
     {
         return [
             ['stdClass'],
@@ -363,7 +364,7 @@ class ParameterGeneratorTest extends \PHPUnit_Framework_TestCase
      *
      * @requires PHP 7.0
      *
-     * @dataProvider reflectionHintsProvider
+     * @dataProvider reflectionHints
      *
      * @param string      $className
      * @param string      $methodName
@@ -391,7 +392,7 @@ class ParameterGeneratorTest extends \PHPUnit_Framework_TestCase
      *
      * @requires PHP 7.0
      *
-     * @dataProvider reflectionHintsProvider
+     * @dataProvider reflectionHints
      *
      * @param string      $className
      * @param string      $methodName
@@ -417,7 +418,7 @@ class ParameterGeneratorTest extends \PHPUnit_Framework_TestCase
     /**
      * @return string[][]
      */
-    public function reflectionHintsProvider()
+    public function reflectionHints()
     {
         $parameters = [
             [InternalHintsClass::class, 'arrayParameter', 'foo', 'array'],
@@ -499,7 +500,7 @@ class ParameterGeneratorTest extends \PHPUnit_Framework_TestCase
      *
      * @requires PHP 7.0
      *
-     * @dataProvider variadicHintsProvider
+     * @dataProvider variadicHints
      *
      * @param string $className
      * @param string $methodName
@@ -507,10 +508,10 @@ class ParameterGeneratorTest extends \PHPUnit_Framework_TestCase
      * @param string $expectedGeneratedSignature
      */
     public function testVariadicArgumentFromReflection(
-        string $className,
-        string $methodName,
-        string $parameterName,
-        string $expectedGeneratedSignature
+        $className,
+        $methodName,
+        $parameterName,
+        $expectedGeneratedSignature
     ) {
         $parameter = ParameterGenerator::fromReflection(new ParameterReflection(
             [$className, $methodName],
@@ -524,7 +525,7 @@ class ParameterGeneratorTest extends \PHPUnit_Framework_TestCase
     /**
      * @return string[][]
      */
-    public function variadicHintsProvider()
+    public function variadicHints()
     {
         return [
             [VariadicParametersClass::class, 'firstVariadicParameter', 'foo', '... $foo'],
@@ -533,19 +534,19 @@ class ParameterGeneratorTest extends \PHPUnit_Framework_TestCase
                 VariadicParametersClass::class,
                 'typeHintedVariadicParameter',
                 'bar',
-                '\\' . VariadicParametersClass::class . ' ... $bar'
+                '\\' . VariadicParametersClass::class . ' ... $bar',
             ],
             [
                 VariadicParametersClass::class,
                 'byRefVariadic',
                 'bar',
-                '&... $bar'
+                '&... $bar',
             ],
             [
                 VariadicParametersClass::class,
                 'byRefTypeHintedVariadic',
                 'bar',
-                '\\' . VariadicParametersClass::class . ' &... $bar'
+                '\\' . VariadicParametersClass::class . ' &... $bar',
             ],
         ];
     }
@@ -554,11 +555,6 @@ class ParameterGeneratorTest extends \PHPUnit_Framework_TestCase
      * @group zendframework/zend-code#29
      *
      * @requires PHP 5.6
-     *
-     * @param string $className
-     * @param string $methodName
-     * @param string $parameterName
-     * @param string $expectedGeneratedSignature
      */
     public function testSetGetVariadic()
     {

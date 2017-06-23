@@ -23,6 +23,7 @@ class LicenseTagTest extends \PHPUnit_Framework_TestCase
      * @var LicenseTag
      */
     protected $tag;
+
     /**
      * @var TagManager
      */

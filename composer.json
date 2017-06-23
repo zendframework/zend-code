@@ -20,7 +20,7 @@
         "ext-phar": "*",
         "doctrine/annotations": "~1.0",
         "zendframework/zend-stdlib": "^2.7 || ^3.0",
-        "squizlabs/php_codesniffer": "^2.5",
+        "zendframework/zend-coding-standard": "dev-feature/sniffs",
         "phpunit/PHPUnit": "^4.8.21"
     },
     "suggest": {

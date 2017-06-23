@@ -14,7 +14,7 @@ class NameInformation
     /**
      * @var string
      */
-    protected $namespace = null;
+    protected $namespace;
 
     /**
      * @var array
@@ -58,7 +58,7 @@ class NameInformation
      */
     public function hasNamespace()
     {
-        return ($this->namespace !== null);
+        return $this->namespace !== null;
     }
 
     /**
@@ -128,11 +128,11 @@ class NameInformation
      */
     public function resolveName($name)
     {
-        if ($this->namespace && !$this->uses && strlen($name) > 0 && $name{0} != '\\') {
+        if ($this->namespace && ! $this->uses && strlen($name) > 0 && $name{0} != '\\') {
             return $this->namespace . '\\' . $name;
         }
 
-        if (!$this->uses || strlen($name) <= 0 || $name{0} == '\\') {
+        if (! $this->uses || strlen($name) <= 0 || $name{0} == '\\') {
             return ltrim($name, '\\');
         }
 

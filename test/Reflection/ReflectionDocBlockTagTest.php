@@ -55,7 +55,6 @@ class ReflectionDocBlockTagTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expectedString, (string) $tag);
     }
 
-
     public function testTypeParam()
     {
         $classReflection = new Reflection\ClassReflection('ZendTest\Code\Reflection\TestAsset\TestSampleClass5');
@@ -79,12 +78,10 @@ class ReflectionDocBlockTagTest extends \PHPUnit_Framework_TestCase
 
         $paramTag = $classReflection->getMethod('doSomething')->getDocBlock()->getTag('param');
 
-
         $this->assertEquals($paramTag->getType(), 'int', 'Second Match Failed');
         $this->assertEquals($paramTag->getVariableName(), '$var', 'Third Match Failed');
         $this->assertEquals($paramTag->getDescription(), 'Description of $var', 'Final Match Failed');
     }
-
 
     /**
      * @group ZF-8307
@@ -93,7 +90,6 @@ class ReflectionDocBlockTagTest extends \PHPUnit_Framework_TestCase
     {
         $classReflection = new Reflection\ClassReflection('ZendTest\Code\Reflection\TestAsset\TestSampleClass7');
         $paramTag        = $classReflection->getMethod('doSomething')->getDocBlock()->getTag('param');
-
 
         $this->assertEquals('Zend\Foo\Bar', $paramTag->getType());
         $this->assertEquals('$var', $paramTag->getVariableName());
@@ -117,7 +113,6 @@ class ReflectionDocBlockTagTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($paramTag->getType(), 'string', 'Second Match Failed');
         $this->assertEquals($paramTag->getDescription(), 'Description of return value', 'Final Match Failed');
     }
-
 
     /**
      * @group ZF-8307

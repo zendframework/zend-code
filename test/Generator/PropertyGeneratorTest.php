@@ -32,11 +32,11 @@ class PropertyGeneratorTest extends \PHPUnit_Framework_TestCase
     {
         return [
             ['string', 'foo', "'foo';"],
-            ['int', 1, "1;"],
-            ['integer', 1, "1;"],
-            ['bool', true, "true;"],
-            ['bool', false, "false;"],
-            ['boolean', true, "true;"],
+            ['int', 1, '1;'],
+            ['integer', 1, '1;'],
+            ['bool', true, 'true;'],
+            ['bool', false, 'false;'],
+            ['boolean', true, 'true;'],
             ['number', 1, '1;'],
             ['float', 1.23, '1.23;'],
             ['double', 1.23, '1.23;'],
@@ -47,6 +47,7 @@ class PropertyGeneratorTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider dataSetTypeSetValueGenerate
+     *
      * @param string $type
      * @param mixed $value
      * @param string $code
@@ -63,6 +64,7 @@ class PropertyGeneratorTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider dataSetTypeSetValueGenerate
+     *
      * @param string $type
      * @param mixed $value
      * @param string $code
@@ -74,7 +76,7 @@ class PropertyGeneratorTest extends \PHPUnit_Framework_TestCase
         }
 
         $defaultValue = new PropertyValueGenerator();
-        $defaultValue->setType("bogus");
+        $defaultValue->setType('bogus');
         $defaultValue->setValue($value);
 
         $this->assertEquals($code, $defaultValue->generate());
@@ -261,9 +263,9 @@ EOS;
         $this->assertEquals('var', $tag->getName());
     }
 
-
     /**
      * @dataProvider dataSetTypeSetValueGenerate
+     *
      * @param string $type
      * @param mixed $value
      * @param string $code

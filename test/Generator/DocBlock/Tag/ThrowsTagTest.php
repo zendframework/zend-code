@@ -23,6 +23,7 @@ class ThrowsTagTest extends \PHPUnit_Framework_TestCase
      * @var ThrowsTag
      */
     protected $tag;
+
     /**
      * @var TagManager
      */

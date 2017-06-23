@@ -19,12 +19,12 @@ class DocBlockGenerator extends AbstractGenerator
     /**
      * @var string
      */
-    protected $shortDescription = null;
+    protected $shortDescription;
 
     /**
      * @var string
      */
-    protected $longDescription = null;
+    protected $longDescription;
 
     /**
      * @var array
@@ -101,7 +101,7 @@ class DocBlockGenerator extends AbstractGenerator
 
     protected static function getTagManager()
     {
-        if (!isset(static::$tagManager)) {
+        if (! isset(static::$tagManager)) {
             static::$tagManager = new TagManager();
             static::$tagManager->initializeDefaultTags();
         }
@@ -187,7 +187,7 @@ class DocBlockGenerator extends AbstractGenerator
             $genericTag = new Tag();
             $genericTag->setOptions($tag);
             $tag = $genericTag;
-        } elseif (!$tag instanceof TagInterface) {
+        } elseif (! $tag instanceof TagInterface) {
             throw new Exception\InvalidArgumentException(sprintf(
                 '%s expects either an array of method options or an instance of %s\DocBlock\Tag\TagInterface',
                 __METHOD__,
@@ -230,7 +230,7 @@ class DocBlockGenerator extends AbstractGenerator
      */
     public function generate()
     {
-        if (!$this->isSourceDirty()) {
+        if (! $this->isSourceDirty()) {
             return $this->docCommentize(trim($this->getSourceContent()));
         }
 
@@ -263,7 +263,7 @@ class DocBlockGenerator extends AbstractGenerator
         foreach ($lines as $line) {
             $output .= $indent . ' *';
             if ($line) {
-                $output .= " $line";
+                $output .= ' ' . $line;
             }
             $output .= self::LINE_FEED;
         }

@@ -19,12 +19,12 @@ class ParamTag implements TagInterface, PhpDocTypedTagInterface
     /**
      * @var string
      */
-    protected $variableName = null;
+    protected $variableName;
 
     /**
      * @var string
      */
-    protected $description = null;
+    protected $description;
 
     /**
      * @return string
@@ -43,7 +43,7 @@ class ParamTag implements TagInterface, PhpDocTypedTagInterface
     {
         $matches = [];
 
-        if (!preg_match('#((?:[\w|\\\]+(?:\[\])*\|?)+)(?:\s+(\$\S+))?(?:\s+(.*))?#s', $tagDocBlockLine, $matches)) {
+        if (! preg_match('#((?:[\w|\\\]+(?:\[\])*\|?)+)(?:\s+(\$\S+))?(?:\s+(.*))?#s', $tagDocBlockLine, $matches)) {
             return;
         }
 
