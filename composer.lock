@@ -1093,16 +1093,16 @@
         },
         {
             "name": "squizlabs/php_codesniffer",
-            "version": "3.0.0",
+            "version": "3.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/squizlabs/PHP_CodeSniffer.git",
-                "reference": "b95ff2c3b122a3ee4b57d149a57d2afce65522c3"
+                "reference": "f9eaf037edf22fdfccf04cb0ab57ebcb1e166219"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/b95ff2c3b122a3ee4b57d149a57d2afce65522c3",
-                "reference": "b95ff2c3b122a3ee4b57d149a57d2afce65522c3",
+                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/f9eaf037edf22fdfccf04cb0ab57ebcb1e166219",
+                "reference": "f9eaf037edf22fdfccf04cb0ab57ebcb1e166219",
                 "shasum": ""
             },
             "require": {
@@ -1140,7 +1140,7 @@
                 "phpcs",
                 "standards"
             ],
-            "time": "2017-05-04T00:33:04+00:00"
+            "time": "2017-06-14T01:23:49+00:00"
         },
         {
             "name": "symfony/yaml",
@@ -1197,19 +1197,19 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/zendframework/zend-coding-standard.git",
-                "reference": "dfbdfb93fd9fb3904646459854a54be228525c2d"
+                "reference": "5127e4ff81e5be9b66d0e22dc711af739cea84bc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zendframework/zend-coding-standard/zipball/dfbdfb93fd9fb3904646459854a54be228525c2d",
-                "reference": "dfbdfb93fd9fb3904646459854a54be228525c2d",
+                "url": "https://api.github.com/repos/zendframework/zend-coding-standard/zipball/5127e4ff81e5be9b66d0e22dc711af739cea84bc",
+                "reference": "5127e4ff81e5be9b66d0e22dc711af739cea84bc",
                 "shasum": ""
             },
             "require": {
-                "squizlabs/php_codesniffer": "3.0.0"
+                "squizlabs/php_codesniffer": "3.0.1"
             },
             "require-dev": {
-                "phpunit/phpunit": "^6.2.1 || ^5.7.20"
+                "phpunit/phpunit": "^6.2.2 || ^5.7.20"
             },
             "type": "library",
             "autoload": {
@@ -1226,7 +1226,7 @@
                 "Coding Standard",
                 "zf"
             ],
-            "time": "2017-06-08T11:10:44+00:00"
+            "time": "2017-06-23T18:25:41+00:00"
         },
         {
             "name": "zendframework/zend-stdlib",
