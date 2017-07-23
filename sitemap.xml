@@ -3,8 +3,8 @@
 
     
     <url>
-     <loc>None/</loc>
-     <lastmod>2016-10-24</lastmod>
+     <loc>/</loc>
+     <lastmod>2017-07-23</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
@@ -12,20 +12,20 @@
     
         
     <url>
-     <loc>None/generator/intro/</loc>
-     <lastmod>2016-10-24</lastmod>
+     <loc>/generator/intro/</loc>
+     <lastmod>2017-07-23</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
-     <loc>None/generator/examples/</loc>
-     <lastmod>2016-10-24</lastmod>
+     <loc>/generator/examples/</loc>
+     <lastmod>2017-07-23</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
-     <loc>None/generator/reference/</loc>
-     <lastmod>2016-10-24</lastmod>
+     <loc>/generator/reference/</loc>
+     <lastmod>2017-07-23</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
@@ -33,8 +33,8 @@
 
     
     <url>
-     <loc>None/migration/</loc>
-     <lastmod>2016-10-24</lastmod>
+     <loc>/migration/</loc>
+     <lastmod>2017-07-23</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
