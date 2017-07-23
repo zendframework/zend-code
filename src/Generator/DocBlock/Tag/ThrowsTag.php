@@ -11,23 +11,15 @@ namespace Zend\Code\Generator\DocBlock\Tag;
 
 class ThrowsTag extends AbstractTypeableTag implements TagInterface
 {
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName() : string
     {
         return 'throws';
     }
 
-    /**
-     * @return string
-     */
-    public function generate()
+    public function generate() : string
     {
-        $output = '@throws'
+        return '@throws'
         . (! empty($this->types) ? ' ' . $this->getTypesAsString() : '')
         . (! empty($this->description) ? ' ' . $this->description : '');
-
-        return $output;
     }
 }

@@ -55,11 +55,8 @@ class DoctrineAnnotationParser implements ParserInterface
 
     /**
      * Set the DocParser instance
-     *
-     * @param  DocParser $docParser
-     * @return DoctrineAnnotationParser
      */
-    public function setDocParser(DocParser $docParser)
+    public function setDocParser(DocParser $docParser) : self
     {
         $this->docParser = $docParser;
         return $this;
@@ -69,10 +66,8 @@ class DoctrineAnnotationParser implements ParserInterface
      * Retrieve the DocParser instance
      *
      * If none is registered, lazy-loads a new instance.
-     *
-     * @return DocParser
      */
-    public function getDocParser()
+    public function getDocParser() : DocParser
     {
         if (! $this->docParser instanceof DocParser) {
             $this->setDocParser(new DocParser());
@@ -127,9 +122,8 @@ class DoctrineAnnotationParser implements ParserInterface
      * Specify an allowed annotation class
      *
      * @param  string $annotation
-     * @return DoctrineAnnotationParser
      */
-    public function registerAnnotation($annotation)
+    public function registerAnnotation($annotation) : self
     {
         $this->allowedAnnotations[$annotation] = true;
         return $this;
@@ -141,9 +135,8 @@ class DoctrineAnnotationParser implements ParserInterface
      * @param  array|Traversable $annotations Array or traversable object of
      *         annotation class names
      * @throws Exception\InvalidArgumentException
-     * @return DoctrineAnnotationParser
      */
-    public function registerAnnotations($annotations)
+    public function registerAnnotations($annotations) : self
     {
         if (! is_array($annotations) && ! $annotations instanceof Traversable) {
             throw new Exception\InvalidArgumentException(sprintf(

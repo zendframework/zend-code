@@ -24,20 +24,15 @@ class LicenseTag implements TagInterface
      */
     protected $licenseName;
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName() : string
     {
         return 'license';
     }
 
     /**
-     * Initializer
-     *
      * @param  string $tagDocblockLine
      */
-    public function initialize($tagDocblockLine)
+    public function initialize($tagDocblockLine) : void
     {
         $match = [];
 
@@ -54,23 +49,17 @@ class LicenseTag implements TagInterface
         }
     }
 
-    /**
-     * @return null|string
-     */
-    public function getUrl()
+    public function getUrl() : ?string
     {
         return $this->url;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getLicenseName()
+    public function getLicenseName() : ?string
     {
         return $this->licenseName;
     }
 
-    public function __toString()
+    public function __toString() : string
     {
         return 'DocBlock Tag [ * @' . $this->getName() . ' ]' . "\n";
     }

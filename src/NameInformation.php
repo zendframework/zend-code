@@ -48,37 +48,23 @@ class NameInformation
         }
     }
 
-    /**
-     * @param  string $namespace
-     * @return NameInformation
-     */
-    public function setNamespace($namespace)
+    public function setNamespace(string $namespace) : self
     {
-        $this->namespace = (string) $namespace;
+        $this->namespace = $namespace;
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getNamespace()
+    public function getNamespace() : ?string
     {
         return $this->namespace;
     }
 
-    /**
-     * @return bool
-     */
-    public function hasNamespace()
+    public function hasNamespace() : bool
     {
         return $this->namespace !== null;
     }
 
-    /**
-     * @param  array $uses
-     * @return NameInformation
-     */
-    public function setUses(array $uses)
+    public function setUses(array $uses) : self
     {
         $this->uses = [];
         $this->addUses($uses);
@@ -86,11 +72,7 @@ class NameInformation
         return $this;
     }
 
-    /**
-     * @param  array $uses
-     * @return NameInformation
-     */
-    public function addUses(array $uses)
+    public function addUses(array $uses) : self
     {
         foreach ($uses as $use => $as) {
             if (is_int($use)) {
@@ -105,9 +87,9 @@ class NameInformation
 
     /**
      * @param  array|string $use
-     * @param  string $as
+     * @param  string|null  $as
      */
-    public function addUse($use, $as = null)
+    public function addUse($use, ?string $as = null) : void
     {
         if (is_array($use) && array_key_exists('use', $use) && array_key_exists('as', $use)) {
             $uses = $use;
@@ -120,7 +102,7 @@ class NameInformation
             $as                  = trim($use, '\\');
             $nsSeparatorPosition = strrpos($as, '\\');
             if ($nsSeparatorPosition !== false && $nsSeparatorPosition !== 0 && $nsSeparatorPosition != strlen($as)) {
-                $as = substr($as, $nsSeparatorPosition + 1);
+                $as = (string) substr($as, $nsSeparatorPosition + 1);
             }
         }
 
@@ -130,16 +112,12 @@ class NameInformation
     /**
      * @return array
      */
-    public function getUses()
+    public function getUses() : array
     {
         return $this->uses;
     }
 
-    /**
-     * @param  string $name
-     * @return string
-     */
-    public function resolveName($name)
+    public function resolveName(string $name) : string
     {
         if ($this->namespace && ! $this->uses && strlen($name) > 0 && $name{0} != '\\') {
             return $this->namespace . '\\' . $name;

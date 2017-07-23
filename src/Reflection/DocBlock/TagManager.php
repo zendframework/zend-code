@@ -14,10 +14,7 @@ use Zend\Code\Reflection\DocBlock\Tag\TagInterface;
 
 class TagManager extends PrototypeClassFactory
 {
-    /**
-     * @return void
-     */
-    public function initializeDefaultTags()
+    public function initializeDefaultTags() : void
     {
         $this->addPrototype(new Tag\ParamTag());
         $this->addPrototype(new Tag\ReturnTag());
@@ -30,12 +27,7 @@ class TagManager extends PrototypeClassFactory
         $this->setGenericPrototype(new Tag\GenericTag());
     }
 
-    /**
-     * @param string $tagName
-     * @param string $content
-     * @return TagInterface
-     */
-    public function createTag($tagName, $content = null)
+    public function createTag(string $tagName, ?string $content = null) : Tag\TagInterface
     {
         /* @var TagInterface $newTag */
         $newTag = $this->getClonedPrototype($tagName);

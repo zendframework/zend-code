@@ -31,10 +31,4 @@ class AbstractGeneratorTest extends TestCase
         self::assertInstanceOf(GeneratorInterface::class, $generator);
         self::assertEquals('foo', $generator->getIndentation());
     }
-
-    public function testSetOptionsThrowsExceptionOnInvalidArgument()
-    {
-        $this->expectException(InvalidArgumentException::class);
-        $this->getMockForAbstractClass(AbstractGenerator::class, ['sss']);
-    }
 }

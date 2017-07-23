@@ -20,36 +20,19 @@ class ParameterReflection extends ReflectionParameter implements ReflectionInter
      */
     protected $isFromMethod = false;
 
-    /**
-     * Get declaring class reflection object
-     *
-     * @return ClassReflection
-     */
-    public function getDeclaringClass()
+    public function getDeclaringClass() : ClassReflection
     {
-        $phpReflection  = parent::getDeclaringClass();
-        $zendReflection = new ClassReflection($phpReflection->getName());
-        unset($phpReflection);
-
-        return $zendReflection;
+        return new ClassReflection(parent::getDeclaringClass()->getName());
     }
 
-    /**
-     * Get class reflection object
-     *
-     * @return void|ClassReflection
-     */
-    public function getClass()
+    public function getClass() : ?ClassReflection
     {
         $phpReflection = parent::getClass();
         if ($phpReflection === null) {
-            return;
+            return null;
         }
 
-        $zendReflection = new ClassReflection($phpReflection->getName());
-        unset($phpReflection);
-
-        return $zendReflection;
+        return new ClassReflection($phpReflection->getName());
     }
 
     /**
@@ -70,12 +53,7 @@ class ParameterReflection extends ReflectionParameter implements ReflectionInter
         return $zendReflection;
     }
 
-    /**
-     * Get parameter type
-     *
-     * @return string|null
-     */
-    public function detectType()
+    public function detectType() : ?string
     {
         if (method_exists($this, 'getType')
             && ($type = $this->getType())
@@ -113,10 +91,7 @@ class ParameterReflection extends ReflectionParameter implements ReflectionInter
         return null;
     }
 
-    /**
-     * @return string
-     */
-    public function toString()
+    public function toString() : string
     {
         return parent::__toString();
     }
@@ -124,7 +99,7 @@ class ParameterReflection extends ReflectionParameter implements ReflectionInter
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString() : string
     {
         return parent::__toString();
     }

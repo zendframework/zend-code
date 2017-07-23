@@ -50,66 +50,43 @@ abstract class AbstractGenerator implements GeneratorInterface
         }
     }
 
-    /**
-     * @param  bool $isSourceDirty
-     * @return AbstractGenerator
-     */
-    public function setSourceDirty($isSourceDirty = true)
+    public function setSourceDirty(bool $isSourceDirty = true) : self
     {
-        $this->isSourceDirty = (bool) $isSourceDirty;
+        $this->isSourceDirty = $isSourceDirty;
         return $this;
     }
 
-    /**
-     * @return bool
-     */
-    public function isSourceDirty()
+    public function isSourceDirty() : bool
     {
         return $this->isSourceDirty;
     }
 
-    /**
-     * @param  string $indentation
-     * @return AbstractGenerator
-     */
-    public function setIndentation($indentation)
+    public function setIndentation(string $indentation) : self
     {
-        $this->indentation = (string) $indentation;
+        $this->indentation = $indentation;
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getIndentation()
+    public function getIndentation() : string
     {
         return $this->indentation;
     }
 
-    /**
-     * @param  string $sourceContent
-     * @return AbstractGenerator
-     */
-    public function setSourceContent($sourceContent)
+    public function setSourceContent(?string $sourceContent) : self
     {
-        $this->sourceContent = (string) $sourceContent;
+        $this->sourceContent = $sourceContent;
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getSourceContent()
+    public function getSourceContent() : ?string
     {
         return $this->sourceContent;
     }
 
     /**
-     * @param  array|Traversable $options
      * @throws Exception\InvalidArgumentException
-     * @return AbstractGenerator
      */
-    public function setOptions($options)
+    public function setOptions(iterable $options) : self
     {
         if (! is_array($options) && ! $options instanceof Traversable) {
             throw new Exception\InvalidArgumentException(sprintf(

@@ -132,7 +132,6 @@ class ClassScanner implements ScannerInterface
     /**
      * @param  array $classTokens
      * @param  NameInformation|null $nameInformation
-     * @return ClassScanner
      */
     public function __construct(array $classTokens, NameInformation $nameInformation = null)
     {
@@ -144,7 +143,7 @@ class ClassScanner implements ScannerInterface
      * Get annotations
      *
      * @param  Annotation\AnnotationManager $annotationManager
-     * @return Annotation\AnnotationCollection
+     * @return Annotation\AnnotationCollection|bool
      */
     public function getAnnotations(Annotation\AnnotationManager $annotationManager)
     {
@@ -155,12 +154,7 @@ class ClassScanner implements ScannerInterface
         return new AnnotationScanner($annotationManager, $docComment, $this->nameInformation);
     }
 
-    /**
-     * Return documentation comment
-     *
-     * @return null|string
-     */
-    public function getDocComment()
+    public function getDocComment() : ?string
     {
         $this->scan();
 
@@ -170,7 +164,7 @@ class ClassScanner implements ScannerInterface
     /**
      * Return documentation block
      *
-     * @return false|DocBlockScanner
+     * @return bool|DocBlockScanner
      */
     public function getDocBlock()
     {
@@ -181,144 +175,79 @@ class ClassScanner implements ScannerInterface
         return new DocBlockScanner($docComment);
     }
 
-    /**
-     * Return a name of class
-     *
-     * @return null|string
-     */
-    public function getName()
+    public function getName() : ?string
     {
         $this->scan();
         return $this->name;
     }
 
-    /**
-     * Return short name of class
-     *
-     * @return null|string
-     */
-    public function getShortName()
+    public function getShortName() : ?string
     {
         $this->scan();
         return $this->shortName;
     }
 
-    /**
-     * Return number of first line
-     *
-     * @return int|null
-     */
-    public function getLineStart()
+    public function getLineStart() : ?int
     {
         $this->scan();
         return $this->lineStart;
     }
 
-    /**
-     * Return number of last line
-     *
-     * @return int|null
-     */
-    public function getLineEnd()
+    public function getLineEnd() : ?int
     {
         $this->scan();
         return $this->lineEnd;
     }
 
-    /**
-     * Verify if class is final
-     *
-     * @return bool
-     */
-    public function isFinal()
+    public function isFinal() : bool
     {
         $this->scan();
         return $this->isFinal;
     }
 
-    /**
-     * Verify if class is a trait
-     *
-     * @return bool
-     */
-    public function isTrait()
+    public function isTrait() : bool
     {
         $this->scan();
         return $this->isTrait;
     }
 
-    /**
-     * Verify if class is instantiable
-     *
-     * @return bool
-     */
-    public function isInstantiable()
+    public function isInstantiable() : bool
     {
         $this->scan();
         return ! $this->isAbstract && ! $this->isInterface && ! $this->isTrait;
     }
 
-    /**
-     * Verify if class is an abstract class
-     *
-     * @return bool
-     */
-    public function isAbstract()
+    public function isAbstract() : bool
     {
         $this->scan();
         return $this->isAbstract;
     }
 
-    /**
-     * Verify if class is an interface
-     *
-     * @return bool
-     */
-    public function isInterface()
+    public function isInterface() : bool
     {
         $this->scan();
         return $this->isInterface;
     }
 
-    /**
-     * Verify if class has parent
-     *
-     * @return bool
-     */
-    public function hasParentClass()
+    public function hasParentClass() : bool
     {
         $this->scan();
         return $this->parentClass !== null;
     }
 
-    /**
-     * Return a name of parent class
-     *
-     * @return null|string
-     */
-    public function getParentClass()
+    public function getParentClass() : ?string
     {
         $this->scan();
         return $this->parentClass;
     }
 
-    /**
-     * Return a list of interface names
-     *
-     * @return array
-     */
-    public function getInterfaces()
+    public function getInterfaces() : array
     {
         $this->scan();
         return $this->interfaces;
     }
 
-    /**
-     * Return a list of constant names
-     *
-     * @return array
-     */
-    public function getConstantNames()
+    public function getConstantNames() : array
     {
         $this->scan();
 
@@ -340,7 +269,7 @@ class ClassScanner implements ScannerInterface
      * @param  bool $namesOnly Set false to return instances of ConstantScanner
      * @return array|ConstantScanner[]
      */
-    public function getConstants($namesOnly = true)
+    public function getConstants(bool $namesOnly = true) : array
     {
         if (true === $namesOnly) {
             trigger_error('Use method getConstantNames() instead', E_USER_DEPRECATED);
@@ -405,13 +334,7 @@ class ClassScanner implements ScannerInterface
         return $p;
     }
 
-    /**
-     * Verify if class has constant
-     *
-     * @param  string $name
-     * @return bool
-     */
-    public function hasConstant($name)
+    public function hasConstant(string $name) : bool
     {
         $this->scan();
 
@@ -424,12 +347,7 @@ class ClassScanner implements ScannerInterface
         return false;
     }
 
-    /**
-     * Return a list of property names
-     *
-     * @return array
-     */
-    public function getPropertyNames()
+    public function getPropertyNames() : array
     {
         $this->scan();
 
@@ -450,7 +368,7 @@ class ClassScanner implements ScannerInterface
      *
      * @return PropertyScanner[]
      */
-    public function getProperties()
+    public function getProperties() : array
     {
         $this->scan();
 
@@ -510,13 +428,7 @@ class ClassScanner implements ScannerInterface
         return $p;
     }
 
-    /**
-     * Verify if class has property
-     *
-     * @param  string $name
-     * @return bool
-     */
-    public function hasProperty($name)
+    public function hasProperty(string $name) : bool
     {
         $this->scan();
 
@@ -534,7 +446,7 @@ class ClassScanner implements ScannerInterface
      *
      * @return ClassScanner[]
      */
-    public function getTraits()
+    public function getTraits() : array
     {
         if (! empty($this->traits)) {
             return $this->traits;
@@ -562,9 +474,9 @@ class ClassScanner implements ScannerInterface
     /**
      * Retrieve a list of trait names used by this class.
      *
-     * @return array
+     * @return string[]
      */
-    public function getTraitNames()
+    public function getTraitNames() : array
     {
         $this->scan();
 
@@ -591,9 +503,9 @@ class ClassScanner implements ScannerInterface
     /**
      * Retrieve a list of aliased traits used by the class.
      *
-     * @return array
+     * @return string[]
      */
-    public function getTraitAliases()
+    public function getTraitAliases() : array
     {
         $this->scan();
 
@@ -612,7 +524,7 @@ class ClassScanner implements ScannerInterface
                     }
 
                     // attempt to get fqcn
-                    list($trait, $method) = explode('::', $alias['original']);
+                    [$trait, $method] = explode('::', $alias['original']);
                     if ($this->nameInformation instanceof NameInformation) {
                         $trait = $this->nameInformation->resolveName($trait);
                     }
@@ -625,13 +537,7 @@ class ClassScanner implements ScannerInterface
         return $return;
     }
 
-    /**
-     * Retrieve visibility for a given alias.
-     *
-     * @param mixed $aliasName
-     * @return string
-     */
-    protected function getVisibilityForAlias($aliasName)
+    protected function getVisibilityForAlias(string $aliasName) : string
     {
         $this->scan();
 
@@ -662,10 +568,8 @@ class ClassScanner implements ScannerInterface
 
     /**
      * Return an array of key = trait to keep, value = trait::method to ignore
-     *
-     * @return array
      */
-    protected function getBlockedTraitMethods()
+    protected function getBlockedTraitMethods() : array
     {
         $this->scan();
 
@@ -684,7 +588,7 @@ class ClassScanner implements ScannerInterface
                     }
 
                     // attempt to get fqcn
-                    list($trait, $method) = explode('::', $alias['original']);
+                    [$trait, $method] = explode('::', $alias['original']);
                     if ($this->nameInformation instanceof NameInformation) {
                         $trait = $this->nameInformation->resolveName($alias['alias']);
                     }
@@ -699,10 +603,8 @@ class ClassScanner implements ScannerInterface
 
     /**
      * Return a list of method names
-     *
-     * @return array
      */
-    public function getMethodNames()
+    public function getMethodNames() : array
     {
         $this->scan();
 
@@ -720,7 +622,7 @@ class ClassScanner implements ScannerInterface
      *
      * @return MethodScanner[]
      */
-    public function getMethods()
+    public function getMethods() : array
     {
         $this->scan();
 
@@ -806,8 +708,8 @@ class ClassScanner implements ScannerInterface
      * Return a single method by given name or index of info
      *
      * @param  string|int $methodNameOrInfoIndex
+     * @return MethodScanner|bool
      * @throws Exception\InvalidArgumentException
-     * @return MethodScanner
      */
     public function getMethod($methodNameOrInfoIndex)
     {
@@ -833,13 +735,7 @@ class ClassScanner implements ScannerInterface
         return $returnMethod;
     }
 
-    /**
-     * Verify if class has method by given name
-     *
-     * @param  string $name
-     * @return bool
-     */
-    public function hasMethod($name)
+    public function hasMethod(string $name) : bool
     {
         $this->scan();
 
@@ -851,18 +747,15 @@ class ClassScanner implements ScannerInterface
         // @todo
     }
 
-    public function __toString()
+    public function __toString() : string
     {
         // @todo
     }
 
     /**
-     * Scan tokens
-     *
-     * @return void
      * @throws Exception\RuntimeException
      */
-    protected function scan()
+    protected function scan() : void
     {
         if ($this->isScanned) {
             return;
@@ -912,13 +805,13 @@ class ClassScanner implements ScannerInterface
             if (is_string($token)) {
                 $tokenType    = null;
                 $tokenContent = $token;
-                $tokenLine    = $tokenLine + substr_count(
+                $tokenLine   += substr_count(
                     $lastTokenArray[1],
                     "\n"
                 ); // adjust token line by last known newline count
             } else {
                 $lastTokenArray = $token;
-                list($tokenType, $tokenContent, $tokenLine) = $token;
+                [$tokenType, $tokenContent, $tokenLine] = $token;
             }
 
             return $tokenIndex;
@@ -1118,7 +1011,6 @@ class ClassScanner implements ScannerInterface
                     $isValidAlias   = array_merge($isOriginalName, $isAlias, $isVisibility, $isAliasType);
 
                     $useStatementIndex   = 0;
-                    $aliasStatementIndex = 0;
                     $useAliasContext     = false;
                     $useAsContext        = false;
 

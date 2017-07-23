@@ -27,10 +27,7 @@ use function ucfirst;
  */
 class TagManager extends PrototypeClassFactory
 {
-    /**
-     * @return void
-     */
-    public function initializeDefaultTags()
+    public function initializeDefaultTags() : void
     {
         $this->addPrototype(new Tag\ParamTag());
         $this->addPrototype(new Tag\ReturnTag());
@@ -43,11 +40,7 @@ class TagManager extends PrototypeClassFactory
         $this->setGenericPrototype(new Tag\GenericTag());
     }
 
-    /**
-     * @param ReflectionTagInterface $reflectionTag
-     * @return TagInterface
-     */
-    public function createTagFromReflection(ReflectionTagInterface $reflectionTag)
+    public function createTagFromReflection(ReflectionTagInterface $reflectionTag) : TagInterface
     {
         $tagName = $reflectionTag->getName();
 
@@ -57,12 +50,12 @@ class TagManager extends PrototypeClassFactory
         // transport any properties via accessors and mutators from reflection to codegen object
         $reflectionClass = new \ReflectionClass($reflectionTag);
         foreach ($reflectionClass->getMethods(\ReflectionMethod::IS_PUBLIC) as $method) {
-            if (substr($method->getName(), 0, 3) == 'get') {
+            if (0 === strpos($method->getName(), 'get')) {
                 $propertyName = substr($method->getName(), 3);
                 if (method_exists($newTag, 'set' . $propertyName)) {
                     $newTag->{'set' . $propertyName}($reflectionTag->{'get' . $propertyName}());
                 }
-            } elseif (substr($method->getName(), 0, 2) == 'is') {
+            } else if (0 === strpos($method->getName(), 'is')) {
                 $propertyName = ucfirst($method->getName());
                 if (method_exists($newTag, 'set' . $propertyName)) {
                     $newTag->{'set' . $propertyName}($reflectionTag->{$method->getName()}());

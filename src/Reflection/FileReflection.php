@@ -31,7 +31,7 @@ class FileReflection implements ReflectionInterface
     protected $filePath;
 
     /**
-     * @var string
+     * @var string|null
      */
     protected $docComment;
 
@@ -115,50 +115,38 @@ class FileReflection implements ReflectionInterface
      * @todo   What should this do?
      * @return void
      */
-    public static function export()
+    public static function export() : void
     {
     }
 
-    /**
-     * Return the file name of the reflected file
-     *
-     * @return string
-     */
-    public function getFileName()
+    public function getFileName() : string
     {
         return basename($this->filePath);
     }
 
     /**
      * Get the start line - Always 1, staying consistent with the Reflection API
-     *
-     * @return int
      */
-    public function getStartLine()
+    public function getStartLine() : int
     {
         return $this->startLine;
     }
 
     /**
      * Get the end line / number of lines
-     *
-     * @return int
      */
-    public function getEndLine()
+    public function getEndLine() : int
     {
         return $this->endLine;
     }
 
-    /**
-     * @return string
-     */
-    public function getDocComment()
+    public function getDocComment() : ?string
     {
         return $this->docComment;
     }
 
     /**
-     * @return DocBlockReflection
+     * @return DocBlockReflection|bool
      */
     public function getDocBlock()
     {
@@ -166,35 +154,23 @@ class FileReflection implements ReflectionInterface
             return false;
         }
 
-        $instance = new DocBlockReflection($docComment);
-
-        return $instance;
+        return new DocBlockReflection($docComment);
     }
 
     /**
      * @return string[]
      */
-    public function getNamespaces()
+    public function getNamespaces() : array
     {
         return $this->namespaces;
     }
 
-    /**
-     * @return void|string
-     */
-    public function getNamespace()
+    public function getNamespace() : ?string
     {
-        if (count($this->namespaces) == 0) {
-            return;
-        }
-
-        return $this->namespaces[0];
+        return $this->namespaces[0] ?? null;
     }
 
-    /**
-     * @return array
-     */
-    public function getUses()
+    public function getUses() : array
     {
         return $this->uses;
     }
@@ -204,14 +180,14 @@ class FileReflection implements ReflectionInterface
      *
      * @return ClassReflection[]
      */
-    public function getClasses()
+    public function getClasses() : array
     {
-        $classes = [];
-        foreach ($this->classes as $class) {
-            $classes[] = new ClassReflection($class);
-        }
-
-        return $classes;
+        return array_values(array_map(
+            function ($class) : ClassReflection {
+                return new ClassReflection($class);
+            },
+            $this->classes
+        ));
     }
 
     /**
@@ -219,14 +195,14 @@ class FileReflection implements ReflectionInterface
      *
      * @return FunctionReflection[]
      */
-    public function getFunctions()
+    public function getFunctions() : array
     {
-        $functions = [];
-        foreach ($this->functions as $function) {
-            $functions[] = new FunctionReflection($function);
-        }
-
-        return $functions;
+        return array_values(array_map(
+            function ($function) : FunctionReflection {
+                return new FunctionReflection($function);
+            },
+            $this->functions
+        ));
     }
 
     /**
@@ -236,7 +212,7 @@ class FileReflection implements ReflectionInterface
      * @return ClassReflection
      * @throws Exception\InvalidArgumentException for invalid class name or invalid reflection class
      */
-    public function getClass($name = null)
+    public function getClass($name = null) : ClassReflection
     {
         if (null === $name) {
             reset($this->classes);
@@ -257,15 +233,13 @@ class FileReflection implements ReflectionInterface
 
     /**
      * Return the full contents of file
-     *
-     * @return string
      */
-    public function getContents()
+    public function getContents() : string
     {
         return file_get_contents($this->filePath);
     }
 
-    public function toString()
+    public function toString() : string
     {
         return ''; // @todo
     }
@@ -278,7 +252,7 @@ class FileReflection implements ReflectionInterface
      * @todo   What should this serialization look like?
      * @return string
      */
-    public function __toString()
+    public function __toString() : string
     {
         return '';
     }
@@ -287,10 +261,8 @@ class FileReflection implements ReflectionInterface
      * This method does the work of "reflecting" the file
      *
      * Uses Zend\Code\Scanner\FileScanner to gather file information
-     *
-     * @return void
      */
-    protected function reflect()
+    protected function reflect() : void
     {
         $scanner             = new CachingFileScanner($this->filePath);
         $this->docComment    = $scanner->getDocComment();
@@ -304,23 +276,20 @@ class FileReflection implements ReflectionInterface
      * Validate / check a file level DocBlock
      *
      * @param  array $tokens Array of tokenizer tokens
-     * @return void
      */
-    protected function checkFileDocBlock($tokens)
+    protected function checkFileDocBlock(array $tokens) : void
     {
         foreach ($tokens as $token) {
-            $type    = $token[0];
-            $value   = $token[1];
-            $lineNum = $token[2];
+            [$type, $value, $lineNum] = $token;
+
             if (($type == T_OPEN_TAG) || ($type == T_WHITESPACE)) {
                 continue;
-            } elseif ($type == T_DOC_COMMENT) {
+            }
+
+            if ($type == T_DOC_COMMENT) {
                 $this->docComment = $value;
                 $this->startLine  = $lineNum + substr_count($value, "\n") + 1;
 
-                return;
-            } else {
-                // Only whitespace is allowed before file DocBlocks
                 return;
             }
         }

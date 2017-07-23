@@ -22,11 +22,8 @@ class InterfaceGenerator extends ClassGenerator
 
     /**
      * Build a Code Generation Php Object from a Class Reflection
-     *
-     * @param  ClassReflection $classReflection
-     * @return InterfaceGenerator
      */
-    public static function fromReflection(ClassReflection $classReflection)
+    public static function fromReflection(ClassReflection $classReflection) : parent
     {
         if (! $classReflection->isInterface()) {
             throw new Exception\InvalidArgumentException(sprintf(
@@ -81,10 +78,8 @@ class InterfaceGenerator extends ClassGenerator
      * @configkey methods
      *
      * @throws Exception\InvalidArgumentException
-     * @param  array $array
-     * @return InterfaceGenerator
      */
-    public static function fromArray(array $array)
+    public static function fromArray(array $array) : parent
     {
         if (! isset($array['name'])) {
             throw new Exception\InvalidArgumentException(
@@ -121,7 +116,7 @@ class InterfaceGenerator extends ClassGenerator
     /**
      * {@inheritDoc}
      */
-    public function addPropertyFromGenerator(PropertyGenerator $property)
+    public function addPropertyFromGenerator(PropertyGenerator $property) : parent
     {
         return $this;
     }
@@ -129,7 +124,7 @@ class InterfaceGenerator extends ClassGenerator
     /**
      * {@inheritDoc}
      */
-    public function addMethodFromGenerator(MethodGenerator $method)
+    public function addMethodFromGenerator(MethodGenerator $method) : parent
     {
         $method->setInterface(true);
 
@@ -139,7 +134,7 @@ class InterfaceGenerator extends ClassGenerator
     /**
      * {@inheritDoc}
      */
-    public function setExtendedClass($extendedClass)
+    public function setExtendedClass(?string $extendedClass) : parent
     {
         return $this;
     }
@@ -147,7 +142,7 @@ class InterfaceGenerator extends ClassGenerator
     /**
      * {@inheritDoc}
      */
-    public function setAbstract($isAbstract)
+    public function setAbstract(bool $isAbstract) : parent
     {
         return $this;
     }

@@ -36,91 +36,69 @@ class ParamTag extends AbstractTypeableTag implements TagInterface
     }
 
     /**
-     * @param ReflectionTagInterface $reflectionTag
-     * @return ReturnTag
      * @deprecated Deprecated in 2.3. Use TagManager::createTagFromReflection() instead
      */
-    public static function fromReflection(ReflectionTagInterface $reflectionTag)
+    public static function fromReflection(ReflectionTagInterface $reflectionTag) : self
     {
         $tagManager = new TagManager();
         $tagManager->initializeDefaultTags();
         return $tagManager->createTagFromReflection($reflectionTag);
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName() : string
     {
         return 'param';
     }
 
-    /**
-     * @param string $variableName
-     * @return ParamTag
-     */
-    public function setVariableName($variableName)
+    public function setVariableName(string $variableName) : self
     {
         $this->variableName = ltrim($variableName, '$');
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getVariableName()
+    public function getVariableName() : ?string
     {
         return $this->variableName;
     }
 
     /**
-     * @param string $datatype
-     * @return ReturnTag
+     * @param string|string[] $datatype
      * @deprecated Deprecated in 2.3. Use setTypes() instead
      */
-    public function setDatatype($datatype)
+    public function setDatatype($datatype) : self
     {
         return $this->setTypes($datatype);
     }
 
     /**
-     * @return string
      * @deprecated Deprecated in 2.3. Use getTypes() or getTypesAsString() instead
      */
-    public function getDatatype()
+    public function getDatatype() : string
     {
         return $this->getTypesAsString();
     }
 
     /**
-     * @param  string $paramName
-     * @return ParamTag
      * @deprecated Deprecated in 2.3. Use setVariableName() instead
      */
-    public function setParamName($paramName)
+    public function setParamName(string $paramName) : self
     {
         return $this->setVariableName($paramName);
     }
 
     /**
-     * @return string
      * @deprecated Deprecated in 2.3. Use getVariableName() instead
      */
-    public function getParamName()
+    public function getParamName() : ?string
     {
         return $this->getVariableName();
     }
 
-    /**
-     * @return string
-     */
-    public function generate()
+    public function generate() : string
     {
-        $output = '@param'
+        return '@param'
             . (! empty($this->types) ? ' ' . $this->getTypesAsString() : '')
             . (! empty($this->variableName) ? ' $' . $this->variableName : '')
             . (! empty($this->description) ? ' ' . $this->description : '');
-
-        return $output;
     }
 }

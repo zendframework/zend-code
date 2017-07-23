@@ -14,11 +14,6 @@ use Zend\Code\Exception;
 class AggregateDirectoryScanner extends DirectoryScanner
 {
     /**
-     * @var bool
-     */
-    protected $isScanned = false;
-
-    /**
      * @param  bool $returnScannerClass
      * @todo not implemented
      */
@@ -31,7 +26,7 @@ class AggregateDirectoryScanner extends DirectoryScanner
     {
     }
 
-    public function getClasses($returnScannerClass = false, $returnDerivedScannerClass = false)
+    public function getClasses(bool $returnScannerClass = false, bool $returnDerivedScannerClass = false) : array
     {
         $classes = [];
         foreach ($this->directories as $scanner) {
@@ -46,67 +41,54 @@ class AggregateDirectoryScanner extends DirectoryScanner
         return $classes;
     }
 
-    /**
-     * @param  string $class
-     * @return bool
-     */
-    public function hasClass($class)
+    public function hasClass(string $class) : bool
     {
         foreach ($this->directories as $scanner) {
             if ($scanner->hasClass($class)) {
-                break;
-            } else {
-                unset($scanner);
+                return true;
             }
         }
 
-        return isset($scanner);
+        return false;
     }
 
     /**
-     * @param  string $class
-     * @param  bool $returnScannerClass
-     * @param  bool $returnDerivedScannerClass
-     * @return ClassScanner|DerivedClassScanner
      * @throws Exception\RuntimeException
      */
-    public function getClass($class, $returnScannerClass = true, $returnDerivedScannerClass = false)
-    {
+    public function getClass(
+        string $class,
+        bool $returnScannerClass = true,
+        bool $returnDerivedScannerClass = false
+    ) : ClassScanner {
+        $classScanner = null;
+
         foreach ($this->directories as $scanner) {
             if ($scanner->hasClass($class)) {
-                break;
-            } else {
-                unset($scanner);
+                $classScanner = $scanner->getClass($class);
             }
         }
 
-        if (! isset($scanner)) {
+        if (! $classScanner) {
             throw new Exception\RuntimeException('Class by that name was not found.');
         }
-
-        $classScanner = $scanner->getClass($class);
 
         return new DerivedClassScanner($classScanner, $this);
     }
 
-    /**
-     * @param bool $returnScannerClass
-     */
-    public function getFunctions($returnScannerClass = false)
+    public function getFunctions(bool $returnScannerClass = false)
     {
         $this->scan();
 
         if (! $returnScannerClass) {
             $functions = [];
             foreach ($this->infos as $info) {
-                if ($info['type'] == 'function') {
+                if ($info['type'] === 'function') {
                     $functions[] = $info['name'];
                 }
             }
 
             return $functions;
         }
-        $scannerClass = new FunctionScanner();
         // @todo
     }
 }

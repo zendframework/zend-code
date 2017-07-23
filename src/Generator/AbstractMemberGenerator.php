@@ -52,116 +52,75 @@ abstract class AbstractMemberGenerator extends AbstractGenerator
 
     /**
      * @param  int|array $flags
-     * @return AbstractMemberGenerator
      */
-    public function setFlags($flags)
+    public function setFlags($flags) : self
     {
-        if (is_array($flags)) {
-            $flagsArray = $flags;
-            $flags      = 0x00;
-            foreach ($flagsArray as $flag) {
-                $flags |= $flag;
-            }
+        if (! is_array($flags)) {
+            $this->flags = $flags;
+
+            return $this;
         }
-        // check that visibility is one of three
-        $this->flags = $flags;
+
+        $this->flags = array_reduce($flags, function ($previousFlags, $flag) {
+            return $previousFlags | $flag;
+        }, 0x00);
 
         return $this;
     }
 
-    /**
-     * @param  int $flag
-     * @return AbstractMemberGenerator
-     */
-    public function addFlag($flag)
+    public function addFlag(int $flag) : self
     {
         $this->setFlags($this->flags | $flag);
         return $this;
     }
 
-    /**
-     * @param  int $flag
-     * @return AbstractMemberGenerator
-     */
-    public function removeFlag($flag)
+    public function removeFlag(int $flag) : self
     {
         $this->setFlags($this->flags & ~$flag);
         return $this;
     }
 
-    /**
-     * @param  bool $isAbstract
-     * @return AbstractMemberGenerator
-     */
-    public function setAbstract($isAbstract)
+    public function setAbstract(bool $isAbstract) : self
     {
         return $isAbstract ? $this->addFlag(self::FLAG_ABSTRACT) : $this->removeFlag(self::FLAG_ABSTRACT);
     }
 
-    /**
-     * @return bool
-     */
-    public function isAbstract()
+    public function isAbstract() : bool
     {
         return (bool) ($this->flags & self::FLAG_ABSTRACT);
     }
 
-    /**
-     * @param  bool $isInterface
-     * @return AbstractMemberGenerator
-     */
-    public function setInterface($isInterface)
+    public function setInterface(bool $isInterface) : self
     {
         return $isInterface ? $this->addFlag(self::FLAG_INTERFACE) : $this->removeFlag(self::FLAG_INTERFACE);
     }
 
-    /**
-     * @return bool
-     */
-    public function isInterface()
+    public function isInterface() : bool
     {
         return (bool) ($this->flags & self::FLAG_INTERFACE);
     }
 
-    /**
-     * @param  bool $isFinal
-     * @return AbstractMemberGenerator
-     */
-    public function setFinal($isFinal)
+    public function setFinal(bool $isFinal) : self
     {
         return $isFinal ? $this->addFlag(self::FLAG_FINAL) : $this->removeFlag(self::FLAG_FINAL);
     }
 
-    /**
-     * @return bool
-     */
-    public function isFinal()
+    public function isFinal() : bool
     {
         return (bool) ($this->flags & self::FLAG_FINAL);
     }
 
-    /**
-     * @param  bool $isStatic
-     * @return AbstractMemberGenerator
-     */
-    public function setStatic($isStatic)
+    public function setStatic(bool $isStatic) : self
     {
         return $isStatic ? $this->addFlag(self::FLAG_STATIC) : $this->removeFlag(self::FLAG_STATIC);
     }
 
-    /**
-     * @return bool
-     */
-    public function isStatic()
+    public function isStatic() : bool
     {
         return (bool) ($this->flags & self::FLAG_STATIC); // is FLAG_STATIC in flags
     }
 
-    /**
-     * @param  string $visibility
-     * @return AbstractMemberGenerator
-     */
-    public function setVisibility($visibility)
+    public function setVisibility(string $visibility) : self
     {
         switch ($visibility) {
             case self::VISIBILITY_PUBLIC:
@@ -181,10 +140,7 @@ abstract class AbstractMemberGenerator extends AbstractGenerator
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getVisibility()
+    public function getVisibility() : string
     {
         switch (true) {
             case $this->flags & self::FLAG_PROTECTED:
@@ -196,20 +152,13 @@ abstract class AbstractMemberGenerator extends AbstractGenerator
         }
     }
 
-    /**
-     * @param  string $name
-     * @return AbstractMemberGenerator
-     */
-    public function setName($name)
+    public function setName(string $name) : self
     {
-        $this->name = (string) $name;
+        $this->name = $name;
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName() : ?string
     {
         return $this->name;
     }
@@ -217,9 +166,8 @@ abstract class AbstractMemberGenerator extends AbstractGenerator
     /**
      * @param  DocBlockGenerator|string $docBlock
      * @throws Exception\InvalidArgumentException
-     * @return AbstractMemberGenerator
      */
-    public function setDocBlock($docBlock)
+    public function setDocBlock($docBlock) : self
     {
         if (is_string($docBlock)) {
             $docBlock = new DocBlockGenerator($docBlock);
@@ -236,10 +184,7 @@ abstract class AbstractMemberGenerator extends AbstractGenerator
         return $this;
     }
 
-    /**
-     * @return DocBlockGenerator
-     */
-    public function getDocBlock()
+    public function getDocBlock() : ?DocBlockGenerator
     {
         return $this->docBlock;
     }

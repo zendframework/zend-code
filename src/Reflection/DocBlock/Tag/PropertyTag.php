@@ -30,10 +30,7 @@ class PropertyTag implements TagInterface, PhpDocTypedTagInterface
      */
     protected $description;
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName() : string
     {
         return 'property';
     }
@@ -64,16 +61,11 @@ class PropertyTag implements TagInterface, PhpDocTypedTagInterface
     }
 
     /**
-     * @return void|string
      * @deprecated 2.0.4 use getTypes instead
      */
-    public function getType()
+    public function getType() : ?string
     {
-        if (empty($this->types)) {
-            return;
-        }
-
-        return $this->types[0];
+        return $this->types[0] ?? null;
     }
 
     public function getTypes()
@@ -81,23 +73,17 @@ class PropertyTag implements TagInterface, PhpDocTypedTagInterface
         return $this->types;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getPropertyName()
+    public function getPropertyName() : ?string
     {
         return $this->propertyName;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getDescription()
+    public function getDescription() : ?string
     {
         return $this->description;
     }
 
-    public function __toString()
+    public function __toString() : string
     {
         return 'DocBlock Tag [ * @' . $this->getName() . ' ]' . "\n";
     }

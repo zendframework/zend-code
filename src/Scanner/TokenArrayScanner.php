@@ -52,11 +52,7 @@ class TokenArrayScanner implements ScannerInterface
      */
     protected $annotationManager;
 
-    /**
-     * @param null|array $tokens
-     * @param null|AnnotationManager $annotationManager
-     */
-    public function __construct($tokens, AnnotationManager $annotationManager = null)
+    public function __construct(?array $tokens, ?AnnotationManager $annotationManager = null)
     {
         $this->tokens            = $tokens;
         $this->annotationManager = $annotationManager;
@@ -65,7 +61,7 @@ class TokenArrayScanner implements ScannerInterface
     /**
      * @return AnnotationManager
      */
-    public function getAnnotationManager()
+    public function getAnnotationManager() : ?AnnotationManager
     {
         return $this->annotationManager;
     }
@@ -75,31 +71,28 @@ class TokenArrayScanner implements ScannerInterface
      *
      * @todo Assignment of $this->docComment should probably be done in scan()
      *       and then $this->getDocComment() just retrieves it.
-     *
-     * @return string
      */
-    public function getDocComment()
+    public function getDocComment() : ?string
     {
-        foreach ($this->tokens as $token) {
-            $type    = $token[0];
-            $value   = $token[1];
+        foreach ($this->tokens as [$type, $value]) {
             if (($type == T_OPEN_TAG) || ($type == T_WHITESPACE)) {
                 continue;
-            } elseif ($type == T_DOC_COMMENT) {
+            }
+
+            if ($type == T_DOC_COMMENT) {
                 $this->docComment = $value;
 
                 return $this->docComment;
-            } else {
-                // Only whitespace is allowed before file docblocks
-                return;
             }
+
+            // Only whitespace is allowed before file docblocks
+            return null;
         }
+
+        return null;
     }
 
-    /**
-     * @return array
-     */
-    public function getNamespaces()
+    public function getNamespaces() : array
     {
         $this->scan();
 
@@ -113,30 +106,20 @@ class TokenArrayScanner implements ScannerInterface
         return $namespaces;
     }
 
-    /**
-     * @param  null|string $namespace
-     * @return array|null
-     */
-    public function getUses($namespace = null)
+    public function getUses(?string $namespace = null) : ?array
     {
         $this->scan();
 
         return $this->getUsesNoScan($namespace);
     }
 
-    /**
-     * @return void
-     */
     public function getIncludes()
     {
         $this->scan();
         // @todo Implement getIncludes() in TokenArrayScanner
     }
 
-    /**
-     * @return array
-     */
-    public function getClassNames()
+    public function getClassNames() : array
     {
         $this->scan();
 
@@ -155,7 +138,7 @@ class TokenArrayScanner implements ScannerInterface
     /**
      * @return ClassScanner[]
      */
-    public function getClasses()
+    public function getClasses() : array
     {
         $this->scan();
 
@@ -176,7 +159,7 @@ class TokenArrayScanner implements ScannerInterface
      *
      * @param  string|int $name
      * @throws Exception\InvalidArgumentException
-     * @return ClassScanner
+     * @return ClassScanner|bool
      */
     public function getClass($name)
     {
@@ -232,16 +215,13 @@ class TokenArrayScanner implements ScannerInterface
         }
 
         if (! isset($info)) {
-            return;
+            return null;
         }
 
         return new NameInformation($info['namespace'], $info['uses']);
     }
 
-    /**
-     * @return array
-     */
-    public function getFunctionNames()
+    public function getFunctionNames() : array
     {
         $this->scan();
         $functionNames = [];
@@ -254,21 +234,12 @@ class TokenArrayScanner implements ScannerInterface
         return $functionNames;
     }
 
-    /**
-     * @return array
-     */
-    public function getFunctions()
+    public function getFunctions() : array
     {
         $this->scan();
 
-        $functions = [];
-//        foreach ($this->infos as $info) {
-//            if ($info['type'] == 'function') {
-//                // @todo $functions[] = new FunctionScanner($info['name']);
-//            }
-//        }
-
-        return $functions;
+        // @TODO
+        return [];
     }
 
     /**
@@ -281,7 +252,7 @@ class TokenArrayScanner implements ScannerInterface
         // @todo
     }
 
-    public function __toString()
+    public function __toString() : string
     {
         // @todo
     }
@@ -346,7 +317,7 @@ class TokenArrayScanner implements ScannerInterface
             }
             $token = $tokens[$tokenIndex];
             if (is_array($token)) {
-                list($tokenType, $tokenContent, $tokenLine) = $token;
+                [$tokenType, $tokenContent, $tokenLine] = $token;
             } else {
                 $tokenType    = null;
                 $tokenContent = $token;
@@ -549,8 +520,6 @@ class TokenArrayScanner implements ScannerInterface
 
                 $infos[$infoIndex]['path'] .= $tokenContent;
 
-                SCANNER_INCLUDE_CONTINUE:
-
                 if ($MACRO_TOKEN_ADVANCE() === false) {
                     goto SCANNER_END;
                 }
@@ -614,8 +583,6 @@ class TokenArrayScanner implements ScannerInterface
                     }
                 }
 
-                SCANNER_CLASS_CONTINUE:
-
                 if ($MACRO_TOKEN_ADVANCE() === false) {
                     goto SCANNER_END;
                 }
@@ -643,13 +610,7 @@ class TokenArrayScanner implements ScannerInterface
         $this->isScanned = true;
     }
 
-    /**
-     * Check for namespace
-     *
-     * @param string $namespace
-     * @return bool
-     */
-    public function hasNamespace($namespace)
+    public function hasNamespace(string $namespace) : bool
     {
         $this->scan();
 
@@ -662,11 +623,9 @@ class TokenArrayScanner implements ScannerInterface
     }
 
     /**
-     * @param  string $namespace
-     * @return void|array
      * @throws Exception\InvalidArgumentException
      */
-    protected function getUsesNoScan($namespace)
+    protected function getUsesNoScan(?string $namespace) : ?array
     {
         $namespaces = [];
         foreach ($this->infos as $info) {
@@ -680,7 +639,7 @@ class TokenArrayScanner implements ScannerInterface
         } elseif (! is_string($namespace)) {
             throw new Exception\InvalidArgumentException('Invalid namespace provided');
         } elseif (! in_array($namespace, $namespaces)) {
-            return;
+            return null;
         }
 
         $uses = [];

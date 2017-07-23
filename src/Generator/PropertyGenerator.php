@@ -33,7 +33,7 @@ class PropertyGenerator extends AbstractMemberGenerator
      * @param  PropertyReflection $reflectionProperty
      * @return PropertyGenerator
      */
-    public static function fromReflection(PropertyReflection $reflectionProperty)
+    public static function fromReflection(PropertyReflection $reflectionProperty) : self
     {
         $property = new static();
 
@@ -80,7 +80,7 @@ class PropertyGenerator extends AbstractMemberGenerator
      * @param  array $array
      * @return PropertyGenerator
      */
-    public static function fromArray(array $array)
+    public static function fromArray(array $array) : self
     {
         if (! isset($array['name'])) {
             throw new Exception\InvalidArgumentException(
@@ -141,11 +141,7 @@ class PropertyGenerator extends AbstractMemberGenerator
         }
     }
 
-    /**
-     * @param  bool $const
-     * @return PropertyGenerator
-     */
-    public function setConst($const)
+    public function setConst(bool $const) : self
     {
         if ($const) {
             $this->removeFlag(self::FLAG_PUBLIC | self::FLAG_PRIVATE | self::FLAG_PROTECTED);
@@ -157,10 +153,7 @@ class PropertyGenerator extends AbstractMemberGenerator
         return $this;
     }
 
-    /**
-     * @return bool
-     */
-    public function isConst()
+    public function isConst() : bool
     {
         return (bool) ($this->flags & self::FLAG_CONSTANT);
     }
@@ -169,14 +162,12 @@ class PropertyGenerator extends AbstractMemberGenerator
      * @param PropertyValueGenerator|mixed $defaultValue
      * @param string                       $defaultValueType
      * @param string                       $defaultValueOutputMode
-     *
-     * @return PropertyGenerator
      */
     public function setDefaultValue(
         $defaultValue,
-        $defaultValueType = PropertyValueGenerator::TYPE_AUTO,
-        $defaultValueOutputMode = PropertyValueGenerator::OUTPUT_MULTIPLE_LINE
-    ) {
+        string $defaultValueType = PropertyValueGenerator::TYPE_AUTO,
+        string $defaultValueOutputMode = PropertyValueGenerator::OUTPUT_MULTIPLE_LINE
+    ) : self {
         if (! $defaultValue instanceof PropertyValueGenerator) {
             $defaultValue = new PropertyValueGenerator($defaultValue, $defaultValueType, $defaultValueOutputMode);
         }
@@ -186,19 +177,15 @@ class PropertyGenerator extends AbstractMemberGenerator
         return $this;
     }
 
-    /**
-     * @return PropertyValueGenerator
-     */
-    public function getDefaultValue()
+    public function getDefaultValue() : ?PropertyValueGenerator
     {
         return $this->defaultValue;
     }
 
     /**
      * @throws Exception\RuntimeException
-     * @return string
      */
-    public function generate()
+    public function generate() : string
     {
         $name         = $this->getName();
         $defaultValue = $this->getDefaultValue();

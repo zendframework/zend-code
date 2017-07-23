@@ -60,16 +60,12 @@ final class TypeGenerator implements GeneratorInterface
         . '(\\\\[a-zA-Z_\x80-\xff][a-zA-Z0-9_\x80-\xff]*)*$/';
 
     /**
-     * @param string $type
-     *
-     * @return TypeGenerator
-     *
      * @throws InvalidArgumentException
      */
-    public static function fromTypeString($type)
+    public static function fromTypeString(string $type) : self
     {
-        list($nullable, $trimmedNullable) = self::trimNullable($type);
-        list($wasTrimmed, $trimmedType) = self::trimType($trimmedNullable);
+        [$nullable, $trimmedNullable] = self::trimNullable($type);
+        [$wasTrimmed, $trimmedType] = self::trimType($trimmedNullable);
 
         if (! preg_match(self::$validIdentifierMatcher, $trimmedType)) {
             throw new InvalidArgumentException(sprintf(
@@ -108,7 +104,7 @@ final class TypeGenerator implements GeneratorInterface
     /**
      * {@inheritDoc}
      */
-    public function generate()
+    public function generate() : string
     {
         $nullable = $this->nullable ? '?' : '';
 
@@ -122,18 +118,16 @@ final class TypeGenerator implements GeneratorInterface
     /**
      * @return string the cleaned type string
      */
-    public function __toString()
+    public function __toString() : string
     {
         return ltrim($this->generate(), '?\\');
     }
 
     /**
-     * @param string $type
-     *
      * @return bool[]|string[] ordered tuple, first key represents whether the type is nullable, second is the
      *                         trimmed string
      */
-    private static function trimNullable($type)
+    private static function trimNullable(string $type) : array
     {
         if (0 === strpos($type, '?')) {
             return [true, substr($type, 1)];
@@ -143,12 +137,10 @@ final class TypeGenerator implements GeneratorInterface
     }
 
     /**
-     * @param string $type
-     *
      * @return bool[]|string[] ordered tuple, first key represents whether the values was trimmed, second is the
      *                         trimmed string
      */
-    private static function trimType($type)
+    private static function trimType(string $type) : array
     {
         if (0 === strpos($type, '\\')) {
             return [true, substr($type, 1)];
@@ -157,12 +149,7 @@ final class TypeGenerator implements GeneratorInterface
         return [false, $type];
     }
 
-    /**
-     * @param string $type
-     *
-     * @return bool
-     */
-    private static function isInternalPhpType($type)
+    private static function isInternalPhpType(string $type) : bool
     {
         return in_array(strtolower($type), self::$internalPhpTypes, true);
     }

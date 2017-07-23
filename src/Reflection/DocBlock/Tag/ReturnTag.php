@@ -26,19 +26,15 @@ class ReturnTag implements TagInterface, PhpDocTypedTagInterface
      */
     protected $description;
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName() : string
     {
         return 'return';
     }
 
     /**
      * @param  string $tagDocBlockLine
-     * @return void
      */
-    public function initialize($tagDocBlockLine)
+    public function initialize($tagDocBlockLine) : void
     {
         $matches = [];
         if (! preg_match('#((?:[\w|\\\]+(?:\[\])*\|?)+)(?:\s+(.*))?#s', $tagDocBlockLine, $matches)) {
@@ -53,10 +49,9 @@ class ReturnTag implements TagInterface, PhpDocTypedTagInterface
     }
 
     /**
-     * @return string
      * @deprecated 2.0.4 use getTypes instead
      */
-    public function getType()
+    public function getType() : string
     {
         if (empty($this->types)) {
             return '';
@@ -70,10 +65,7 @@ class ReturnTag implements TagInterface, PhpDocTypedTagInterface
         return $this->types;
     }
 
-    /**
-     * @return string
-     */
-    public function getDescription()
+    public function getDescription() : ?string
     {
         return $this->description;
     }

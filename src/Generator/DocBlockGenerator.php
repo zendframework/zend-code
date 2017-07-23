@@ -53,11 +53,8 @@ class DocBlockGenerator extends AbstractGenerator
 
     /**
      * Build a DocBlock generator object from a reflection object
-     *
-     * @param  DocBlockReflection $reflectionDocBlock
-     * @return DocBlockGenerator
      */
-    public static function fromReflection(DocBlockReflection $reflectionDocBlock)
+    public static function fromReflection(DocBlockReflection $reflectionDocBlock) : self
     {
         $docBlock = new static();
 
@@ -82,10 +79,8 @@ class DocBlockGenerator extends AbstractGenerator
      * @configkey tags             array
      *
      * @throws Exception\InvalidArgumentException
-     * @param  array $array
-     * @return DocBlockGenerator
      */
-    public static function fromArray(array $array)
+    public static function fromArray(array $array) : self
     {
         $docBlock = new static();
 
@@ -107,21 +102,16 @@ class DocBlockGenerator extends AbstractGenerator
         return $docBlock;
     }
 
-    protected static function getTagManager()
+    protected static function getTagManager() : TagManager
     {
-        if (! isset(static::$tagManager)) {
+        if (null === static::$tagManager) {
             static::$tagManager = new TagManager();
             static::$tagManager->initializeDefaultTags();
         }
         return static::$tagManager;
     }
 
-    /**
-     * @param  string $shortDescription
-     * @param  string $longDescription
-     * @param  array $tags
-     */
-    public function __construct($shortDescription = null, $longDescription = null, array $tags = [])
+    public function __construct(?string $shortDescription = null, ?string $longDescription = null, array $tags = [])
     {
         if ($shortDescription) {
             $this->setShortDescription($shortDescription);
@@ -134,47 +124,29 @@ class DocBlockGenerator extends AbstractGenerator
         }
     }
 
-    /**
-     * @param  string $shortDescription
-     * @return DocBlockGenerator
-     */
-    public function setShortDescription($shortDescription)
+    public function setShortDescription(string $shortDescription) : self
     {
         $this->shortDescription = $shortDescription;
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getShortDescription()
+    public function getShortDescription() : ?string
     {
         return $this->shortDescription;
     }
 
-    /**
-     * @param  string $longDescription
-     * @return DocBlockGenerator
-     */
-    public function setLongDescription($longDescription)
+    public function setLongDescription(string $longDescription) : self
     {
         $this->longDescription = $longDescription;
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getLongDescription()
+    public function getLongDescription() : ?string
     {
         return $this->longDescription;
     }
 
-    /**
-     * @param  array $tags
-     * @return DocBlockGenerator
-     */
-    public function setTags(array $tags)
+    public function setTags(array $tags) : self
     {
         foreach ($tags as $tag) {
             $this->setTag($tag);
@@ -186,9 +158,8 @@ class DocBlockGenerator extends AbstractGenerator
     /**
      * @param array|TagInterface $tag
      * @throws Exception\InvalidArgumentException
-     * @return DocBlockGenerator
      */
-    public function setTag($tag)
+    public function setTag($tag) : self
     {
         if (is_array($tag)) {
             // use deprecated Tag class for backward compatibility to old array-keys
@@ -210,33 +181,23 @@ class DocBlockGenerator extends AbstractGenerator
     /**
      * @return TagInterface[]
      */
-    public function getTags()
+    public function getTags() : array
     {
         return $this->tags;
     }
 
-    /**
-     * @param bool $value
-     * @return DocBlockGenerator
-     */
-    public function setWordWrap($value)
+    public function setWordWrap(bool $value) : self
     {
         $this->wordwrap = (bool) $value;
         return $this;
     }
 
-    /**
-     * @return bool
-     */
-    public function getWordWrap()
+    public function getWordWrap() : bool
     {
         return $this->wordwrap;
     }
 
-    /**
-     * @return string
-     */
-    public function generate()
+    public function generate() : string
     {
         if (! $this->isSourceDirty()) {
             return $this->docCommentize(trim($this->getSourceContent()));
@@ -258,11 +219,7 @@ class DocBlockGenerator extends AbstractGenerator
         return $this->docCommentize(trim($output));
     }
 
-    /**
-     * @param  string $content
-     * @return string
-     */
-    protected function docCommentize($content)
+    protected function docCommentize(string $content) : string
     {
         $indent  = $this->getIndentation();
         $output  = $indent . '/**' . self::LINE_FEED;

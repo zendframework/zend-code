@@ -37,12 +37,9 @@ class AnnotationManager implements EventManagerAwareInterface
     protected $events;
 
     /**
-     * Set the event manager instance
-     *
-     * @param  EventManagerInterface $events
-     * @return AnnotationManager
+     * {@inheritDoc}
      */
-    public function setEventManager(EventManagerInterface $events)
+    public function setEventManager(EventManagerInterface $events) : self
     {
         $events->setIdentifiers([
             __CLASS__,
@@ -54,13 +51,9 @@ class AnnotationManager implements EventManagerAwareInterface
     }
 
     /**
-     * Retrieve event manager
-     *
-     * Lazy loads an instance if none registered.
-     *
-     * @return EventManagerInterface
+     * {@inheritDoc}
      */
-    public function getEventManager()
+    public function getEventManager() : EventManagerInterface
     {
         if (null === $this->events) {
             $this->setEventManager(new EventManager());
@@ -71,11 +64,8 @@ class AnnotationManager implements EventManagerAwareInterface
 
     /**
      * Attach a parser to listen to the createAnnotation event
-     *
-     * @param  ParserInterface $parser
-     * @return AnnotationManager
      */
-    public function attach(ParserInterface $parser)
+    public function attach(ParserInterface $parser) : self
     {
         $this->getEventManager()
              ->attach(self::EVENT_CREATE_ANNOTATION, [$parser, 'onCreateAnnotation']);

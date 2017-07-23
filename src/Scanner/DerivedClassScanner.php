@@ -67,83 +67,52 @@ class DerivedClassScanner extends ClassScanner
         }
     }
 
-    /**
-     * @return null|string
-     */
-    public function getName()
+    public function getName() : ?string
     {
         return $this->classScanner->getName();
     }
 
-    /**
-     * @return null|string
-     */
-    public function getShortName()
+    public function getShortName() : ?string
     {
         return $this->classScanner->getShortName();
     }
 
-    /**
-     * @return bool
-     */
-    public function isInstantiable()
+    public function isInstantiable() : bool
     {
         return $this->classScanner->isInstantiable();
     }
 
-    /**
-     * @return bool
-     */
-    public function isFinal()
+    public function isFinal() : bool
     {
         return $this->classScanner->isFinal();
     }
 
-    /**
-     * @return bool
-     */
-    public function isAbstract()
+    public function isAbstract() : bool
     {
         return $this->classScanner->isAbstract();
     }
 
-    /**
-     * @return bool
-     */
-    public function isInterface()
+    public function isInterface() : bool
     {
         return $this->classScanner->isInterface();
     }
 
-    /**
-     * @return array
-     */
-    public function getParentClasses()
+    public function getParentClasses() : array
     {
         return array_keys($this->parentClassScanners);
     }
 
-    /**
-     * @return bool
-     */
-    public function hasParentClass()
+    public function hasParentClass() : bool
     {
         return $this->classScanner->getParentClass() !== null;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getParentClass()
+    public function getParentClass() : ?string
     {
         return $this->classScanner->getParentClass();
     }
 
-    /**
-     * @param  bool $returnClassScanners
-     * @return array
-     */
-    public function getInterfaces($returnClassScanners = false)
+    public function getInterfaces(bool $returnClassScanners = false) : array
     {
         if ($returnClassScanners) {
             return $this->interfaceClassScanners;
@@ -157,12 +126,7 @@ class DerivedClassScanner extends ClassScanner
         return $interfaces;
     }
 
-    /**
-     * Return a list of constant names
-     *
-     * @return array
-     */
-    public function getConstantNames()
+    public function getConstantNames() : array
     {
         $constants = $this->classScanner->getConstantNames();
         foreach ($this->parentClassScanners as $pClassScanner) {
@@ -178,7 +142,7 @@ class DerivedClassScanner extends ClassScanner
      * @param  bool $namesOnly Set false to return instances of ConstantScanner
      * @return array|ConstantScanner[]
      */
-    public function getConstants($namesOnly = true)
+    public function getConstants(bool $namesOnly = true) : array
     {
         if (true === $namesOnly) {
             trigger_error('Use method getConstantNames() instead', E_USER_DEPRECATED);
@@ -225,7 +189,7 @@ class DerivedClassScanner extends ClassScanner
      * @param  string $name
      * @return bool
      */
-    public function hasConstant($name)
+    public function hasConstant(string $name) : bool
     {
         if ($this->classScanner->hasConstant($name)) {
             return true;
@@ -241,10 +205,8 @@ class DerivedClassScanner extends ClassScanner
 
     /**
      * Return a list of property names
-     *
-     * @return array
      */
-    public function getPropertyNames()
+    public function getPropertyNames() : array
     {
         $properties = $this->classScanner->getPropertyNames();
         foreach ($this->parentClassScanners as $pClassScanner) {
@@ -254,11 +216,7 @@ class DerivedClassScanner extends ClassScanner
         return $properties;
     }
 
-    /**
-     * @param  bool $returnScannerProperty
-     * @return array
-     */
-    public function getProperties($returnScannerProperty = false)
+    public function getProperties(bool $returnScannerProperty = false) : array
     {
         $properties = $this->classScanner->getProperties($returnScannerProperty);
         foreach ($this->parentClassScanners as $pClassScanner) {
@@ -294,13 +252,7 @@ class DerivedClassScanner extends ClassScanner
         ));
     }
 
-    /**
-     * Verify if class or parent class has property
-     *
-     * @param  string $name
-     * @return bool
-     */
-    public function hasProperty($name)
+    public function hasProperty(string $name) : bool
     {
         if ($this->classScanner->hasProperty($name)) {
             return true;
@@ -314,10 +266,7 @@ class DerivedClassScanner extends ClassScanner
         return false;
     }
 
-    /**
-     * @return array
-     */
-    public function getMethodNames()
+    public function getMethodNames() : array
     {
         $methods = $this->classScanner->getMethodNames();
         foreach ($this->parentClassScanners as $pClassScanner) {
@@ -330,9 +279,10 @@ class DerivedClassScanner extends ClassScanner
     /**
      * @return MethodScanner[]
      */
-    public function getMethods()
+    public function getMethods() : array
     {
         $methods = $this->classScanner->getMethods();
+
         foreach ($this->parentClassScanners as $pClassScanner) {
             $methods = array_merge($methods, $pClassScanner->getMethods());
         }
@@ -341,9 +291,7 @@ class DerivedClassScanner extends ClassScanner
     }
 
     /**
-     * @param  int|string $methodNameOrInfoIndex
-     * @return MethodScanner
-     * @throws Exception\InvalidArgumentException
+     * {@inheritDoc}
      */
     public function getMethod($methodNameOrInfoIndex)
     {
@@ -364,13 +312,7 @@ class DerivedClassScanner extends ClassScanner
         ));
     }
 
-    /**
-     * Verify if class or parent class has method by given name
-     *
-     * @param  string $name
-     * @return bool
-     */
-    public function hasMethod($name)
+    public function hasMethod(string $name) : bool
     {
         if ($this->classScanner->hasMethod($name)) {
             return true;

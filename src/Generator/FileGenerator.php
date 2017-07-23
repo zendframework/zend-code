@@ -88,25 +88,17 @@ class FileGenerator extends AbstractGenerator
      * Use this if you intend on generating code generation objects based on the same file.
      * This will keep previous changes to the file in tact during the same PHP process
      *
-     * @param  string $filePath
-     * @param  bool $includeIfNotAlreadyIncluded
      * @throws ReflectionException\InvalidArgumentException If file does not exists
      * @throws ReflectionException\RuntimeException If file exists but is not included or required
-     * @return FileGenerator
      */
-    public static function fromReflectedFileName($filePath, $includeIfNotAlreadyIncluded = true)
+    public static function fromReflectedFileName(string $filePath, bool $includeIfNotAlreadyIncluded = true) : self
     {
         $fileReflector = new FileReflection($filePath, $includeIfNotAlreadyIncluded);
-        $codeGenerator = static::fromReflection($fileReflector);
 
-        return $codeGenerator;
+        return static::fromReflection($fileReflector);
     }
 
-    /**
-     * @param  FileReflection $fileReflection
-     * @return FileGenerator
-     */
-    public static function fromReflection(FileReflection $fileReflection)
+    public static function fromReflection(FileReflection $fileReflection) : self
     {
         $file = new static();
 
@@ -144,11 +136,7 @@ class FileGenerator extends AbstractGenerator
         return $file;
     }
 
-    /**
-     * @param  array $values
-     * @return FileGenerator
-     */
-    public static function fromArray(array $values)
+    public static function fromArray(array $values) : self
     {
         $fileGenerator = new static();
         foreach ($values as $name => $value) {
@@ -181,9 +169,8 @@ class FileGenerator extends AbstractGenerator
     /**
      * @param  DocBlockGenerator|array|string $docBlock
      * @throws Exception\InvalidArgumentException
-     * @return FileGenerator
      */
-    public function setDocBlock($docBlock)
+    public function setDocBlock($docBlock) : self
     {
         if (is_string($docBlock)) {
             $docBlock = ['shortDescription' => $docBlock];
@@ -203,47 +190,30 @@ class FileGenerator extends AbstractGenerator
         return $this;
     }
 
-    /**
-     * @return DocBlockGenerator
-     */
-    public function getDocBlock()
+    public function getDocBlock() : ?DocBlockGenerator
     {
         return $this->docBlock;
     }
 
-    /**
-     * @param  array $requiredFiles
-     * @return FileGenerator
-     */
-    public function setRequiredFiles(array $requiredFiles)
+    public function setRequiredFiles(array $requiredFiles) : self
     {
         $this->requiredFiles = $requiredFiles;
         return $this;
     }
 
-    /**
-     * @return array
-     */
-    public function getRequiredFiles()
+    public function getRequiredFiles() : array
     {
         return $this->requiredFiles;
     }
 
-    /**
-     * @return string
-     */
-    public function getNamespace()
+    public function getNamespace() : ?string
     {
         return $this->namespace;
     }
 
-    /**
-     * @param  string $namespace
-     * @return FileGenerator
-     */
-    public function setNamespace($namespace)
+    public function setNamespace(string $namespace) : self
     {
-        $this->namespace = (string) $namespace;
+        $this->namespace = $namespace;
         return $this;
     }
 
@@ -251,35 +221,31 @@ class FileGenerator extends AbstractGenerator
      * Returns an array with the first element the use statement, second is the as part.
      * If $withResolvedAs is set to true, there will be a third element that is the
      * "resolved" as statement, as the second part is not required in use statements
-     *
-     * @param  bool $withResolvedAs
-     * @return array
      */
-    public function getUses($withResolvedAs = false)
+    public function getUses(bool $withResolvedAs = false) : array
     {
+        if (! $withResolvedAs) {
+            return $this->uses;
+        }
+
         $uses = $this->uses;
-        if ($withResolvedAs) {
-            for ($useIndex = 0, $count = count($uses); $useIndex < $count; $useIndex++) {
-                if ($uses[$useIndex][1] == '') {
-                    if (($lastSeparator = strrpos($uses[$useIndex][0], '\\')) !== false) {
-                        $uses[$useIndex][2] = substr($uses[$useIndex][0], $lastSeparator + 1);
-                    } else {
-                        $uses[$useIndex][2] = $uses[$useIndex][0];
-                    }
+
+        foreach (array_keys($uses) as $useIndex) {
+            if ($uses[$useIndex][1] == '') {
+                if (($lastSeparator = strrpos($uses[$useIndex][0], '\\')) !== false) {
+                    $uses[$useIndex][2] = substr($uses[$useIndex][0], $lastSeparator + 1);
                 } else {
-                    $uses[$useIndex][2] = $uses[$useIndex][1];
+                    $uses[$useIndex][2] = $uses[$useIndex][0];
                 }
+            } else {
+                $uses[$useIndex][2] = $uses[$useIndex][1];
             }
         }
 
         return $uses;
     }
 
-    /**
-     * @param  array $uses
-     * @return FileGenerator
-     */
-    public function setUses(array $uses)
+    public function setUses(array $uses) : self
     {
         foreach ($uses as $use) {
             $use = (array) $use;
@@ -287,7 +253,7 @@ class FileGenerator extends AbstractGenerator
                 $import = $use['use'];
                 $alias  = $use['as'];
             } elseif (count($use) == 2) {
-                list($import, $alias) = $use;
+                [$import, $alias] = $use;
             } else {
                 $import = current($use);
                 $alias  = null;
@@ -297,12 +263,7 @@ class FileGenerator extends AbstractGenerator
         return $this;
     }
 
-    /**
-     * @param  string $use
-     * @param  null|string $as
-     * @return FileGenerator
-     */
-    public function setUse($use, $as = null)
+    public function setUse(string $use, ?string $as = null) : self
     {
         if (! in_array([$use, $as], $this->uses)) {
             $this->uses[] = [$use, $as];
@@ -310,11 +271,7 @@ class FileGenerator extends AbstractGenerator
         return $this;
     }
 
-    /**
-     * @param  array $classes
-     * @return FileGenerator
-     */
-    public function setClasses(array $classes)
+    public function setClasses(array $classes) : self
     {
         foreach ($classes as $class) {
             $this->setClass($class);
@@ -324,10 +281,10 @@ class FileGenerator extends AbstractGenerator
     }
 
     /**
-     * @param  string $name
-     * @return ClassGenerator
+     * @param  string|null $name
+     * @return ClassGenerator|bool
      */
-    public function getClass($name = null)
+    public function getClass(?string $name = null)
     {
         if ($name === null) {
             reset($this->classes);
@@ -341,9 +298,8 @@ class FileGenerator extends AbstractGenerator
     /**
      * @param  array|string|ClassGenerator $class
      * @throws Exception\InvalidArgumentException
-     * @return FileGenerator
      */
-    public function setClass($class)
+    public function setClass($class) : self
     {
         if (is_array($class)) {
             $class = ClassGenerator::fromArray($class);
@@ -364,20 +320,13 @@ class FileGenerator extends AbstractGenerator
         return $this;
     }
 
-    /**
-     * @param  string $filename
-     * @return FileGenerator
-     */
-    public function setFilename($filename)
+    public function setFilename(string $filename) : self
     {
-        $this->filename = (string) $filename;
+        $this->filename = $filename;
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getFilename()
+    public function getFilename() : string
     {
         return $this->filename;
     }
@@ -385,33 +334,23 @@ class FileGenerator extends AbstractGenerator
     /**
      * @return ClassGenerator[]
      */
-    public function getClasses()
+    public function getClasses() : array
     {
         return $this->classes;
     }
 
-    /**
-     * @param  string $body
-     * @return FileGenerator
-     */
-    public function setBody($body)
+    public function setBody(string $body) : self
     {
-        $this->body = (string) $body;
+        $this->body = $body;
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getBody()
+    public function getBody() : ?string
     {
         return $this->body;
     }
 
-    /**
-     * @return bool
-     */
-    public function isSourceDirty()
+    public function isSourceDirty() : bool
     {
         $docBlock = $this->getDocBlock();
         if ($docBlock && $docBlock->isSourceDirty()) {
@@ -427,10 +366,7 @@ class FileGenerator extends AbstractGenerator
         return parent::isSourceDirty();
     }
 
-    /**
-     * @return string
-     */
-    public function generate()
+    public function generate() : string
     {
         if ($this->isSourceDirty() === false) {
             return $this->sourceContent;
@@ -518,8 +454,7 @@ class FileGenerator extends AbstractGenerator
         if (! empty($uses)) {
             $useOutput = '';
 
-            foreach ($uses as $use) {
-                list($import, $alias) = $use;
+            foreach ($uses as [$import, $alias]) {
                 if (null === $alias) {
                     $tempOutput = sprintf('%s', $import);
                 } else {
@@ -576,10 +511,9 @@ class FileGenerator extends AbstractGenerator
     }
 
     /**
-     * @return FileGenerator
      * @throws Exception\RuntimeException
      */
-    public function write()
+    public function write() : self
     {
         if ($this->filename == '' || ! is_writable(dirname($this->filename))) {
             throw new Exception\RuntimeException('This code generator object is not writable.');

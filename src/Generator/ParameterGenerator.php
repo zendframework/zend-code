@@ -49,11 +49,7 @@ class ParameterGenerator extends AbstractGenerator
      */
     private $variadic = false;
 
-    /**
-     * @param  ParameterReflection $reflectionParameter
-     * @return ParameterGenerator
-     */
-    public static function fromReflection(ParameterReflection $reflectionParameter)
+    public static function fromReflection(ParameterReflection $reflectionParameter) : self
     {
         $param = new ParameterGenerator();
 
@@ -95,10 +91,8 @@ class ParameterGenerator extends AbstractGenerator
      * @configkey sourcecontent     string
      *
      * @throws Exception\InvalidArgumentException
-     * @param  array $array
-     * @return ParameterGenerator
      */
-    public static function fromArray(array $array)
+    public static function fromArray(array $array) : self
     {
         if (! isset($array['name'])) {
             throw new Exception\InvalidArgumentException(
@@ -145,11 +139,11 @@ class ParameterGenerator extends AbstractGenerator
      * @param  bool $passByReference
      */
     public function __construct(
-        $name = null,
-        $type = null,
+        ?string $name = null,
+        ?string $type = null,
         $defaultValue = null,
-        $position = null,
-        $passByReference = false
+        ?int $position = null,
+        bool $passByReference = false
     ) {
         if (null !== $name) {
             $this->setName($name);
@@ -168,41 +162,27 @@ class ParameterGenerator extends AbstractGenerator
         }
     }
 
-    /**
-     * @param  string $type
-     * @return ParameterGenerator
-     */
-    public function setType($type)
+    public function setType(string $type) : self
     {
         $this->type = TypeGenerator::fromTypeString($type);
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getType()
+    public function getType() : ?string
     {
         return $this->type
             ? (string) $this->type
             : null;
     }
 
-    /**
-     * @param  string $name
-     * @return ParameterGenerator
-     */
-    public function setName($name)
+    public function setName(string $name) : self
     {
         $this->name = (string) $name;
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName() : ?string
     {
         return $this->name;
     }
@@ -215,7 +195,7 @@ class ParameterGenerator extends AbstractGenerator
      * @param  null|bool|string|int|float|array|ValueGenerator $defaultValue
      * @return ParameterGenerator
      */
-    public function setDefaultValue($defaultValue)
+    public function setDefaultValue($defaultValue) : self
     {
         if (! $defaultValue instanceof ValueGenerator) {
             $defaultValue = new ValueGenerator($defaultValue);
@@ -225,74 +205,46 @@ class ParameterGenerator extends AbstractGenerator
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getDefaultValue()
+    public function getDefaultValue() : ?ValueGenerator
     {
         return $this->defaultValue;
     }
 
-    /**
-     * @param  int $position
-     * @return ParameterGenerator
-     */
-    public function setPosition($position)
+    public function setPosition(int $position) : self
     {
-        $this->position = (int) $position;
+        $this->position = $position;
         return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getPosition()
+    public function getPosition() : ?int
     {
         return $this->position;
     }
 
-    /**
-     * @return bool
-     */
-    public function getPassedByReference()
+    public function getPassedByReference() : bool
     {
         return $this->passedByReference;
     }
 
-    /**
-     * @param  bool $passedByReference
-     * @return ParameterGenerator
-     */
-    public function setPassedByReference($passedByReference)
+    public function setPassedByReference(bool $passedByReference) : self
     {
-        $this->passedByReference = (bool) $passedByReference;
+        $this->passedByReference = $passedByReference;
         return $this;
     }
 
-    /**
-     * @param bool $variadic
-     *
-     * @return ParameterGenerator
-     */
-    public function setVariadic($variadic)
+    public function setVariadic(bool $variadic) : self
     {
-        $this->variadic = (bool) $variadic;
+        $this->variadic = $variadic;
 
         return $this;
     }
 
-    /**
-     * @return bool
-     */
-    public function getVariadic()
+    public function getVariadic() : bool
     {
         return $this->variadic;
     }
 
-    /**
-     * @return string
-     */
-    public function generate()
+    public function generate() : string
     {
         $output = $this->generateTypeHint();
 
@@ -321,17 +273,8 @@ class ParameterGenerator extends AbstractGenerator
         return $output;
     }
 
-    /**
-     * @param ParameterReflection $reflectionParameter
-     *
-     * @return null|string
-     */
-    private static function extractFQCNTypeFromReflectionType(ParameterReflection $reflectionParameter)
+    private static function extractFQCNTypeFromReflectionType(ParameterReflection $reflectionParameter) : ?string
     {
-        if (! method_exists($reflectionParameter, 'getType')) {
-            return self::prePhp7ExtractFQCNTypeFromReflectionType($reflectionParameter);
-        }
-
         $type = method_exists($reflectionParameter, 'getType')
             ? $reflectionParameter->getType()
             : null;
@@ -349,37 +292,15 @@ class ParameterGenerator extends AbstractGenerator
     }
 
     /**
-     * For ancient PHP versions (yes, you should upgrade to 7.0):
-     *
-     * @param ParameterReflection $reflectionParameter
-     *
-     * @return string|null
-     */
-    private static function prePhp7ExtractFQCNTypeFromReflectionType(ParameterReflection $reflectionParameter)
-    {
-        if ($reflectionParameter->isCallable()) {
-            return 'callable';
-        }
-
-        if ($reflectionParameter->isArray()) {
-            return 'array';
-        }
-
-        if ($class = $reflectionParameter->getClass()) {
-            return $class->getName();
-        }
-
-        return null;
-    }
-
-    /**
      * @param string              $literalParameterType
      * @param ReflectionParameter $reflectionParameter
      *
      * @return string
      */
-    private static function expandLiteralParameterType($literalParameterType, ReflectionParameter $reflectionParameter)
-    {
+    private static function expandLiteralParameterType(
+        string $literalParameterType,
+        ReflectionParameter $reflectionParameter
+    ) : string {
         if ('self' === strtolower($literalParameterType)) {
             return $reflectionParameter->getDeclaringClass()->getName();
         }
@@ -391,10 +312,7 @@ class ParameterGenerator extends AbstractGenerator
         return $literalParameterType;
     }
 
-    /**
-     * @return string
-     */
-    private function generateTypeHint()
+    private function generateTypeHint() : string
     {
         if (null === $this->type) {
             return '';

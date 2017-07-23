@@ -105,9 +105,8 @@ class TraitGeneratorTest extends TestCase
     {
         $classGenerator = new TraitGenerator();
 
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Zend\Code\Generator\TraitGenerator::addProperty expects string for name');
-        $classGenerator->addProperty(true);
+        $this->expectException(\TypeError::class);
+        $classGenerator->addProperty(new \stdClass());
     }
 
     public function testMethodAccessors()
@@ -135,10 +134,9 @@ class TraitGeneratorTest extends TestCase
     {
         $classGenerator = new TraitGenerator();
 
-        $this->expectException(ExceptionInterface::class);
-        $this->expectExceptionMessage('Zend\Code\Generator\TraitGenerator::addMethod expects string for name');
+        $this->expectException(\TypeError::class);
 
-        $classGenerator->addMethod(true);
+        $classGenerator->addMethod(new \stdClass());
     }
 
     public function testSetMethodNameAlreadyExistsThrowsException()

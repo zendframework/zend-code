@@ -33,10 +33,9 @@ class Util
      * @param  string $value
      * @param  null|string $key
      * @param  \stdClass $data
-     * @return void
      * @throws Exception\InvalidArgumentException
      */
-    public static function resolveImports(&$value, $key = null, stdClass $data = null)
+    public static function resolveImports(&$value, $key = null, stdClass $data = null) : void
     {
         if (! is_object($data)
             || ! property_exists($data, 'uses')

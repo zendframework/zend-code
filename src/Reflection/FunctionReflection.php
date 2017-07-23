@@ -41,9 +41,8 @@ class FunctionReflection extends ReflectionFunction implements ReflectionInterfa
      * Get function DocBlock
      *
      * @throws Exception\InvalidArgumentException
-     * @return DocBlockReflection
      */
-    public function getDocBlock()
+    public function getDocBlock() : DocBlockReflection
     {
         if ('' == ($comment = $this->getDocComment())) {
             throw new Exception\InvalidArgumentException(sprintf(
@@ -52,18 +51,13 @@ class FunctionReflection extends ReflectionFunction implements ReflectionInterfa
             ));
         }
 
-        $instance = new DocBlockReflection($comment);
-
-        return $instance;
+        return new DocBlockReflection($comment);
     }
 
     /**
      * Get start line (position) of function
-     *
-     * @param  bool $includeDocComment
-     * @return int
      */
-    public function getStartLine($includeDocComment = false)
+    public function getStartLine(bool $includeDocComment = false) : int
     {
         if ($includeDocComment) {
             if ($this->getDocComment() != '') {
@@ -76,11 +70,8 @@ class FunctionReflection extends ReflectionFunction implements ReflectionInterfa
 
     /**
      * Get contents of function
-     *
-     * @param  bool   $includeDocBlock
-     * @return string
      */
-    public function getContents($includeDocBlock = true)
+    public function getContents(bool $includeDocBlock = true) : string
     {
         $fileName = $this->getFileName();
         if (false === $fileName) {
@@ -114,7 +105,7 @@ class FunctionReflection extends ReflectionFunction implements ReflectionInterfa
         } else {
             $name = substr($this->getName(), strrpos($this->getName(), '\\') + 1);
             preg_match(
-                '#function\s+' . preg_quote($name) . '\s*\([^\)]*\)\s*{([^{}]+({[^}]+})*[^}]+)?}#',
+                '#function\s+' . preg_quote($name, '#') . '\s*\([^\)]*\)\s*{([^{}]+({[^}]+})*[^}]+)?}#',
                 $functionLine,
                 $matches
             );
@@ -131,10 +122,9 @@ class FunctionReflection extends ReflectionFunction implements ReflectionInterfa
     /**
      * Get method prototype
      *
-     * @param string $format
-     * @return array
+     * @return array|string
      */
-    public function getPrototype($format = FunctionReflection::PROTOTYPE_AS_ARRAY)
+    public function getPrototype(string $format = FunctionReflection::PROTOTYPE_AS_ARRAY)
     {
         $returnType = 'mixed';
         $docBlock = $this->getDocBlock();
@@ -187,38 +177,32 @@ class FunctionReflection extends ReflectionFunction implements ReflectionInterfa
      *
      * @return ParameterReflection[]
      */
-    public function getParameters()
+    public function getParameters() : array
     {
-        $phpReflections  = parent::getParameters();
-        $zendReflections = [];
-        while ($phpReflections && ($phpReflection = array_shift($phpReflections))) {
-            $instance          = new ParameterReflection($this->getName(), $phpReflection->getName());
-            $zendReflections[] = $instance;
-            unset($phpReflection);
-        }
-        unset($phpReflections);
-
-        return $zendReflections;
+        return array_values(array_map(
+            function (\ReflectionParameter $phpReflection) : ParameterReflection {
+                return new ParameterReflection($this->getName(), $phpReflection->getName());
+            },
+            parent::getParameters()
+        ));
     }
 
     /**
      * Get return type tag
      *
      * @throws Exception\InvalidArgumentException
-     * @return DocBlockReflection
      */
-    public function getReturn()
+    public function getReturn() : DocBlockReflection
     {
         $docBlock = $this->getDocBlock();
+
         if (! $docBlock->hasTag('return')) {
             throw new Exception\InvalidArgumentException(
                 'Function does not specify an @return annotation tag; cannot determine return type'
             );
         }
 
-        $tag    = $docBlock->getTag('return');
-
-        return new DocBlockReflection('@return ' . $tag->getDescription());
+        return new DocBlockReflection('@return ' . $docBlock->getTag('return')->getDescription());
     }
 
     /**
@@ -270,21 +254,8 @@ class FunctionReflection extends ReflectionFunction implements ReflectionInterfa
         return $body;
     }
 
-    /**
-     * @return string
-     */
-    public function toString()
+    public function toString() : string
     {
         return $this->__toString();
-    }
-
-    /**
-     * Required due to bug in php
-     *
-     * @return string
-     */
-    public function __toString()
-    {
-        return parent::__toString();
     }
 }

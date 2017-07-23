@@ -71,7 +71,7 @@ class DocBlockScanner implements ScannerInterface
      * @param  string $docComment
      * @param null|NameInformation $nameInformation
      */
-    public function __construct($docComment, NameInformation $nameInformation = null)
+    public function __construct(string $docComment, ?NameInformation $nameInformation = null)
     {
         $this->docComment      = $docComment;
         $this->nameInformation = $nameInformation;
@@ -80,7 +80,7 @@ class DocBlockScanner implements ScannerInterface
     /**
      * @return string
      */
-    public function getShortDescription()
+    public function getShortDescription() : ?string
     {
         $this->scan();
 
@@ -90,7 +90,7 @@ class DocBlockScanner implements ScannerInterface
     /**
      * @return string
      */
-    public function getLongDescription()
+    public function getLongDescription() : ?string
     {
         $this->scan();
 
@@ -100,7 +100,7 @@ class DocBlockScanner implements ScannerInterface
     /**
      * @return array
      */
-    public function getTags()
+    public function getTags() : array
     {
         $this->scan();
 
@@ -110,7 +110,7 @@ class DocBlockScanner implements ScannerInterface
     /**
      * @return array
      */
-    public function getAnnotations()
+    public function getAnnotations() : array
     {
         $this->scan();
 
@@ -120,7 +120,7 @@ class DocBlockScanner implements ScannerInterface
     /**
      * @return void
      */
-    protected function scan()
+    protected function scan() : void
     {
         if ($this->isScanned) {
             return;
@@ -162,10 +162,10 @@ class DocBlockScanner implements ScannerInterface
                 }
                 //gotos no break needed
             case 'DOCBLOCK_TAG':
-                array_push($this->tags, [
+                $this->tags[] = [
                     'name'  => $token[1],
                     'value' => '',
-                ]);
+                ];
                 end($this->tags);
                 $tagIndex = key($this->tags);
                 $mode     = 3;
@@ -189,10 +189,7 @@ class DocBlockScanner implements ScannerInterface
         $this->isScanned        = true;
     }
 
-    /**
-     * @return array
-     */
-    protected function tokenize()
+    protected function tokenize() : array
     {
         static $CONTEXT_INSIDE_DOCBLOCK = 0x01;
         static $CONTEXT_INSIDE_ASTERISK = 0x02;
@@ -254,9 +251,6 @@ class DocBlockScanner implements ScannerInterface
         $MACRO_TOKEN_APPEND_WORD         = function () use (&$currentWord, &$tokens, &$tokenIndex) {
             $tokens[$tokenIndex][1] .= $currentWord;
         };
-        $MACRO_TOKEN_APPEND_WORD_PARTIAL = function ($length) use (&$currentWord, &$tokens, &$tokenIndex) {
-            $tokens[$tokenIndex][1] .= substr($currentWord, 0, $length);
-        };
         $MACRO_TOKEN_APPEND_LINE         = function () use (&$currentLine, &$tokens, &$tokenIndex) {
             $tokens[$tokenIndex][1] .= $currentLine;
         };
@@ -291,7 +285,7 @@ class DocBlockScanner implements ScannerInterface
 
         if ($currentChar === ' ' || $currentChar === "\t") {
             $MACRO_TOKEN_SET_TYPE(
-                $context & $CONTEXT_INSIDE_ASTERISK
+                ($context & $CONTEXT_INSIDE_ASTERISK)
                 ? 'DOCBLOCK_WHITESPACE'
                 : 'DOCBLOCK_WHITESPACE_INDENT'
             );

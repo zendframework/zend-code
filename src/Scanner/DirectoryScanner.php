@@ -62,10 +62,9 @@ class DirectoryScanner implements ScannerInterface
 
     /**
      * @param  DirectoryScanner|string $directory
-     * @return void
      * @throws Exception\InvalidArgumentException
      */
-    public function addDirectory($directory)
+    public function addDirectory($directory) : void
     {
         if ($directory instanceof DirectoryScanner) {
             $this->directories[] = $directory;
@@ -85,28 +84,17 @@ class DirectoryScanner implements ScannerInterface
         }
     }
 
-    /**
-     * @param  DirectoryScanner $directoryScanner
-     * @return void
-     */
-    public function addDirectoryScanner(DirectoryScanner $directoryScanner)
+    public function addDirectoryScanner(DirectoryScanner $directoryScanner) : void
     {
         $this->addDirectory($directoryScanner);
     }
 
-    /**
-     * @param  FileScanner $fileScanner
-     * @return void
-     */
-    public function addFileScanner(FileScanner $fileScanner)
+    public function addFileScanner(FileScanner $fileScanner) : void
     {
         $this->fileScanners[] = $fileScanner;
     }
 
-    /**
-     * @return void
-     */
-    protected function scan()
+    protected function scan() : void
     {
         if ($this->isScanned) {
             return;
@@ -140,11 +128,7 @@ class DirectoryScanner implements ScannerInterface
         // @todo
     }
 
-    /**
-     * @param  bool $returnFileScanners
-     * @return array
-     */
-    public function getFiles($returnFileScanners = false)
+    public function getFiles(bool $returnFileScanners = false) : array
     {
         $this->scan();
 
@@ -156,10 +140,7 @@ class DirectoryScanner implements ScannerInterface
         return $return;
     }
 
-    /**
-     * @return array
-     */
-    public function getClassNames()
+    public function getClassNames() : array
     {
         $this->scan();
 
@@ -170,11 +151,7 @@ class DirectoryScanner implements ScannerInterface
         return array_keys($this->classToFileScanner);
     }
 
-    /**
-     * @param  bool  $returnDerivedScannerClass
-     * @return array
-     */
-    public function getClasses($returnDerivedScannerClass = false)
+    public function getClasses(bool $returnDerivedScannerClass = false) : array
     {
         $this->scan();
 
@@ -194,11 +171,7 @@ class DirectoryScanner implements ScannerInterface
         return $returnClasses;
     }
 
-    /**
-     * @param  string $class
-     * @return bool
-     */
-    public function hasClass($class)
+    public function hasClass(string $class) : bool
     {
         $this->scan();
 
@@ -210,12 +183,9 @@ class DirectoryScanner implements ScannerInterface
     }
 
     /**
-     * @param  string $class
-     * @param  bool $returnDerivedScannerClass
-     * @return ClassScanner|DerivedClassScanner
      * @throws Exception\InvalidArgumentException
      */
-    public function getClass($class, $returnDerivedScannerClass = false)
+    public function getClass(string $class, bool $returnDerivedScannerClass = false) : ClassScanner
     {
         $this->scan();
 
@@ -243,7 +213,7 @@ class DirectoryScanner implements ScannerInterface
      *
      * @return void
      */
-    protected function createClassToFileScannerCache()
+    protected function createClassToFileScannerCache() : void
     {
         if ($this->classToFileScanner !== null) {
             return;
@@ -275,7 +245,7 @@ class DirectoryScanner implements ScannerInterface
      *
      * @todo implement method
      */
-    public function __toString()
+    public function __toString() : string
     {
         // @todo
     }

@@ -9,6 +9,6 @@
 
 namespace Zend\Code\Exception;
 
-interface ExceptionInterface
+interface ExceptionInterface extends \Throwable
 {
 }

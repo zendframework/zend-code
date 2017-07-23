@@ -31,10 +31,7 @@ class ParamTag implements TagInterface, PhpDocTypedTagInterface
      */
     protected $description;
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName() : string
     {
         return 'param';
     }
@@ -66,10 +63,9 @@ class ParamTag implements TagInterface, PhpDocTypedTagInterface
     /**
      * Get parameter variable type
      *
-     * @return string
      * @deprecated 2.0.4 use getTypes instead
      */
-    public function getType()
+    public function getType() : string
     {
         if (empty($this->types)) {
             return '';
@@ -83,20 +79,12 @@ class ParamTag implements TagInterface, PhpDocTypedTagInterface
         return $this->types;
     }
 
-    /**
-     * Get parameter name
-     *
-     * @return string
-     */
-    public function getVariableName()
+    public function getVariableName() : ?string
     {
         return $this->variableName;
     }
 
-    /**
-     * @return string
-     */
-    public function getDescription()
+    public function getDescription() : ?string
     {
         return $this->description;
     }

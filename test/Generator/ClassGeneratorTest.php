@@ -149,9 +149,8 @@ class ClassGeneratorTest extends TestCase
     {
         $classGenerator = new ClassGenerator();
 
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Zend\Code\Generator\ClassGenerator::addProperty expects string for name');
-        $classGenerator->addProperty(true);
+        $this->expectException(\TypeError::class);
+        $classGenerator->addProperty(new \stdClass());
     }
 
     public function testMethodAccessors()
@@ -179,10 +178,9 @@ class ClassGeneratorTest extends TestCase
     {
         $classGenerator = new ClassGenerator();
 
-        $this->expectException(ExceptionInterface::class);
-        $this->expectExceptionMessage('Zend\Code\Generator\ClassGenerator::addMethod expects string for name');
+        $this->expectException(\TypeError::class);
 
-        $classGenerator->addMethod(true);
+        $classGenerator->addMethod(new \stdClass());
     }
 
     public function testSetMethodNameAlreadyExistsThrowsException()
@@ -652,7 +650,7 @@ CODE;
     {
         $classGenerator = new ClassGenerator();
 
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(\TypeError::class);
         $classGenerator->addConstant([], 'value1');
     }
 

@@ -24,20 +24,15 @@ class AuthorTag implements TagInterface
      */
     protected $authorEmail;
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName() : string
     {
         return 'author';
     }
 
     /**
-     * Initializer
-     *
      * @param  string $tagDocblockLine
      */
-    public function initialize($tagDocblockLine)
+    public function initialize($tagDocblockLine) : void
     {
         $match = [];
 
@@ -54,23 +49,17 @@ class AuthorTag implements TagInterface
         }
     }
 
-    /**
-     * @return null|string
-     */
-    public function getAuthorName()
+    public function getAuthorName() : ?string
     {
         return $this->authorName;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getAuthorEmail()
+    public function getAuthorEmail() : ?string
     {
         return $this->authorEmail;
     }
 
-    public function __toString()
+    public function __toString() : string
     {
         return 'DocBlock Tag [ * @' . $this->getName() . ' ]' . "\n";
     }

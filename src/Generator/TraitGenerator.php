@@ -24,7 +24,7 @@ class TraitGenerator extends ClassGenerator
      * @param  ClassReflection $classReflection
      * @return TraitGenerator
      */
-    public static function fromReflection(ClassReflection $classReflection)
+    public static function fromReflection(ClassReflection $classReflection) : parent
     {
         // class generator
         $cg = new static($classReflection->getName());
@@ -77,7 +77,7 @@ class TraitGenerator extends ClassGenerator
      * @param  array $array
      * @return TraitGenerator
      */
-    public static function fromArray(array $array)
+    public static function fromArray(array $array) : parent
     {
         if (! isset($array['name'])) {
             throw new Exception\InvalidArgumentException(
@@ -111,65 +111,37 @@ class TraitGenerator extends ClassGenerator
         return $cg;
     }
 
-    /**
-     * @param  array|string $flags
-     * @return self
-     */
-    public function setFlags($flags)
+    public function setFlags($flags) : parent
     {
         return $this;
     }
 
-    /**
-     * @param  string $flag
-     * @return self
-     */
-    public function addFlag($flag)
+    public function addFlag($flag) : parent
     {
         return $this;
     }
 
-    /**
-     * @param  string $flag
-     * @return self
-     */
-    public function removeFlag($flag)
+    public function removeFlag($flag) : parent
     {
         return $this;
     }
 
-    /**
-     * @param  bool $isFinal
-     * @return self
-     */
-    public function setFinal($isFinal)
+    public function setFinal(bool $isFinal) : parent
     {
         return $this;
     }
 
-    /**
-     * @param  string $extendedClass
-     * @return self
-     */
-    public function setExtendedClass($extendedClass)
+    public function setExtendedClass(?string $extendedClass) : parent
     {
         return $this;
     }
 
-    /**
-     * @param  array $implementedInterfaces
-     * @return self
-     */
-    public function setImplementedInterfaces(array $implementedInterfaces)
+    public function setImplementedInterfaces(array $implementedInterfaces) : parent
     {
         return $this;
     }
 
-    /**
-     * @param  bool $isAbstract
-     * @return self
-     */
-    public function setAbstract($isAbstract)
+    public function setAbstract(bool $isAbstract) : parent
     {
         return $this;
     }

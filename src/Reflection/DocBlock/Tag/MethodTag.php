@@ -39,10 +39,7 @@ class MethodTag implements TagInterface, PhpDocTypedTagInterface
      */
     protected $isStatic = false;
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName() : string
     {
         return 'method';
     }
@@ -76,18 +73,11 @@ class MethodTag implements TagInterface, PhpDocTypedTagInterface
     }
 
     /**
-     * Get return value type
-     *
-     * @return void|string
      * @deprecated 2.0.4 use getTypes instead
      */
-    public function getReturnType()
+    public function getReturnType() : ?string
     {
-        if (empty($this->types)) {
-            return;
-        }
-
-        return $this->types[0];
+        return $this->types[0] ?? null;
     }
 
     public function getTypes()
@@ -95,31 +85,22 @@ class MethodTag implements TagInterface, PhpDocTypedTagInterface
         return $this->types;
     }
 
-    /**
-     * @return string
-     */
-    public function getMethodName()
+    public function getMethodName() : string
     {
         return $this->methodName;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getDescription()
+    public function getDescription() : ?string
     {
         return $this->description;
     }
 
-    /**
-     * @return bool
-     */
-    public function isStatic()
+    public function isStatic() : bool
     {
         return $this->isStatic;
     }
 
-    public function __toString()
+    public function __toString() : string
     {
         return 'DocBlock Tag [ * @' . $this->getName() . ' ]' . "\n";
     }

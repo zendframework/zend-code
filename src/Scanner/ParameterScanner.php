@@ -105,67 +105,32 @@ class ParameterScanner
         $this->nameInformation = $nameInformation;
     }
 
-    /**
-     * Set declaring class
-     *
-     * @param  string $class
-     * @return void
-     */
-    public function setDeclaringClass($class)
+    public function setDeclaringClass(string $class) : void
     {
-        $this->declaringClass = (string) $class;
+        $this->declaringClass = $class;
     }
 
-    /**
-     * Set declaring scanner class
-     *
-     * @param  ClassScanner $scannerClass
-     * @return void
-     */
-    public function setDeclaringScannerClass(ClassScanner $scannerClass)
+    public function setDeclaringScannerClass(ClassScanner $scannerClass) : void
     {
         $this->declaringScannerClass = $scannerClass;
     }
 
-    /**
-     * Set declaring function
-     *
-     * @param  string $function
-     * @return void
-     */
-    public function setDeclaringFunction($function)
+    public function setDeclaringFunction(string $function) : void
     {
         $this->declaringFunction = $function;
     }
 
-    /**
-     * Set declaring scanner function
-     *
-     * @param  MethodScanner $scannerFunction
-     * @return void
-     */
-    public function setDeclaringScannerFunction(MethodScanner $scannerFunction)
+    public function setDeclaringScannerFunction(MethodScanner $scannerFunction) : void
     {
         $this->declaringScannerFunction = $scannerFunction;
     }
 
-    /**
-     * Set position
-     *
-     * @param  int $position
-     * @return void
-     */
-    public function setPosition($position)
+    public function setPosition(int $position) : void
     {
         $this->position = $position;
     }
 
-    /**
-     * Scan
-     *
-     * @return void
-     */
-    protected function scan()
+    protected function scan() : void
     {
         if ($this->isScanned) {
             return;
@@ -221,136 +186,76 @@ class ParameterScanner
         $this->isScanned = true;
     }
 
-    /**
-     * Get declaring scanner class
-     *
-     * @return ClassScanner
-     */
-    public function getDeclaringScannerClass()
+    public function getDeclaringScannerClass() : ?ClassScanner
     {
         return $this->declaringScannerClass;
     }
 
-    /**
-     * Get declaring class
-     *
-     * @return string
-     */
-    public function getDeclaringClass()
+    public function getDeclaringClass() : ?string
     {
         return $this->declaringClass;
     }
 
-    /**
-     * Get declaring scanner function
-     *
-     * @return MethodScanner
-     */
-    public function getDeclaringScannerFunction()
+    public function getDeclaringScannerFunction() : ?MethodScanner
     {
         return $this->declaringScannerFunction;
     }
 
-    /**
-     * Get declaring function
-     *
-     * @return string
-     */
-    public function getDeclaringFunction()
+    public function getDeclaringFunction() : ?string
     {
         return $this->declaringFunction;
     }
 
-    /**
-     * Get default value
-     *
-     * @return string
-     */
-    public function getDefaultValue()
+    public function getDefaultValue() : ?string
     {
         $this->scan();
 
         return $this->defaultValue;
     }
 
-    /**
-     * Get class
-     *
-     * @return string
-     */
-    public function getClass()
+    public function getClass() : ?string
     {
         $this->scan();
 
         return $this->class;
     }
 
-    /**
-     * Get name
-     *
-     * @return string
-     */
-    public function getName()
+    public function getName() : ?string
     {
         $this->scan();
 
         return $this->name;
     }
 
-    /**
-     * Get position
-     *
-     * @return int
-     */
-    public function getPosition()
+    public function getPosition() : ?int
     {
         $this->scan();
 
         return $this->position;
     }
 
-    /**
-     * Check if is array
-     *
-     * @return bool
-     */
-    public function isArray()
+    public function isArray() : bool
     {
         $this->scan();
 
         return $this->isArray;
     }
 
-    /**
-     * Check if default value is available
-     *
-     * @return bool
-     */
-    public function isDefaultValueAvailable()
+    public function isDefaultValueAvailable() : bool
     {
         $this->scan();
 
         return $this->isDefaultValueAvailable;
     }
 
-    /**
-     * Check if is optional
-     *
-     * @return bool
-     */
-    public function isOptional()
+    public function isOptional() : bool
     {
         $this->scan();
 
         return $this->isOptional;
     }
 
-    /**
-     * Check if is passed by reference
-     *
-     * @return bool
-     */
-    public function isPassedByReference()
+    public function isPassedByReference() : bool
     {
         $this->scan();
 

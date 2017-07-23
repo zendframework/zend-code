@@ -41,70 +41,46 @@ class AuthorTag extends AbstractGenerator implements TagInterface
     }
 
     /**
-     * @param ReflectionTagInterface $reflectionTag
-     * @return ReturnTag
      * @deprecated Deprecated in 2.3. Use TagManager::createTagFromReflection() instead
      */
-    public static function fromReflection(ReflectionTagInterface $reflectionTag)
+    public static function fromReflection(ReflectionTagInterface $reflectionTag) : self
     {
         $tagManager = new TagManager();
         $tagManager->initializeDefaultTags();
         return $tagManager->createTagFromReflection($reflectionTag);
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName() : string
     {
         return 'author';
     }
 
-    /**
-     * @param string $authorEmail
-     * @return AuthorTag
-     */
-    public function setAuthorEmail($authorEmail)
+    public function setAuthorEmail(string $authorEmail) : self
     {
         $this->authorEmail = $authorEmail;
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getAuthorEmail()
+    public function getAuthorEmail() : ?string
     {
         return $this->authorEmail;
     }
 
-    /**
-     * @param string $authorName
-     * @return AuthorTag
-     */
-    public function setAuthorName($authorName)
+    public function setAuthorName(string $authorName) : self
     {
         $this->authorName = $authorName;
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getAuthorName()
+    public function getAuthorName() : ?string
     {
         return $this->authorName;
     }
 
-    /**
-     * @return string
-     */
-    public function generate()
+    public function generate() : string
     {
-        $output = '@author'
+        return '@author'
             . (! empty($this->authorName) ? ' ' . $this->authorName : '')
             . (! empty($this->authorEmail) ? ' <' . $this->authorEmail . '>' : '');
-
-        return $output;
     }
 }

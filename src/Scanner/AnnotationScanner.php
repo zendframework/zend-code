@@ -56,7 +56,6 @@ class AnnotationScanner extends AnnotationCollection implements ScannerInterface
      * @param  AnnotationManager $annotationManager
      * @param  string $docComment
      * @param  NameInformation $nameInformation
-     * @return AnnotationScanner
      */
     public function __construct(
         AnnotationManager $annotationManager,
@@ -69,18 +68,12 @@ class AnnotationScanner extends AnnotationCollection implements ScannerInterface
         $this->scan($this->tokenize());
     }
 
-    /**
-     * @param NameInformation $nameInformation
-     */
-    public function setNameInformation(NameInformation $nameInformation)
+    public function setNameInformation(NameInformation $nameInformation) : void
     {
         $this->nameInformation = $nameInformation;
     }
 
-    /**
-     * @param  array $tokens
-     */
-    protected function scan(array $tokens)
+    protected function scan(array $tokens) : void
     {
         $annotations     = [];
         $annotationIndex = -1;
@@ -141,10 +134,7 @@ class AnnotationScanner extends AnnotationCollection implements ScannerInterface
         }
     }
 
-    /**
-     * @return array
-     */
-    protected function tokenize()
+    protected function tokenize() : array
     {
         static $CONTEXT_DOCBLOCK = 0x01;
         static $CONTEXT_ASTERISK = 0x02;
@@ -317,7 +307,7 @@ class AnnotationScanner extends AnnotationCollection implements ScannerInterface
             goto TOKENIZER_TOP;
         }
 
-        if ($MACRO_HAS_CONTEXT($CONTEXT_DOCBLOCK) && $currentWord === '*/') {
+        if ($currentWord === '*/' && $MACRO_HAS_CONTEXT($CONTEXT_DOCBLOCK)) {
             $MACRO_TOKEN_SET_TYPE('ANNOTATION_COMMENTEND');
             $MACRO_TOKEN_APPEND_WORD();
             $MACRO_TOKEN_ADVANCE();
@@ -329,7 +319,7 @@ class AnnotationScanner extends AnnotationCollection implements ScannerInterface
         }
 
         if ($currentChar === '*') {
-            if ($MACRO_HAS_CONTEXT($CONTEXT_DOCBLOCK) && ($MACRO_HAS_CONTEXT($CONTEXT_ASTERISK))) {
+            if ($MACRO_HAS_CONTEXT($CONTEXT_DOCBLOCK) && $MACRO_HAS_CONTEXT($CONTEXT_ASTERISK)) {
                 $MACRO_TOKEN_SET_TYPE('ANNOTATION_IGNORE');
             } else {
                 $MACRO_TOKEN_SET_TYPE('ANNOTATION_ASTERISK');
@@ -352,8 +342,6 @@ class AnnotationScanner extends AnnotationCollection implements ScannerInterface
             }
             goto TOKENIZER_TOP;
         }
-
-        TOKENIZER_CONTINUE:
 
         if ($context && $CONTEXT_CONTENT) {
             $MACRO_TOKEN_APPEND_CHAR();

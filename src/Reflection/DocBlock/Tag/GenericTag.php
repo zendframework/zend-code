@@ -46,19 +46,13 @@ class GenericTag implements TagInterface, PrototypeGenericInterface
 
     /**
      * @param  string $tagDocBlockLine
-     * @return void
      */
-    public function initialize($tagDocBlockLine)
+    public function initialize($tagDocBlockLine) : void
     {
         $this->parse($tagDocBlockLine);
     }
 
-    /**
-     * Get annotation tag name
-     *
-     * @return string
-     */
-    public function getName()
+    public function getName() : string
     {
         return $this->name;
     }
@@ -71,19 +65,12 @@ class GenericTag implements TagInterface, PrototypeGenericInterface
         $this->name = $name;
     }
 
-    /**
-     * @return string
-     */
-    public function getContent()
+    public function getContent() : string
     {
         return $this->content;
     }
 
-    /**
-     * @param  int $position
-     * @return string
-     */
-    public function returnValue($position)
+    public function returnValue(int $position) : string
     {
         return $this->values[$position];
     }
@@ -96,7 +83,7 @@ class GenericTag implements TagInterface, PrototypeGenericInterface
      * @todo   What should this do?
      * @return string
      */
-    public function __toString()
+    public function __toString() : string
     {
         return 'DocBlock Tag [ * @' . $this->name . ' ]' . "\n";
     }

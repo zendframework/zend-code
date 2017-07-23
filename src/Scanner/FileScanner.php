@@ -17,7 +17,7 @@ use function file_get_contents;
 use function sprintf;
 use function token_get_all;
 
-class FileScanner extends TokenArrayScanner implements ScannerInterface
+class FileScanner extends TokenArrayScanner
 {
     /**
      * @var string
@@ -29,7 +29,7 @@ class FileScanner extends TokenArrayScanner implements ScannerInterface
      * @param  null|AnnotationManager $annotationManager
      * @throws Exception\InvalidArgumentException
      */
-    public function __construct($file, AnnotationManager $annotationManager = null)
+    public function __construct(string $file, AnnotationManager $annotationManager = null)
     {
         $this->file = $file;
         if (! file_exists($file)) {
@@ -41,10 +41,7 @@ class FileScanner extends TokenArrayScanner implements ScannerInterface
         parent::__construct(token_get_all(file_get_contents($file)), $annotationManager);
     }
 
-    /**
-     * @return string
-     */
-    public function getFile()
+    public function getFile() : string
     {
         return $this->file;
     }

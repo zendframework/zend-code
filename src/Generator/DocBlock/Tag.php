@@ -18,11 +18,9 @@ use Zend\Code\Reflection\DocBlock\Tag\TagInterface as ReflectionTagInterface;
 class Tag extends GenericTag
 {
     /**
-     * @param  ReflectionTagInterface $reflectionTag
-     * @return Tag
      * @deprecated Deprecated in 2.3. Use TagManager::createTagFromReflection() instead
      */
-    public static function fromReflection(ReflectionTagInterface $reflectionTag)
+    public static function fromReflection(ReflectionTagInterface $reflectionTag) : self
     {
         $tagManager = new TagManager();
         $tagManager->initializeDefaultTags();
@@ -30,20 +28,17 @@ class Tag extends GenericTag
     }
 
     /**
-     * @param  string $description
-     * @return Tag
      * @deprecated Deprecated in 2.3. Use GenericTag::setContent() instead
      */
-    public function setDescription($description)
+    public function setDescription(string $description) : self
     {
         return $this->setContent($description);
     }
 
     /**
-     * @return string
      * @deprecated Deprecated in 2.3. Use GenericTag::getContent() instead
      */
-    public function getDescription()
+    public function getDescription() : ?string
     {
         return $this->getContent();
     }

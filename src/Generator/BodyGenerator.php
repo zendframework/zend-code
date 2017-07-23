@@ -12,32 +12,22 @@ namespace Zend\Code\Generator;
 class BodyGenerator extends AbstractGenerator
 {
     /**
-     * @var string
+     * @var string|null
      */
     protected $content;
 
-    /**
-     * @param  string $content
-     * @return BodyGenerator
-     */
-    public function setContent($content)
+    public function setContent(string $content) : self
     {
         $this->content = (string) $content;
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getContent()
+    public function getContent() : ?string
     {
         return $this->content;
     }
 
-    /**
-     * @return string
-     */
-    public function generate()
+    public function generate() : ?string
     {
         return $this->getContent();
     }

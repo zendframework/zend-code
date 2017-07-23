@@ -13,6 +13,7 @@ use ReflectionProperty as PhpReflectionProperty;
 use Zend\Code\Annotation\AnnotationManager;
 use Zend\Code\Scanner\AnnotationScanner;
 use Zend\Code\Scanner\CachingFileScanner;
+use Zend\Code\Scanner\FileScanner;
 
 /**
  * @todo       implement line numbers
@@ -24,32 +25,13 @@ class PropertyReflection extends PhpReflectionProperty implements ReflectionInte
      */
     protected $annotations;
 
-    /**
-     * Get declaring class reflection object
-     *
-     * @return ClassReflection
-     */
-    public function getDeclaringClass()
+    public function getDeclaringClass() : ClassReflection
     {
-        $phpReflection  = parent::getDeclaringClass();
-        $zendReflection = new ClassReflection($phpReflection->getName());
-        unset($phpReflection);
-
-        return $zendReflection;
+        return new ClassReflection(parent::getDeclaringClass()->getName());
     }
 
     /**
-     * Get DocBlock comment
-     *
-     * @return string|false False if no DocBlock defined
-     */
-    public function getDocComment()
-    {
-        return parent::getDocComment();
-    }
-
-    /**
-     * @return false|DocBlockReflection
+     * @return bool|DocBlockReflection
      */
     public function getDocBlock()
     {
@@ -57,14 +39,12 @@ class PropertyReflection extends PhpReflectionProperty implements ReflectionInte
             return false;
         }
 
-        $docBlockReflection = new DocBlockReflection($docComment);
-
-        return $docBlockReflection;
+        return new DocBlockReflection($docComment);
     }
 
     /**
      * @param  AnnotationManager $annotationManager
-     * @return AnnotationScanner
+     * @return AnnotationScanner|bool
      */
     public function getAnnotations(AnnotationManager $annotationManager)
     {
@@ -89,10 +69,7 @@ class PropertyReflection extends PhpReflectionProperty implements ReflectionInte
         return $this->annotations;
     }
 
-    /**
-     * @return string
-     */
-    public function toString()
+    public function toString() : string
     {
         return $this->__toString();
     }
@@ -102,12 +79,8 @@ class PropertyReflection extends PhpReflectionProperty implements ReflectionInte
      *
      * By having this as a separate method it allows the method to be overridden
      * if a different FileScanner is needed.
-     *
-     * @param  string $filename
-     *
-     * @return CachingFileScanner
      */
-    protected function createFileScanner($filename)
+    protected function createFileScanner(string $filename) : FileScanner
     {
         return new CachingFileScanner($filename);
     }

@@ -28,6 +28,7 @@ use function substr;
 use function token_get_all;
 use function token_name;
 use function var_export;
+use Zend\Code\Scanner\FileScanner;
 
 class MethodReflection extends PhpReflectionMethod implements ReflectionInterface
 {
@@ -57,14 +58,12 @@ class MethodReflection extends PhpReflectionMethod implements ReflectionInterfac
             return false;
         }
 
-        $instance = new DocBlockReflection($this);
-
-        return $instance;
+        return new DocBlockReflection($this);
     }
 
     /**
      * @param  AnnotationManager $annotationManager
-     * @return AnnotationScanner
+     * @return AnnotationScanner|bool
      */
     public function getAnnotations(AnnotationManager $annotationManager)
     {
@@ -92,9 +91,8 @@ class MethodReflection extends PhpReflectionMethod implements ReflectionInterfac
      * Get start line (position) of method
      *
      * @param  bool $includeDocComment
-     * @return int
      */
-    public function getStartLine($includeDocComment = false)
+    public function getStartLine($includeDocComment = false) : int
     {
         if ($includeDocComment) {
             if ($this->getDocComment() != '') {
@@ -105,25 +103,16 @@ class MethodReflection extends PhpReflectionMethod implements ReflectionInterfac
         return parent::getStartLine();
     }
 
-    /**
-     * Get reflection of declaring class
-     *
-     * @return ClassReflection
-     */
-    public function getDeclaringClass()
+    public function getDeclaringClass() : ClassReflection
     {
-        $phpReflection  = parent::getDeclaringClass();
-        $zendReflection = new ClassReflection($phpReflection->getName());
-        unset($phpReflection);
-
-        return $zendReflection;
+        return new ClassReflection(parent::getDeclaringClass()->getName());
     }
 
     /**
      * Get method prototype
      *
      * @param string $format
-     * @return array
+     * @return array|string
      */
     public function getPrototype($format = MethodReflection::PROTOTYPE_AS_ARRAY)
     {
@@ -181,55 +170,36 @@ class MethodReflection extends PhpReflectionMethod implements ReflectionInterfac
      *
      * @return ParameterReflection[]
      */
-    public function getParameters()
+    public function getParameters() : array
     {
-        $phpReflections  = parent::getParameters();
-        $zendReflections = [];
-        while ($phpReflections && ($phpReflection = array_shift($phpReflections))) {
-            $instance = new ParameterReflection(
-                [$this->getDeclaringClass()->getName(), $this->getName()],
-                $phpReflection->getName()
-            );
-            $zendReflections[] = $instance;
-            unset($phpReflection);
-        }
-        unset($phpReflections);
-
-        return $zendReflections;
+        return array_values(array_map(
+            function (\ReflectionParameter $phpReflection) : ParameterReflection {
+                return new ParameterReflection(
+                    [$this->getDeclaringClass()->getName(), $this->getName()],
+                    $phpReflection->getName()
+                );
+            },
+            parent::getParameters()
+        ));
     }
 
-    /**
-     * Get method contents
-     *
-     * @param  bool $includeDocBlock
-     * @return string
-     */
-    public function getContents($includeDocBlock = true)
+    public function getContents(bool $includeDocBlock = true) : string
     {
         $docComment = $this->getDocComment();
-        $content  = $includeDocBlock && ! empty($docComment) ? $docComment . "\n" : '';
-        $content .= $this->extractMethodContents();
 
-        return $content;
+        return ($includeDocBlock && ! empty($docComment) ? $docComment . "\n" : '')
+            . $this->extractMethodContents();
     }
 
-    /**
-     * Get method body
-     *
-     * @return string
-     */
-    public function getBody()
+    public function getBody() : string
     {
         return $this->extractMethodContents(true);
     }
 
     /**
      * Tokenize method string and return concatenated body
-     *
-     * @param bool $bodyOnly
-     * @return string
      */
-    protected function extractMethodContents($bodyOnly = false)
+    protected function extractMethodContents(bool $bodyOnly = false) : string
     {
         $fileName = $this->getFileName();
 
@@ -348,12 +318,8 @@ class MethodReflection extends PhpReflectionMethod implements ReflectionInterfac
 
     /**
      * Take current position and find any whitespace
-     *
-     * @param array $haystack
-     * @param int $position
-     * @return string
      */
-    protected function extractPrefixedWhitespace($haystack, $position)
+    protected function extractPrefixedWhitespace(array $haystack, int $position) : string
     {
         $content = '';
         $count = count($haystack);
@@ -366,11 +332,11 @@ class MethodReflection extends PhpReflectionMethod implements ReflectionInterfac
             $tokenValue = is_array($haystack[$i]) ? $haystack[$i][1] : $haystack[$i];
 
             //search only for whitespace
-            if ($tokenType == 'T_WHITESPACE') {
-                $content .= $tokenValue;
-            } else {
+            if ($tokenType !== 'T_WHITESPACE') {
                 break;
             }
+
+            $content .= $tokenValue;
         }
 
         return $content;
@@ -378,17 +344,13 @@ class MethodReflection extends PhpReflectionMethod implements ReflectionInterfac
 
     /**
      * Test for ending brace
-     *
-     * @param array $haystack
-     * @param int $position
-     * @return bool
      */
-    protected function isEndingBrace($haystack, $position)
+    protected function isEndingBrace(array $haystack, int $position) : bool
     {
         $count = count($haystack);
 
         //advance one position
-        $position = $position + 1;
+        $position += 1;
 
         if ($position == $count) {
             return true;
@@ -441,18 +403,15 @@ class MethodReflection extends PhpReflectionMethod implements ReflectionInterfac
                     return false;
             }
         }
+
+        return false;
     }
 
     /**
      * Test to see if current position is valid function or
      * closure.  Returns true if it's a function and NOT a closure
-     *
-     * @param array $haystack
-     * @param int $position
-     * @param string $functionName
-     * @return bool
      */
-    protected function isValidFunction($haystack, $position, $functionName = null)
+    protected function isValidFunction(array $haystack, int $position, ?string $functionName = null) : bool
     {
         $isValid = false;
         $count = count($haystack);
@@ -470,7 +429,9 @@ class MethodReflection extends PhpReflectionMethod implements ReflectionInterfac
 
                 $isValid = true;
                 break;
-            } elseif ($tokenValue == '(') {
+            }
+
+            if ($tokenValue == '(') {
                 break;
             }
         }
@@ -478,10 +439,7 @@ class MethodReflection extends PhpReflectionMethod implements ReflectionInterfac
         return $isValid;
     }
 
-    /**
-     * @return string
-     */
-    public function toString()
+    public function toString() : string
     {
         return parent::__toString();
     }
@@ -489,7 +447,7 @@ class MethodReflection extends PhpReflectionMethod implements ReflectionInterfac
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString() : string
     {
         return parent::__toString();
     }
@@ -499,12 +457,8 @@ class MethodReflection extends PhpReflectionMethod implements ReflectionInterfac
      *
      * By having this as a separate method it allows the method to be overridden
      * if a different FileScanner is needed.
-     *
-     * @param  string $filename
-     *
-     * @return CachingFileScanner
      */
-    protected function createFileScanner($filename)
+    protected function createFileScanner(string $filename) : FileScanner
     {
         return new CachingFileScanner($filename);
     }

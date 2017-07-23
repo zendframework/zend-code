@@ -75,16 +75,12 @@ class TraitUsageGenerator extends AbstractGenerator implements TraitUsageInterfa
     /**
      * @inheritDoc
      */
-    public function getUses()
+    public function getUses() : array
     {
         return array_values($this->uses);
     }
 
-    /**
-     * @param string $use
-     * @return bool
-     */
-    public function hasUse($use)
+    public function hasUse(string $use) : bool
     {
         foreach ($this->uses as $key => $value) {
             $parts = explode(' ', $value);
@@ -96,11 +92,7 @@ class TraitUsageGenerator extends AbstractGenerator implements TraitUsageInterfa
         return false;
     }
 
-    /**
-     * @param string $use
-     * @return bool
-     */
-    public function hasUseAlias($use)
+    public function hasUseAlias(string $use) : bool
     {
         foreach ($this->uses as $key => $value) {
             $parts = explode(' as ', $value);
@@ -112,11 +104,7 @@ class TraitUsageGenerator extends AbstractGenerator implements TraitUsageInterfa
         return false;
     }
 
-    /**
-     * @param string $use
-     * @return TraitUsageGenerator
-     */
-    public function removeUse($use)
+    public function removeUse(string $use) : self
     {
         foreach ($this->uses as $key => $value) {
             $parts = explode(' ', $value);
@@ -128,11 +116,7 @@ class TraitUsageGenerator extends AbstractGenerator implements TraitUsageInterfa
         return $this;
     }
 
-    /**
-     * @param string $use
-     * @return TraitUsageGenerator
-     */
-    public function removeUseAlias($use)
+    public function removeUseAlias(string $use) : self
     {
         foreach ($this->uses as $key => $value) {
             $parts = explode(' as ', $value);
@@ -147,7 +131,7 @@ class TraitUsageGenerator extends AbstractGenerator implements TraitUsageInterfa
     /**
      * @inheritDoc
      */
-    public function addTrait($trait)
+    public function addTrait($trait) : self
     {
         $traitName = $trait;
         if (is_array($trait)) {
@@ -179,7 +163,7 @@ class TraitUsageGenerator extends AbstractGenerator implements TraitUsageInterfa
     /**
      * @inheritDoc
      */
-    public function addTraits(array $traits)
+    public function addTraits(array $traits) : self
     {
         foreach ($traits as $trait) {
             $this->addTrait($trait);
@@ -191,7 +175,7 @@ class TraitUsageGenerator extends AbstractGenerator implements TraitUsageInterfa
     /**
      * @inheritDoc
      */
-    public function hasTrait($traitName)
+    public function hasTrait($traitName) : bool
     {
         return in_array($traitName, $this->traits);
     }
@@ -199,7 +183,7 @@ class TraitUsageGenerator extends AbstractGenerator implements TraitUsageInterfa
     /**
      * @inheritDoc
      */
-    public function getTraits()
+    public function getTraits() : array
     {
         return $this->traits;
     }
@@ -207,7 +191,7 @@ class TraitUsageGenerator extends AbstractGenerator implements TraitUsageInterfa
     /**
      * @inheritDoc
      */
-    public function removeTrait($traitName)
+    public function removeTrait($traitName) : self
     {
         $key = array_search($traitName, $this->traits);
         if (false !== $key) {
@@ -220,7 +204,7 @@ class TraitUsageGenerator extends AbstractGenerator implements TraitUsageInterfa
     /**
      * @inheritDoc
      */
-    public function addTraitAlias($method, $alias, $visibility = null)
+    public function addTraitAlias($method, $alias, $visibility = null) : self
     {
         $traitAndMethod = $method;
         if (is_array($method)) {
@@ -258,7 +242,8 @@ class TraitUsageGenerator extends AbstractGenerator implements TraitUsageInterfa
             );
         }
 
-        list($trait, $method) = explode('::', $traitAndMethod);
+        [$trait] = explode('::', $traitAndMethod);
+
         if (! $this->hasTrait($trait)) {
             throw new Exception\InvalidArgumentException('Invalid trait: Trait does not exists on this class');
         }
@@ -274,7 +259,7 @@ class TraitUsageGenerator extends AbstractGenerator implements TraitUsageInterfa
     /**
      * @inheritDoc
      */
-    public function getTraitAliases()
+    public function getTraitAliases() : array
     {
         return $this->traitAliases;
     }
@@ -282,7 +267,7 @@ class TraitUsageGenerator extends AbstractGenerator implements TraitUsageInterfa
     /**
      * @inheritDoc
      */
-    public function addTraitOverride($method, $traitsToReplace)
+    public function addTraitOverride($method, $traitsToReplace) : self
     {
         if (false === is_array($traitsToReplace)) {
             $traitsToReplace = [$traitsToReplace];
@@ -308,7 +293,7 @@ class TraitUsageGenerator extends AbstractGenerator implements TraitUsageInterfa
             );
         }
 
-        list($trait, $method) = explode('::', $traitAndMethod);
+        [$trait] = explode('::', $traitAndMethod);
         if (! $this->hasTrait($trait)) {
             throw new Exception\InvalidArgumentException('Invalid trait: Trait does not exists on this class');
         }
@@ -335,7 +320,7 @@ class TraitUsageGenerator extends AbstractGenerator implements TraitUsageInterfa
     /**
      * @inheritDoc
      */
-    public function removeTraitOverride($method, $overridesToRemove = null)
+    public function removeTraitOverride($method, $overridesToRemove = null) : self
     {
         if (! array_key_exists($method, $this->traitOverrides)) {
             return $this;
@@ -346,10 +331,11 @@ class TraitUsageGenerator extends AbstractGenerator implements TraitUsageInterfa
             return $this;
         }
 
-        $overridesToRemove = ! is_array($overridesToRemove)
-            ? [$overridesToRemove]
-            : $overridesToRemove;
-        foreach ($overridesToRemove as $traitToRemove) {
+        $toRemove = is_array($overridesToRemove)
+            ? $overridesToRemove
+            : [$overridesToRemove];
+
+        foreach ($toRemove as $traitToRemove) {
             $key = array_search($traitToRemove, $this->traitOverrides[$method]);
             if (false !== $key) {
                 unset($this->traitOverrides[$method][$key]);
@@ -361,7 +347,7 @@ class TraitUsageGenerator extends AbstractGenerator implements TraitUsageInterfa
     /**
      * @inheritDoc
      */
-    public function getTraitOverrides()
+    public function getTraitOverrides() : array
     {
         return $this->traitOverrides;
     }
@@ -369,7 +355,7 @@ class TraitUsageGenerator extends AbstractGenerator implements TraitUsageInterfa
     /**
      * @inheritDoc
      */
-    public function generate()
+    public function generate() : string
     {
         $output = '';
         $indent = $this->getIndentation();
@@ -390,8 +376,9 @@ class TraitUsageGenerator extends AbstractGenerator implements TraitUsageInterfa
 
         $output .= ' {' . self::LINE_FEED;
         foreach ($aliases as $method => $alias) {
+            $modifierNames = Reflection::getModifierNames($alias['visibility']);
             $visibility = null !== $alias['visibility']
-                ? current(Reflection::getModifierNames($alias['visibility'])) . ' '
+                ? current($modifierNames) . ' '
                 : '';
 
             // validation check

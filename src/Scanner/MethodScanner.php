@@ -119,68 +119,45 @@ class MethodScanner implements ScannerInterface
         $this->nameInformation = $nameInformation;
     }
 
-    /**
-     * @param  string $class
-     * @return MethodScanner
-     */
-    public function setClass($class)
+    public function setClass(string $class) : self
     {
-        $this->class = (string) $class;
+        $this->class = $class;
         return $this;
     }
 
-    /**
-     * @param  ClassScanner  $scannerClass
-     * @return MethodScanner
-     */
-    public function setScannerClass(ClassScanner $scannerClass)
+    public function setScannerClass(ClassScanner $scannerClass) : self
     {
         $this->scannerClass = $scannerClass;
         return $this;
     }
 
-    /**
-     * @return ClassScanner
-     */
-    public function getClassScanner()
+    public function getClassScanner() : ?ClassScanner
     {
         return $this->scannerClass;
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName() : ?string
     {
         $this->scan();
 
         return $this->name;
     }
 
-    /**
-     * @return int
-     */
-    public function getLineStart()
+    public function getLineStart() : int
     {
         $this->scan();
 
         return $this->lineStart;
     }
 
-    /**
-     * @return int
-     */
-    public function getLineEnd()
+    public function getLineEnd() : int
     {
         $this->scan();
 
         return $this->lineEnd;
     }
 
-    /**
-     * @return string
-     */
-    public function getDocComment()
+    public function getDocComment() : ?string
     {
         $this->scan();
 
@@ -189,7 +166,7 @@ class MethodScanner implements ScannerInterface
 
     /**
      * @param  AnnotationManager $annotationManager
-     * @return AnnotationScanner
+     * @return AnnotationScanner|bool
      */
     public function getAnnotations(AnnotationManager $annotationManager)
     {
@@ -200,60 +177,42 @@ class MethodScanner implements ScannerInterface
         return new AnnotationScanner($annotationManager, $docComment, $this->nameInformation);
     }
 
-    /**
-     * @return bool
-     */
-    public function isFinal()
+    public function isFinal() : bool
     {
         $this->scan();
 
         return $this->isFinal;
     }
 
-    /**
-     * @return bool
-     */
-    public function isAbstract()
+    public function isAbstract() : bool
     {
         $this->scan();
 
         return $this->isAbstract;
     }
 
-    /**
-     * @return bool
-     */
-    public function isPublic()
+    public function isPublic() : bool
     {
         $this->scan();
 
         return $this->isPublic;
     }
 
-    /**
-     * @return bool
-     */
-    public function isProtected()
+    public function isProtected() : bool
     {
         $this->scan();
 
         return $this->isProtected;
     }
 
-    /**
-     * @return bool
-     */
-    public function isPrivate()
+    public function isPrivate() : bool
     {
         $this->scan();
 
         return $this->isPrivate;
     }
 
-    /**
-     * @return bool
-     */
-    public function isStatic()
+    public function isStatic() : bool
     {
         $this->scan();
 
@@ -263,11 +222,8 @@ class MethodScanner implements ScannerInterface
     /**
      * Override the given name for a method, this is necessary to
      * support traits.
-     *
-     * @param string $name
-     * @return self
      */
-    public function setName($name)
+    public function setName(string $name) : self
     {
         $this->name = $name;
         return $this;
@@ -278,10 +234,9 @@ class MethodScanner implements ScannerInterface
      * Needed to support traits
      *
      * @param int $visibility   T_PUBLIC | T_PRIVATE | T_PROTECTED
-     * @return self
-     * @throws \Zend\Code\Exception
+     * @throws Exception\InvalidArgumentException
      */
-    public function setVisibility($visibility)
+    public function setVisibility(int $visibility) : self
     {
         switch (strtolower($visibility)) {
             case T_PUBLIC:
@@ -303,25 +258,18 @@ class MethodScanner implements ScannerInterface
                 break;
 
             default:
-                throw new Exception('Invalid visibility argument passed to setVisibility.');
+                throw new Exception\InvalidArgumentException('Invalid visibility argument passed to setVisibility.');
         }
 
         return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getNumberOfParameters()
+    public function getNumberOfParameters() : int
     {
         return count($this->getParameters());
     }
 
-    /**
-     * @param  bool $returnScanner
-     * @return array
-     */
-    public function getParameters($returnScanner = false)
+    public function getParameters(bool $returnScanner = false) : array
     {
         $this->scan();
 
@@ -344,16 +292,15 @@ class MethodScanner implements ScannerInterface
 
     /**
      * @param  int|string $parameterNameOrInfoIndex
-     * @return ParameterScanner
      * @throws Exception\InvalidArgumentException
      */
-    public function getParameter($parameterNameOrInfoIndex)
+    public function getParameter($parameterNameOrInfoIndex) : ParameterScanner
     {
         $this->scan();
 
         if (is_int($parameterNameOrInfoIndex)) {
             $info = $this->infos[$parameterNameOrInfoIndex];
-            if ($info['type'] != 'parameter') {
+            if ($info['type'] !== 'parameter') {
                 throw new Exception\InvalidArgumentException('Index of info offset is not about a parameter');
             }
         } elseif (is_string($parameterNameOrInfoIndex)) {
@@ -384,7 +331,7 @@ class MethodScanner implements ScannerInterface
     /**
      * @return string
      */
-    public function getBody()
+    public function getBody() : ?string
     {
         $this->scan();
 
@@ -396,7 +343,7 @@ class MethodScanner implements ScannerInterface
         // @todo
     }
 
-    public function __toString()
+    public function __toString() : string
     {
         $this->scan();
 
@@ -451,12 +398,12 @@ class MethodScanner implements ScannerInterface
             if (is_string($token)) {
                 $tokenType    = null;
                 $tokenContent = $token;
-                $tokenLine    = $tokenLine + substr_count(
+                $tokenLine   += substr_count(
                     $lastTokenArray[1],
                     "\n"
                 ); // adjust token line by last known newline count
             } else {
-                list($tokenType, $tokenContent, $tokenLine) = $token;
+                [$tokenType, $tokenContent, $tokenLine] = $token;
             }
 
             return $tokenIndex;
@@ -575,7 +522,6 @@ class MethodScanner implements ScannerInterface
                             if ($infos) {
                                 $MACRO_INFO_ADVANCE();
                             }
-                            $context = 'body';
                         }
                         goto SCANNER_CONTINUE_BODY;
                         // goto (no break needed);

@@ -15,40 +15,33 @@ use Zend\Code\Reflection\DocBlock\Tag\TagInterface as ReflectionTagInterface;
 class ReturnTag extends AbstractTypeableTag implements TagInterface
 {
     /**
-     * @param ReflectionTagInterface $reflectionTag
-     * @return ReturnTag
      * @deprecated Deprecated in 2.3. Use TagManager::createTagFromReflection() instead
      */
-    public static function fromReflection(ReflectionTagInterface $reflectionTag)
+    public static function fromReflection(ReflectionTagInterface $reflectionTag) : self
     {
         $tagManager = new TagManager();
         $tagManager->initializeDefaultTags();
         return $tagManager->createTagFromReflection($reflectionTag);
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName() : string
     {
         return 'return';
     }
 
     /**
-     * @param string $datatype
-     * @return ReturnTag
+     * @param string|string[] $datatype
      * @deprecated Deprecated in 2.3. Use setTypes() instead
      */
-    public function setDatatype($datatype)
+    public function setDatatype($datatype) : self
     {
         return $this->setTypes($datatype);
     }
 
     /**
-     * @return string
      * @deprecated Deprecated in 2.3. Use getTypes() or getTypesAsString() instead
      */
-    public function getDatatype()
+    public function getDatatype() : ?string
     {
         return $this->getTypesAsString();
     }
@@ -56,12 +49,10 @@ class ReturnTag extends AbstractTypeableTag implements TagInterface
     /**
      * @return string
      */
-    public function generate()
+    public function generate() : string
     {
-        $output = '@return '
+        return '@return '
         . $this->getTypesAsString()
         . (! empty($this->description) ? ' ' . $this->description : '');
-
-        return $output;
     }
 }

@@ -83,7 +83,7 @@ class DocBlockReflection implements ReflectionInterface
      * @todo   What should this do?
      * @return void
      */
-    public static function export()
+    public static function export() : void
     {
     }
 
@@ -91,7 +91,6 @@ class DocBlockReflection implements ReflectionInterface
      * @param  Reflector|string $commentOrReflector
      * @param  null|DocBlockTagManager $tagManager
      * @throws Exception\InvalidArgumentException
-     * @return DocBlockReflection
      */
     public function __construct($commentOrReflector, DocBlockTagManager $tagManager = null)
     {
@@ -131,10 +130,8 @@ class DocBlockReflection implements ReflectionInterface
 
     /**
      * Retrieve contents of DocBlock
-     *
-     * @return string
      */
-    public function getContents()
+    public function getContents() : string
     {
         $this->reflect();
 
@@ -143,10 +140,8 @@ class DocBlockReflection implements ReflectionInterface
 
     /**
      * Get start line (position) of DocBlock
-     *
-     * @return int
      */
-    public function getStartLine()
+    public function getStartLine() : int
     {
         $this->reflect();
 
@@ -155,10 +150,8 @@ class DocBlockReflection implements ReflectionInterface
 
     /**
      * Get last line (position) of DocBlock
-     *
-     * @return int
      */
-    public function getEndLine()
+    public function getEndLine() : int
     {
         $this->reflect();
 
@@ -167,10 +160,8 @@ class DocBlockReflection implements ReflectionInterface
 
     /**
      * Get DocBlock short description
-     *
-     * @return string
      */
-    public function getShortDescription()
+    public function getShortDescription() : string
     {
         $this->reflect();
 
@@ -179,10 +170,8 @@ class DocBlockReflection implements ReflectionInterface
 
     /**
      * Get DocBlock long description
-     *
-     * @return string
      */
-    public function getLongDescription()
+    public function getLongDescription() : string
     {
         $this->reflect();
 
@@ -191,11 +180,8 @@ class DocBlockReflection implements ReflectionInterface
 
     /**
      * Does the DocBlock contain the given annotation tag?
-     *
-     * @param  string $name
-     * @return bool
      */
-    public function hasTag($name)
+    public function hasTag(string $name) : bool
     {
         $this->reflect();
         foreach ($this->tags as $tag) {
@@ -228,10 +214,9 @@ class DocBlockReflection implements ReflectionInterface
     /**
      * Get all DocBlock annotation tags
      *
-     * @param  string $filter
      * @return DocBlockTagInterface[]
      */
-    public function getTags($filter = null)
+    public function getTags(?string $filter = null) : array
     {
         $this->reflect();
         if ($filter === null || ! is_string($filter)) {
@@ -248,12 +233,7 @@ class DocBlockReflection implements ReflectionInterface
         return $returnTags;
     }
 
-    /**
-     * Parse the DocBlock
-     *
-     * @return void
-     */
-    protected function reflect()
+    protected function reflect() : void
     {
         if ($this->isReflected) {
             return;
@@ -278,10 +258,7 @@ class DocBlockReflection implements ReflectionInterface
         $this->isReflected = true;
     }
 
-    /**
-     * @return string
-     */
-    public function toString()
+    public function toString() : string
     {
         $str = 'DocBlock [ /* DocBlock */ ] {' . "\n\n";
         $str .= '  - Tags [' . count($this->tags) . '] {' . "\n";
@@ -297,13 +274,9 @@ class DocBlockReflection implements ReflectionInterface
     }
 
     /**
-     * Serialize to string
-     *
-     * Required by the Reflector interface
-     *
-     * @return string
+     * {@inheritDoc}
      */
-    public function __toString()
+    public function __toString() : string
     {
         return $this->toString();
     }

@@ -25,19 +25,15 @@ class ThrowsTag implements TagInterface, PhpDocTypedTagInterface
      */
     protected $description;
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName() : string
     {
         return 'throws';
     }
 
     /**
      * @param  string $tagDocBlockLine
-     * @return void
      */
-    public function initialize($tagDocBlockLine)
+    public function initialize($tagDocBlockLine) : void
     {
         $matches = [];
         preg_match('#([\w|\\\]+)(?:\s+(.*))?#', $tagDocBlockLine, $matches);
@@ -52,26 +48,19 @@ class ThrowsTag implements TagInterface, PhpDocTypedTagInterface
     /**
      * Get return variable type
      *
-     * @return string
      * @deprecated 2.0.4 use getTypes instead
      */
-    public function getType()
+    public function getType() : string
     {
         return implode('|', $this->getTypes());
     }
 
-    /**
-     * @return array
-     */
-    public function getTypes()
+    public function getTypes() : array
     {
         return $this->types;
     }
 
-    /**
-     * @return string
-     */
-    public function getDescription()
+    public function getDescription() : ?string
     {
         return $this->description;
     }

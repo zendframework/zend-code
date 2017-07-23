@@ -52,10 +52,9 @@ class PrototypeClassFactory
     }
 
     /**
-     * @param PrototypeInterface $prototype
      * @throws Exception\InvalidArgumentException
      */
-    public function addPrototype(PrototypeInterface $prototype)
+    public function addPrototype(PrototypeInterface $prototype) : void
     {
         $prototypeName = $this->normalizeName($prototype->getName());
 
@@ -67,57 +66,46 @@ class PrototypeClassFactory
     }
 
     /**
-     * @param PrototypeGenericInterface $prototype
      * @throws Exception\InvalidArgumentException
      */
-    public function setGenericPrototype(PrototypeGenericInterface $prototype)
+    public function setGenericPrototype(PrototypeGenericInterface $prototype) : void
     {
-        if (isset($this->genericPrototype)) {
+        if ($this->genericPrototype) {
             throw new Exception\InvalidArgumentException('A default prototype is already set');
         }
 
         $this->genericPrototype = $prototype;
     }
 
-    /**
-     * @param string $name
-     * @return string
-     */
-    protected function normalizeName($name)
+    protected function normalizeName(string $name) : string
     {
         return str_replace(['-', '_'], '', $name);
     }
 
-    /**
-     * @param string $name
-     * @return bool
-     */
-    public function hasPrototype($name)
+    public function hasPrototype(string $name) : bool
     {
         $name = $this->normalizeName($name);
         return isset($this->prototypes[$name]);
     }
 
     /**
-     * @param  string $prototypeName
-     * @return PrototypeInterface
      * @throws Exception\RuntimeException
      */
-    public function getClonedPrototype($prototypeName)
+    public function getClonedPrototype(string $prototypeName) : PrototypeInterface
     {
         $prototypeName = $this->normalizeName($prototypeName);
 
-        if (! $this->hasPrototype($prototypeName) && ! isset($this->genericPrototype)) {
+        if (! $this->genericPrototype && ! $this->hasPrototype($prototypeName)) {
             throw new Exception\RuntimeException('This tag name is not supported by this tag manager');
         }
 
         if (! $this->hasPrototype($prototypeName)) {
             $newPrototype = clone $this->genericPrototype;
             $newPrototype->setName($prototypeName);
-        } else {
-            $newPrototype = clone $this->prototypes[$prototypeName];
+
+            return $newPrototype;
         }
 
-        return $newPrototype;
+        return clone $this->prototypes[$prototypeName];
     }
 }

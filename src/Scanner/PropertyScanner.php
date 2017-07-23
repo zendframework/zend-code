@@ -113,97 +113,64 @@ class PropertyScanner implements ScannerInterface
         $this->nameInformation = $nameInformation;
     }
 
-    /**
-     * @param string $class
-     */
-    public function setClass($class)
+    public function setClass(string $class) : void
     {
         $this->class = $class;
     }
 
-    /**
-     * @param ClassScanner $scannerClass
-     */
-    public function setScannerClass(ClassScanner $scannerClass)
+    public function setScannerClass(ClassScanner $scannerClass) : void
     {
         $this->scannerClass = $scannerClass;
     }
 
-    /**
-     * @return ClassScanner
-     */
-    public function getClassScanner()
+    public function getClassScanner() : ?ClassScanner
     {
         return $this->scannerClass;
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName() : ?string
     {
         $this->scan();
         return $this->name;
     }
 
-    /**
-     * @return string
-     */
-    public function getValueType()
+    public function getValueType() : ?string
     {
         $this->scan();
         return $this->valueType;
     }
 
-    /**
-     * @return bool
-     */
-    public function isPublic()
+    public function isPublic() : bool
     {
         $this->scan();
         return $this->isPublic;
     }
 
-    /**
-     * @return bool
-     */
-    public function isPrivate()
+    public function isPrivate() : bool
     {
         $this->scan();
         return $this->isPrivate;
     }
 
-    /**
-     * @return bool
-     */
-    public function isProtected()
+    public function isProtected() : bool
     {
         $this->scan();
         return $this->isProtected;
     }
 
-    /**
-     * @return bool
-     */
-    public function isStatic()
+    public function isStatic() : bool
     {
         $this->scan();
         return $this->isStatic;
     }
 
-    /**
-     * @return string
-     */
-    public function getValue()
+    public function getValue() : ?string
     {
         $this->scan();
         return $this->value;
     }
 
-    /**
-     * @return string
-     */
-    public function getDocComment()
+    public function getDocComment() : ?string
     {
         $this->scan();
         return $this->docComment;
@@ -211,7 +178,7 @@ class PropertyScanner implements ScannerInterface
 
     /**
      * @param Annotation\AnnotationManager $annotationManager
-     * @return AnnotationScanner
+     * @return AnnotationScanner|bool
      */
     public function getAnnotations(Annotation\AnnotationManager $annotationManager)
     {
@@ -225,7 +192,7 @@ class PropertyScanner implements ScannerInterface
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString() : string
     {
         $this->scan();
         return var_export($this, true);
@@ -236,7 +203,7 @@ class PropertyScanner implements ScannerInterface
      *
      * @throws \Zend\Code\Exception\RuntimeException
      */
-    protected function scan()
+    protected function scan() : void
     {
         if ($this->isScanned) {
             return;
@@ -258,7 +225,7 @@ class PropertyScanner implements ScannerInterface
         foreach ($tokens as $token) {
             $tempValue = $token;
             if (! is_string($token)) {
-                list($tokenType, $tokenContent, $tokenLine) = $token;
+                [$tokenType, $tokenContent] = $token;
 
                 switch ($tokenType) {
                     case T_DOC_COMMENT:
@@ -316,7 +283,7 @@ class PropertyScanner implements ScannerInterface
             $this->valueType = self::T_INTEGER;
         } elseif (0 === strpos($value, 'array') || 0 === strpos($value, '[')) {
             $this->valueType = self::T_ARRAY;
-        } elseif (substr($value, 0, 1) === '"' || substr($value, 0, 1) === "'") {
+        } elseif (in_array(substr($value, 0, 1), ['"', '\''], true)) {
             $value = substr($value, 1, -1); // Remove quotes
             $this->valueType = self::T_STRING;
         }

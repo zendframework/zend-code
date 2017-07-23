@@ -28,11 +28,6 @@ use function trim;
 class MethodGenerator extends AbstractMemberGenerator
 {
     /**
-     * @var DocBlockGenerator
-     */
-    protected $docBlock;
-
-    /**
      * @var ParameterGenerator[]
      */
     protected $parameters = [];
@@ -52,11 +47,7 @@ class MethodGenerator extends AbstractMemberGenerator
      */
     private $returnsReference = false;
 
-    /**
-     * @param  MethodReflection $reflectionMethod
-     * @return MethodGenerator
-     */
-    public static function fromReflection(MethodReflection $reflectionMethod)
+    public static function fromReflection(MethodReflection $reflectionMethod) : self
     {
         $method         = new static();
         $declaringClass = $reflectionMethod->getDeclaringClass();
@@ -96,12 +87,8 @@ class MethodGenerator extends AbstractMemberGenerator
     /**
      * Identify the space indention from the first line and remove this indention
      * from all lines
-     *
-     * @param string $body
-     *
-     * @return string
      */
-    protected static function clearBodyIndention($body)
+    protected static function clearBodyIndention($body) : string
     {
         if (empty($body)) {
             return $body;
@@ -112,7 +99,7 @@ class MethodGenerator extends AbstractMemberGenerator
         $indention = str_replace(trim($lines[1]), '', $lines[1]);
 
         foreach ($lines as $key => $line) {
-            if (substr($line, 0, strlen($indention)) == $indention) {
+            if (empty($indention) || 0 === strpos($line, $indention)) {
                 $lines[$key] = substr($line, strlen($indention));
             }
         }
@@ -139,7 +126,7 @@ class MethodGenerator extends AbstractMemberGenerator
      * @param  array $array
      * @return MethodGenerator
      */
-    public static function fromArray(array $array)
+    public static function fromArray(array $array) : self
     {
         if (! isset($array['name'])) {
             throw new Exception\InvalidArgumentException(
@@ -196,10 +183,10 @@ class MethodGenerator extends AbstractMemberGenerator
      * @param  DocBlockGenerator|string $docBlock
      */
     public function __construct(
-        $name = null,
+        ?string $name = null,
         array $parameters = [],
-        $flags = self::FLAG_PUBLIC,
-        $body = null,
+        int $flags = self::FLAG_PUBLIC,
+        string $body = null,
         $docBlock = null
     ) {
         if ($name) {
@@ -219,11 +206,7 @@ class MethodGenerator extends AbstractMemberGenerator
         }
     }
 
-    /**
-     * @param  array $parameters
-     * @return MethodGenerator
-     */
-    public function setParameters(array $parameters)
+    public function setParameters(array $parameters) : self
     {
         foreach ($parameters as $parameter) {
             $this->setParameter($parameter);
@@ -235,9 +218,8 @@ class MethodGenerator extends AbstractMemberGenerator
     /**
      * @param  ParameterGenerator|array|string $parameter
      * @throws Exception\InvalidArgumentException
-     * @return MethodGenerator
      */
-    public function setParameter($parameter)
+    public function setParameter($parameter) : self
     {
         if (is_string($parameter)) {
             $parameter = new ParameterGenerator($parameter);
@@ -263,35 +245,23 @@ class MethodGenerator extends AbstractMemberGenerator
     /**
      * @return ParameterGenerator[]
      */
-    public function getParameters()
+    public function getParameters() : array
     {
         return $this->parameters;
     }
 
-    /**
-     * @param  string $body
-     * @return MethodGenerator
-     */
-    public function setBody($body)
+    public function setBody(?string $body) : self
     {
         $this->body = $body;
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getBody()
+    public function getBody() : ?string
     {
         return $this->body;
     }
 
-    /**
-     * @param string|null $returnType
-     *
-     * @return MethodGenerator
-     */
-    public function setReturnType($returnType = null)
+    public function setReturnType(?string $returnType = null) : self
     {
         $this->returnType = null === $returnType
             ? null
@@ -300,30 +270,19 @@ class MethodGenerator extends AbstractMemberGenerator
         return $this;
     }
 
-    /**
-     * @return TypeGenerator|null
-     */
-    public function getReturnType()
+    public function getReturnType() : ?TypeGenerator
     {
         return $this->returnType;
     }
 
-    /**
-     * @param bool $returnsReference
-     *
-     * @return MethodGenerator
-     */
-    public function setReturnsReference($returnsReference)
+    public function setReturnsReference(bool $returnsReference) : self
     {
-        $this->returnsReference = (bool) $returnsReference;
+        $this->returnsReference = $returnsReference;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function generate()
+    public function generate() : string
     {
         $output = '';
 
@@ -350,6 +309,8 @@ class MethodGenerator extends AbstractMemberGenerator
 
         $parameters = $this->getParameters();
         if (! empty($parameters)) {
+            $parameterOutput = [];
+
             foreach ($parameters as $parameter) {
                 $parameterOutput[] = $parameter->generate();
             }
@@ -383,17 +344,12 @@ class MethodGenerator extends AbstractMemberGenerator
         return $output;
     }
 
-    public function __toString()
+    public function __toString() : string
     {
         return $this->generate();
     }
 
-    /**
-     * @param MethodReflection $methodReflection
-     *
-     * @return null|string
-     */
-    private static function extractReturnTypeFromMethodReflection(MethodReflection $methodReflection)
+    private static function extractReturnTypeFromMethodReflection(MethodReflection $methodReflection) : ?string
     {
         $returnType = method_exists($methodReflection, 'getReturnType')
             ? $methodReflection->getReturnType()
@@ -411,13 +367,7 @@ class MethodGenerator extends AbstractMemberGenerator
             . self::expandLiteralType($returnType->getName(), $methodReflection);
     }
 
-    /**
-     * @param string           $literalReturnType
-     * @param ReflectionMethod $methodReflection
-     *
-     * @return string
-     */
-    private static function expandLiteralType($literalReturnType, ReflectionMethod $methodReflection)
+    private static function expandLiteralType($literalReturnType, ReflectionMethod $methodReflection) : ?string
     {
         if ('self' === strtolower($literalReturnType)) {
             return $methodReflection->getDeclaringClass()->getName();

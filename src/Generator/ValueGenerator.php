@@ -96,8 +96,8 @@ class ValueGenerator extends AbstractGenerator
      */
     public function __construct(
         $value = null,
-        $type = self::TYPE_AUTO,
-        $outputMode = self::OUTPUT_MULTIPLE_LINE,
+        string $type = self::TYPE_AUTO,
+        string $outputMode = self::OUTPUT_MULTIPLE_LINE,
         $constants = null
     ) {
         // strict check is important here if $type = AUTO
@@ -123,7 +123,7 @@ class ValueGenerator extends AbstractGenerator
     /**
      * Init constant list by defined and magic constants
      */
-    public function initEnvironmentConstants()
+    public function initEnvironmentConstants() : void
     {
         $constants   = [
             '__DIR__',
@@ -142,12 +142,8 @@ class ValueGenerator extends AbstractGenerator
 
     /**
      * Add constant to list
-     *
-     * @param string $constant
-     *
-     * @return $this
      */
-    public function addConstant($constant)
+    public function addConstant(string $constant) : self
     {
         $this->constants->append($constant);
 
@@ -156,12 +152,8 @@ class ValueGenerator extends AbstractGenerator
 
     /**
      * Delete constant from constant list
-     *
-     * @param string $constant
-     *
-     * @return bool
      */
-    public function deleteConstant($constant)
+    public function deleteConstant(string $constant) : bool
     {
         if (($index = array_search($constant, $this->constants->getArrayCopy())) !== false) {
             $this->constants->offsetUnset($index);
@@ -180,12 +172,9 @@ class ValueGenerator extends AbstractGenerator
         return $this->constants;
     }
 
-    /**
-     * @return bool
-     */
-    public function isValidConstantType()
+    public function isValidConstantType() : bool
     {
-        if ($this->type == self::TYPE_AUTO) {
+        if ($this->type === self::TYPE_AUTO) {
             $type = $this->getAutoDeterminedType($this->value);
         } else {
             $type = $this->type;
@@ -212,9 +201,8 @@ class ValueGenerator extends AbstractGenerator
 
     /**
      * @param  mixed $value
-     * @return ValueGenerator
      */
-    public function setValue($value)
+    public function setValue($value) : self
     {
         $this->value = $value;
         return $this;
@@ -228,47 +216,29 @@ class ValueGenerator extends AbstractGenerator
         return $this->value;
     }
 
-    /**
-     * @param  string $type
-     * @return ValueGenerator
-     */
-    public function setType($type)
+    public function setType(string $type) : self
     {
-        $this->type = (string) $type;
+        $this->type = $type;
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getType()
+    public function getType() : string
     {
         return $this->type;
     }
 
-    /**
-     * @param  int $arrayDepth
-     * @return ValueGenerator
-     */
-    public function setArrayDepth($arrayDepth)
+    public function setArrayDepth(int $arrayDepth) : self
     {
-        $this->arrayDepth = (int) $arrayDepth;
+        $this->arrayDepth = $arrayDepth;
         return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getArrayDepth()
+    public function getArrayDepth() : int
     {
         return $this->arrayDepth;
     }
 
-    /**
-     * @param  string $type
-     * @return string
-     */
-    protected function getValidatedType($type)
+    protected function getValidatedType(string $type) : string
     {
         $types = [
             self::TYPE_AUTO,
@@ -296,11 +266,7 @@ class ValueGenerator extends AbstractGenerator
         return self::TYPE_AUTO;
     }
 
-    /**
-     * @param  mixed $value
-     * @return string
-     */
-    public function getAutoDeterminedType($value)
+    public function getAutoDeterminedType($value) : string
     {
         switch (gettype($value)) {
             case 'boolean':
@@ -330,9 +296,8 @@ class ValueGenerator extends AbstractGenerator
 
     /**
      * @throws Exception\RuntimeException
-     * @return string
      */
-    public function generate()
+    public function generate() : string
     {
         $type = $this->type;
 
@@ -451,7 +416,7 @@ class ValueGenerator extends AbstractGenerator
      * @param  bool $quote Whether add surrounding quotes or not.
      * @return string PHP-ready code.
      */
-    public static function escape($input, $quote = true)
+    public static function escape(string $input, bool $quote = true) : string
     {
         $output = addcslashes($input, "\\'");
 
@@ -467,21 +432,18 @@ class ValueGenerator extends AbstractGenerator
      * @param  string $outputMode
      * @return ValueGenerator
      */
-    public function setOutputMode($outputMode)
+    public function setOutputMode(string $outputMode) : self
     {
-        $this->outputMode = (string) $outputMode;
+        $this->outputMode = $outputMode;
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getOutputMode()
+    public function getOutputMode() : string
     {
         return $this->outputMode;
     }
 
-    public function __toString()
+    public function __toString() : string
     {
         return $this->generate();
     }

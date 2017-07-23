@@ -41,50 +41,31 @@ class GenericTag extends AbstractGenerator implements TagInterface, PrototypeGen
         }
     }
 
-    /**
-     * @param  string $name
-     * @return GenericTag
-     */
-    public function setName($name)
+    public function setName($name) : self
     {
         $this->name = ltrim($name, '@');
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName() : string
     {
         return $this->name;
     }
 
-    /**
-     * @param string $content
-     * @return GenericTag
-     */
-    public function setContent($content)
+    public function setContent(string $content) : self
     {
         $this->content = $content;
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getContent()
+    public function getContent() : ?string
     {
         return $this->content;
     }
 
-    /**
-     * @return string
-     */
-    public function generate()
+    public function generate() : string
     {
-        $output = '@' . $this->name
+        return '@' . $this->name
             . (! empty($this->content) ? ' ' . $this->content : '');
-
-        return $output;
     }
 }

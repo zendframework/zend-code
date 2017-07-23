@@ -23,11 +23,9 @@ class FileGeneratorRegistry
     /**
      * Registry for the Zend\Code package.
      *
-     * @param  FileGenerator $fileCodeGenerator
-     * @param  string $fileName
      * @throws RuntimeException
      */
-    public static function registerFileCodeGenerator(FileGenerator $fileCodeGenerator, $fileName = null)
+    public static function registerFileCodeGenerator(FileGenerator $fileCodeGenerator, ?string $fileName = null) : void
     {
         if ($fileName === null) {
             $fileName = $fileCodeGenerator->getFilename();

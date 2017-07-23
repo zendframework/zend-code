@@ -41,70 +41,46 @@ class LicenseTag extends AbstractGenerator implements TagInterface
     }
 
     /**
-     * @param ReflectionTagInterface $reflectionTag
-     * @return ReturnTag
      * @deprecated Deprecated in 2.3. Use TagManager::createTagFromReflection() instead
      */
-    public static function fromReflection(ReflectionTagInterface $reflectionTag)
+    public static function fromReflection(ReflectionTagInterface $reflectionTag) : self
     {
         $tagManager = new TagManager();
         $tagManager->initializeDefaultTags();
         return $tagManager->createTagFromReflection($reflectionTag);
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName() : string
     {
         return 'license';
     }
 
-    /**
-     * @param string $url
-     * @return LicenseTag
-     */
-    public function setUrl($url)
+    public function setUrl(string $url) : self
     {
         $this->url = $url;
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getUrl()
+    public function getUrl() : ?string
     {
         return $this->url;
     }
 
-    /**
-     * @param  string $name
-     * @return LicenseTag
-     */
-    public function setLicenseName($name)
+    public function setLicenseName(string $name) : self
     {
         $this->licenseName = $name;
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getLicenseName()
+    public function getLicenseName() : ?string
     {
         return $this->licenseName;
     }
 
-    /**
-     * @return string
-     */
-    public function generate()
+    public function generate() : string
     {
-        $output = '@license'
+        return '@license'
             . (! empty($this->url) ? ' ' . $this->url : '')
             . (! empty($this->licenseName) ? ' ' . $this->licenseName : '');
-
-        return $output;
     }
 }

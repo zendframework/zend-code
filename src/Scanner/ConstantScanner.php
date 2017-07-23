@@ -88,33 +88,24 @@ class ConstantScanner implements ScannerInterface
         $this->class = $class;
     }
 
-    /**
-     * @param ClassScanner $scannerClass
-     */
-    public function setScannerClass(ClassScanner $scannerClass)
+    public function setScannerClass(ClassScanner $scannerClass) : void
     {
         $this->scannerClass = $scannerClass;
     }
 
-    /**
-     * @return ClassScanner
-     */
-    public function getClassScanner()
+    public function getClassScanner() : ?ClassScanner
     {
         return $this->scannerClass;
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName() : string
     {
         $this->scan();
         return $this->name;
     }
 
     /**
-     * @return string
+     * @return mixed
      */
     public function getValue()
     {
@@ -122,10 +113,7 @@ class ConstantScanner implements ScannerInterface
         return $this->value;
     }
 
-    /**
-     * @return string
-     */
-    public function getDocComment()
+    public function getDocComment() : ?string
     {
         $this->scan();
         return $this->docComment;
@@ -133,7 +121,7 @@ class ConstantScanner implements ScannerInterface
 
     /**
      * @param Annotation\AnnotationManager $annotationManager
-     * @return AnnotationScanner
+     * @return AnnotationScanner|bool
      */
     public function getAnnotations(Annotation\AnnotationManager $annotationManager)
     {
@@ -147,7 +135,7 @@ class ConstantScanner implements ScannerInterface
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString() : string
     {
         $this->scan();
         return var_export($this, true);
@@ -180,7 +168,7 @@ class ConstantScanner implements ScannerInterface
         $token = current($tokens);
 
         if (! is_string($token)) {
-            list($tokenType, $tokenContent, $tokenLine) = $token;
+            [$tokenType, $tokenContent] = $token;
 
             switch ($tokenType) {
                 case T_DOC_COMMENT:
@@ -197,10 +185,10 @@ class ConstantScanner implements ScannerInterface
                         $this->name = $string;
                     } else {
                         if ('self' == strtolower($string)) {
-                            list($tokenNextType, $tokenNextContent, $tokenNextLine) = next($tokens);
+                            [$unused1, $tokenNextContent, $unused2] = next($tokens);
 
                             if ('::' == $tokenNextContent) {
-                                list($tokenNextType, $tokenNextContent, $tokenNextLine) = next($tokens);
+                                [$unused1, $tokenNextContent, $unused2] = next($tokens);
 
                                 if ($this->getClassScanner()->getConstant($tokenNextContent)) {
                                     $this->value = $this->getClassScanner()->getConstant($tokenNextContent)->getValue();
@@ -217,10 +205,10 @@ class ConstantScanner implements ScannerInterface
                 case T_LNUMBER:
                     $string = is_string($token) ? $token : $tokenContent;
 
-                    if (substr($string, 0, 1) === '"' || substr($string, 0, 1) === "'") {
+                    $this->value = $string;
+
+                    if (in_array(substr($string, 0, 1), ['"', '\''], true)) {
                         $this->value = substr($string, 1, -1); // Remove quotes
-                    } else {
-                        $this->value = $string;
                     }
                     goto SCANNER_CONTINUE;
                     // fall-trough
