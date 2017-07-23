@@ -48,7 +48,7 @@ class MethodTag extends AbstractTypeableTag implements TagInterface
 
     /**
      * @param boolean $isStatic
-     * @return MethodTag
+     * @return MethodTag Provides a fluent interface
      */
     public function setIsStatic($isStatic)
     {
@@ -66,7 +66,7 @@ class MethodTag extends AbstractTypeableTag implements TagInterface
 
     /**
      * @param string $methodName
-     * @return MethodTag
+     * @return MethodTag Provides a fluent interface
      */
     public function setMethodName($methodName)
     {

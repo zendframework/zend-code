@@ -158,7 +158,7 @@ class FileGenerator extends AbstractGenerator
     /**
      * @param  DocBlockGenerator|array|string $docBlock
      * @throws Exception\InvalidArgumentException
-     * @return FileGenerator
+     * @return FileGenerator Provides a fluent interface
      */
     public function setDocBlock($docBlock)
     {
@@ -190,7 +190,7 @@ class FileGenerator extends AbstractGenerator
 
     /**
      * @param  array $requiredFiles
-     * @return FileGenerator
+     * @return FileGenerator Provides a fluent interface
      */
     public function setRequiredFiles(array $requiredFiles)
     {
@@ -216,7 +216,7 @@ class FileGenerator extends AbstractGenerator
 
     /**
      * @param  string $namespace
-     * @return FileGenerator
+     * @return FileGenerator Provides a fluent interface
      */
     public function setNamespace($namespace)
     {
@@ -254,7 +254,7 @@ class FileGenerator extends AbstractGenerator
 
     /**
      * @param  array $uses
-     * @return FileGenerator
+     * @return FileGenerator Provides a fluent interface
      */
     public function setUses(array $uses)
     {
@@ -277,7 +277,7 @@ class FileGenerator extends AbstractGenerator
     /**
      * @param  string $use
      * @param  null|string $as
-     * @return FileGenerator
+     * @return FileGenerator Provides a fluent interface
      */
     public function setUse($use, $as = null)
     {
@@ -289,7 +289,7 @@ class FileGenerator extends AbstractGenerator
 
     /**
      * @param  array $classes
-     * @return FileGenerator
+     * @return FileGenerator Provides a fluent interface
      */
     public function setClasses(array $classes)
     {
@@ -318,7 +318,7 @@ class FileGenerator extends AbstractGenerator
     /**
      * @param  array|string|ClassGenerator $class
      * @throws Exception\InvalidArgumentException
-     * @return FileGenerator
+     * @return FileGenerator Provides a fluent interface
      */
     public function setClass($class)
     {
@@ -343,7 +343,7 @@ class FileGenerator extends AbstractGenerator
 
     /**
      * @param  string $filename
-     * @return FileGenerator
+     * @return FileGenerator Provides a fluent interface
      */
     public function setFilename($filename)
     {
@@ -369,7 +369,7 @@ class FileGenerator extends AbstractGenerator
 
     /**
      * @param  string $body
-     * @return FileGenerator
+     * @return FileGenerator Provides a fluent interface
      */
     public function setBody($body)
     {
@@ -554,7 +554,7 @@ class FileGenerator extends AbstractGenerator
     }
 
     /**
-     * @return FileGenerator
+     * @return FileGenerator Provides a fluent interface
      * @throws Exception\RuntimeException
      */
     public function write()

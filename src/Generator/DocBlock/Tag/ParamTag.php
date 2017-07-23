@@ -55,7 +55,7 @@ class ParamTag extends AbstractTypeableTag implements TagInterface
 
     /**
      * @param string $variableName
-     * @return ParamTag
+     * @return ParamTag Provides a fluent interface
      */
     public function setVariableName($variableName)
     {

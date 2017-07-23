@@ -62,7 +62,7 @@ class AuthorTag extends AbstractGenerator implements TagInterface
 
     /**
      * @param string $authorEmail
-     * @return AuthorTag
+     * @return AuthorTag Provides a fluent interface
      */
     public function setAuthorEmail($authorEmail)
     {
@@ -80,7 +80,7 @@ class AuthorTag extends AbstractGenerator implements TagInterface
 
     /**
      * @param string $authorName
-     * @return AuthorTag
+     * @return AuthorTag Provides a fluent interface
      */
     public function setAuthorName($authorName)
     {

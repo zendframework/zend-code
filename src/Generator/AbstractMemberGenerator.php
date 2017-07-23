@@ -48,7 +48,7 @@ abstract class AbstractMemberGenerator extends AbstractGenerator
 
     /**
      * @param  int|array $flags
-     * @return AbstractMemberGenerator
+     * @return AbstractMemberGenerator Provides a fluent interface
      */
     public function setFlags($flags)
     {
@@ -67,7 +67,7 @@ abstract class AbstractMemberGenerator extends AbstractGenerator
 
     /**
      * @param  int $flag
-     * @return AbstractMemberGenerator
+     * @return AbstractMemberGenerator Provides a fluent interface
      */
     public function addFlag($flag)
     {
@@ -77,7 +77,7 @@ abstract class AbstractMemberGenerator extends AbstractGenerator
 
     /**
      * @param  int $flag
-     * @return AbstractMemberGenerator
+     * @return AbstractMemberGenerator Provides a fluent interface
      */
     public function removeFlag($flag)
     {
@@ -87,7 +87,7 @@ abstract class AbstractMemberGenerator extends AbstractGenerator
 
     /**
      * @param  bool $isAbstract
-     * @return AbstractMemberGenerator
+     * @return AbstractMemberGenerator Provides a fluent interface
      */
     public function setAbstract($isAbstract)
     {
@@ -104,7 +104,7 @@ abstract class AbstractMemberGenerator extends AbstractGenerator
 
     /**
      * @param  bool $isInterface
-     * @return AbstractMemberGenerator
+     * @return AbstractMemberGenerator Provides a fluent interface
      */
     public function setInterface($isInterface)
     {
@@ -155,7 +155,7 @@ abstract class AbstractMemberGenerator extends AbstractGenerator
 
     /**
      * @param  string $visibility
-     * @return AbstractMemberGenerator
+     * @return AbstractMemberGenerator Provides a fluent interface
      */
     public function setVisibility($visibility)
     {
@@ -194,7 +194,7 @@ abstract class AbstractMemberGenerator extends AbstractGenerator
 
     /**
      * @param  string $name
-     * @return AbstractMemberGenerator
+     * @return AbstractMemberGenerator Provides a fluent interface
      */
     public function setName($name)
     {
@@ -213,7 +213,7 @@ abstract class AbstractMemberGenerator extends AbstractGenerator
     /**
      * @param  DocBlockGenerator|string $docBlock
      * @throws Exception\InvalidArgumentException
-     * @return AbstractMemberGenerator
+     * @return AbstractMemberGenerator Provides a fluent interface
      */
     public function setDocBlock($docBlock)
     {

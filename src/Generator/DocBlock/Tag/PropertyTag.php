@@ -40,7 +40,7 @@ class PropertyTag extends AbstractTypeableTag implements TagInterface
 
     /**
      * @param string $propertyName
-     * @return self
+     * @return PropertyTag Provides a fluent interface
      */
     public function setPropertyName($propertyName)
     {

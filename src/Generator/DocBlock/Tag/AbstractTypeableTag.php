@@ -45,7 +45,7 @@ abstract class AbstractTypeableTag extends AbstractGenerator
 
     /**
      * @param string $description
-     * @return ReturnTag
+     * @return AbstractTypeableTag Provides a fluent interface
      */
     public function setDescription($description)
     {
@@ -66,7 +66,7 @@ abstract class AbstractTypeableTag extends AbstractGenerator
      * e.g. array('int', 'null') or "int|null"
      *
      * @param array|string $types
-     * @return ReturnTag
+     * @return AbstractTypeableTag Provides a fluent interface
      */
     public function setTypes($types)
     {

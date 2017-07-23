@@ -110,7 +110,7 @@ class TraitGenerator extends ClassGenerator
 
     /**
      * @param  array|string $flags
-     * @return self
+     * @return TraitGenerator Provides a fluent interface
      */
     public function setFlags($flags)
     {
@@ -119,7 +119,7 @@ class TraitGenerator extends ClassGenerator
 
     /**
      * @param  string $flag
-     * @return self
+     * @return TraitGenerator Provides a fluent interface
      */
     public function addFlag($flag)
     {
@@ -128,7 +128,7 @@ class TraitGenerator extends ClassGenerator
 
     /**
      * @param  string $flag
-     * @return self
+     * @return TraitGenerator Provides a fluent interface
      */
     public function removeFlag($flag)
     {
@@ -137,7 +137,7 @@ class TraitGenerator extends ClassGenerator
 
     /**
      * @param  bool $isFinal
-     * @return self
+     * @return TraitGenerator Provides a fluent interface
      */
     public function setFinal($isFinal)
     {
@@ -146,7 +146,7 @@ class TraitGenerator extends ClassGenerator
 
     /**
      * @param  string $extendedClass
-     * @return self
+     * @return TraitGenerator Provides a fluent interface
      */
     public function setExtendedClass($extendedClass)
     {
@@ -155,7 +155,7 @@ class TraitGenerator extends ClassGenerator
 
     /**
      * @param  array $implementedInterfaces
-     * @return self
+     * @return TraitGenerator Provides a fluent interface
      */
     public function setImplementedInterfaces(array $implementedInterfaces)
     {
@@ -164,7 +164,7 @@ class TraitGenerator extends ClassGenerator
 
     /**
      * @param  bool $isAbstract
-     * @return self
+     * @return TraitGenerator Provides a fluent interface
      */
     public function setAbstract($isAbstract)
     {

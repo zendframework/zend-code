@@ -118,7 +118,7 @@ class GenericAnnotationParser implements ParserInterface
      *
      * @param  array|Traversable $annotations
      * @throws Exception\InvalidArgumentException
-     * @return GenericAnnotationParser
+     * @return GenericAnnotationParser Provides a fluent interface
      */
     public function registerAnnotations($annotations)
     {
@@ -162,7 +162,7 @@ class GenericAnnotationParser implements ParserInterface
      * @param  string $alias
      * @param  string $class May be either a registered annotation name or another alias
      * @throws Exception\InvalidArgumentException
-     * @return GenericAnnotationParser
+     * @return GenericAnnotationParser Provides a fluent interface
      */
     public function setAlias($alias, $class)
     {

@@ -262,7 +262,7 @@ class ClassGenerator extends AbstractGenerator
 
     /**
      * @param  string $name
-     * @return self
+     * @@return ClassGenerator Provides a fluent interface
      */
     public function setName($name)
     {
@@ -286,7 +286,7 @@ class ClassGenerator extends AbstractGenerator
 
     /**
      * @param  string $namespaceName
-     * @return self
+     * @return ClassGenerator Provides a fluent interface
      */
     public function setNamespaceName($namespaceName)
     {
@@ -304,7 +304,7 @@ class ClassGenerator extends AbstractGenerator
 
     /**
      * @param  FileGenerator $fileGenerator
-     * @return self
+     * @return ClassGenerator Provides a fluent interface
      */
     public function setContainingFileGenerator(FileGenerator $fileGenerator)
     {
@@ -322,7 +322,7 @@ class ClassGenerator extends AbstractGenerator
 
     /**
      * @param  DocBlockGenerator $docBlock
-     * @return self
+     * @return ClassGenerator Provides a fluent interface
      */
     public function setDocBlock(DocBlockGenerator $docBlock)
     {
@@ -340,7 +340,7 @@ class ClassGenerator extends AbstractGenerator
 
     /**
      * @param  array|string $flags
-     * @return self
+     * @return ClassGenerator Provides a fluent interface
      */
     public function setFlags($flags)
     {
@@ -359,7 +359,7 @@ class ClassGenerator extends AbstractGenerator
 
     /**
      * @param  string $flag
-     * @return self
+     * @return ClassGenerator Provides a fluent interface
      */
     public function addFlag($flag)
     {
@@ -369,7 +369,7 @@ class ClassGenerator extends AbstractGenerator
 
     /**
      * @param  string $flag
-     * @return self
+     * @return ClassGenerator Provides a fluent interface
      */
     public function removeFlag($flag)
     {
@@ -379,7 +379,7 @@ class ClassGenerator extends AbstractGenerator
 
     /**
      * @param  bool $isAbstract
-     * @return self
+     * @return ClassGenerator Provides a fluent interface
      */
     public function setAbstract($isAbstract)
     {
@@ -413,7 +413,7 @@ class ClassGenerator extends AbstractGenerator
 
     /**
      * @param  string $extendedClass
-     * @return self
+     * @return ClassGenerator Provides a fluent interface
      */
     public function setExtendedClass($extendedClass)
     {
@@ -438,7 +438,7 @@ class ClassGenerator extends AbstractGenerator
     }
 
     /**
-     * @return self
+     * @return ClassGenerator Provides a fluent interface
      */
     public function removeExtentedClass()
     {
@@ -448,7 +448,7 @@ class ClassGenerator extends AbstractGenerator
 
     /**
      * @param  array $implementedInterfaces
-     * @return self
+     * @return ClassGenerator Provides a fluent interface
      */
     public function setImplementedInterfaces(array $implementedInterfaces)
     {
@@ -480,7 +480,7 @@ class ClassGenerator extends AbstractGenerator
 
     /**
      * @param $implementedInterface
-     * @return self
+     * @return ClassGenerator Provides a fluent interface
      */
     public function removeImplementedInterface($implementedInterface)
     {
@@ -512,7 +512,7 @@ class ClassGenerator extends AbstractGenerator
 
     /**
      * @param  string $constantName
-     * @return self
+     * @return ClassGenerator Provides a fluent interface
      */
     public function removeConstant($constantName)
     {
@@ -535,7 +535,7 @@ class ClassGenerator extends AbstractGenerator
      *
      * @param  PropertyGenerator           $constant
      * @throws Exception\InvalidArgumentException
-     * @return self
+     * @return ClassGenerator Provides a fluent interface
      */
     public function addConstantFromGenerator(PropertyGenerator $constant)
     {
@@ -608,7 +608,7 @@ class ClassGenerator extends AbstractGenerator
 
     /**
      * @param  array $properties
-     * @return self
+     * @return ClassGenerator Provides a fluent interface
      */
     public function addProperties(array $properties)
     {
@@ -634,7 +634,7 @@ class ClassGenerator extends AbstractGenerator
      * @param  string|array $defaultValue
      * @param  int $flags
      * @throws Exception\InvalidArgumentException
-     * @return self
+     * @return ClassGenerator Provides a fluent interface
      */
     public function addProperty($name, $defaultValue = null, $flags = PropertyGenerator::FLAG_PUBLIC)
     {
@@ -660,7 +660,7 @@ class ClassGenerator extends AbstractGenerator
      *
      * @param  PropertyGenerator           $property
      * @throws Exception\InvalidArgumentException
-     * @return self
+     * @return ClassGenerator Provides a fluent interface
      */
     public function addPropertyFromGenerator(PropertyGenerator $property)
     {
@@ -711,7 +711,7 @@ class ClassGenerator extends AbstractGenerator
      *
      * @param  string $use
      * @param  string|null $useAlias
-     * @return self
+     * @return ClassGenerator Provides a fluent interface
      */
     public function addUse($use, $useAlias = null)
     {
@@ -721,7 +721,7 @@ class ClassGenerator extends AbstractGenerator
 
     /**
      * @param string $use
-     * @return self
+     * @return bool
      */
     public function hasUse($use)
     {
@@ -730,7 +730,7 @@ class ClassGenerator extends AbstractGenerator
 
     /**
      * @param  string $use
-     * @return self
+     * @return ClassGenerator Provides a fluent interface
      */
     public function removeUse($use)
     {
@@ -749,7 +749,7 @@ class ClassGenerator extends AbstractGenerator
 
     /**
      * @param $use
-     * @return self
+     * @return ClassGenerator Provides a fluent interface
      */
     public function removeUseAlias($use)
     {
@@ -770,7 +770,7 @@ class ClassGenerator extends AbstractGenerator
 
     /**
      * @param  string $propertyName
-     * @return self
+     * @return ClassGenerator Provides a fluent interface
      */
     public function removeProperty($propertyName)
     {
@@ -790,7 +790,7 @@ class ClassGenerator extends AbstractGenerator
 
     /**
      * @param  array $methods
-     * @return self
+     * @return ClassGenerator Provides a fluent interface
      */
     public function addMethods(array $methods)
     {
@@ -818,7 +818,7 @@ class ClassGenerator extends AbstractGenerator
      * @param  string $body
      * @param  string $docBlock
      * @throws Exception\InvalidArgumentException
-     * @return self
+     * @return ClassGenerator Provides a fluent interface
      */
     public function addMethod(
         $name,
@@ -843,7 +843,7 @@ class ClassGenerator extends AbstractGenerator
      *
      * @param  MethodGenerator                    $method
      * @throws Exception\InvalidArgumentException
-     * @return self
+     * @return ClassGenerator Provides a fluent interface
      */
     public function addMethodFromGenerator(MethodGenerator $method)
     {
@@ -879,7 +879,7 @@ class ClassGenerator extends AbstractGenerator
 
     /**
      * @param  string $methodName
-     * @return self
+     * @return ClassGenerator Provides a fluent interface
      */
     public function removeMethod($methodName)
     {

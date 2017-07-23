@@ -62,7 +62,7 @@ class LicenseTag extends AbstractGenerator implements TagInterface
 
     /**
      * @param string $url
-     * @return LicenseTag
+     * @return LicenseTag Provides a fluent interface
      */
     public function setUrl($url)
     {
@@ -80,7 +80,7 @@ class LicenseTag extends AbstractGenerator implements TagInterface
 
     /**
      * @param  string $name
-     * @return LicenseTag
+     * @return LicenseTag Provides a fluent interface
      */
     public function setLicenseName($name)
     {

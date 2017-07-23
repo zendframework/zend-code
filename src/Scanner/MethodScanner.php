@@ -112,7 +112,7 @@ class MethodScanner implements ScannerInterface
 
     /**
      * @param  string $class
-     * @return MethodScanner
+     * @return MethodScanner Provides a fluent interface
      */
     public function setClass($class)
     {
@@ -122,7 +122,7 @@ class MethodScanner implements ScannerInterface
 
     /**
      * @param  ClassScanner  $scannerClass
-     * @return MethodScanner
+     * @return ClassScanner Provides a fluent interface
      */
     public function setScannerClass(ClassScanner $scannerClass)
     {
@@ -131,7 +131,7 @@ class MethodScanner implements ScannerInterface
     }
 
     /**
-     * @return MethodScanner
+     * @return ClassScanner Provides a fluent interface
      */
     public function getClassScanner()
     {
@@ -256,7 +256,7 @@ class MethodScanner implements ScannerInterface
      * support traits.
      *
      * @param $name
-     * @return self
+     * @return MethodScanner Provides a fluent interface
      */
     public function setName($name)
     {
@@ -269,7 +269,7 @@ class MethodScanner implements ScannerInterface
      * Needed to support traits
      *
      * @param $visibility   T_PUBLIC | T_PRIVATE | T_PROTECTED
-     * @return self
+     * @return MethodScanner Provides a fluent interface
      * @throws \Zend\Code\Exception
      */
     public function setVisibility($visibility)
