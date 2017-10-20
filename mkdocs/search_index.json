@@ -2,12 +2,12 @@
     "docs": [
         {
             "location": "/",
-            "text": "zend-code\n\n\n\n\n\n\nZend\\Code\\Generator\n provides facilities to generate arbitrary code using an\nobject-oriented interface, both to create new code as well as to update existing\ncode. While the current implementation is limited to generating PHP code, you\ncan easily extend the base class in order to provide code generation for other\ntasks: JavaScript, configuration files, apache vhosts, etc.\n\n\n\n\nFile issues at https://github.com/zendframework/zend-code/issues\n\n\nDocumentation is at http://zend-code.rtfd.org\n\n\nMigration documentation from v2 to v3 is at http://zend-code.rtfd.org/en/latest/migration/",
+            "text": "zend-code\n\n\n\n\n\n\nZend\\Code\\Generator\n provides facilities to generate arbitrary code using an\nobject-oriented interface, both to create new code as well as to update existing\ncode. While the current implementation is limited to generating PHP code, you\ncan easily extend the base class in order to provide code generation for other\ntasks: JavaScript, configuration files, apache vhosts, etc.\n\n\n\n\nFile issues at https://github.com/zendframework/zend-code/issues\n\n\nDocumentation is at https://docs.zendframework.com/zend-code/\n\n\nMigration documentation from v2 to v3 is at https://docs.zendframework.com/zend-code/migration/",
             "title": "Home"
         },
         {
             "location": "/#zend-code",
-            "text": "Zend\\Code\\Generator  provides facilities to generate arbitrary code using an\nobject-oriented interface, both to create new code as well as to update existing\ncode. While the current implementation is limited to generating PHP code, you\ncan easily extend the base class in order to provide code generation for other\ntasks: JavaScript, configuration files, apache vhosts, etc.   File issues at https://github.com/zendframework/zend-code/issues  Documentation is at http://zend-code.rtfd.org  Migration documentation from v2 to v3 is at http://zend-code.rtfd.org/en/latest/migration/",
+            "text": "Zend\\Code\\Generator  provides facilities to generate arbitrary code using an\nobject-oriented interface, both to create new code as well as to update existing\ncode. While the current implementation is limited to generating PHP code, you\ncan easily extend the base class in order to provide code generation for other\ntasks: JavaScript, configuration files, apache vhosts, etc.   File issues at https://github.com/zendframework/zend-code/issues  Documentation is at https://docs.zendframework.com/zend-code/  Migration documentation from v2 to v3 is at https://docs.zendframework.com/zend-code/migration/",
             "title": "zend-code"
         },
         {
