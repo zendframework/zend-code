@@ -444,6 +444,7 @@ used), a default value, and a data type; a parameter name is required.</p>
     public function getPassedByReference()
     public function setPassedByReference($passedByReference)
     public function generate()
+    public function omitDefaultValue()
 }</code></pre>
 
 <p>There are several problems that might occur when trying to set <code>NULL</code>, booleans or arrays as default
@@ -476,6 +477,7 @@ Additionally, the visibility of variable properties may be set, per the parent c
     public function setDefaultValue($defaultValue)
     public function getDefaultValue()
     public function generate()
+    public function omitDefaultValue()
 }</code></pre>
 
 <hr />
