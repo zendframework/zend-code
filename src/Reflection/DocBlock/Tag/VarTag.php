@@ -66,12 +66,12 @@ class VarTag implements TagInterface, PhpDocTypedTagInterface
         return $this->types;
     }
 
-    public function getVariableName() : ?string
+    public function getVariableName() : string
     {
         return $this->variableName;
     }
 
-    public function getDescription() : ?string
+    public function getDescription() : string
     {
         return $this->description;
     }
