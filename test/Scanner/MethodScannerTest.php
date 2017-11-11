@@ -10,7 +10,9 @@
 namespace ZendTest\Code\Scanner;
 
 use PHPUnit\Framework\TestCase;
+use Zend\Code\Exception\InvalidArgumentException;
 use Zend\Code\Scanner\FileScanner;
+use Zend\Code\Scanner\MethodScanner;
 use Zend\Code\Scanner\ParameterScanner;
 use ZendTest\Code\TestAsset\AbstractClass;
 use ZendTest\Code\TestAsset\BarClass;
@@ -109,5 +111,14 @@ class MethodScannerTest extends TestCase
         $method = $class->getMethod('helloWorld');
 
         self::assertTrue($method->isAbstract());
+    }
+
+    public function testMethodScannerThrowsExceptionWhenSettingInvalidVisibility()
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Invalid visibility argument passed to setVisibility.');
+
+        $methodScanner = new MethodScanner([]);
+        $methodScanner->setVisibility(-1);
     }
 }
