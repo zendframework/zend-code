@@ -1,4 +1,4 @@
-# zend-expressive Makefile
+# zend-code Makefile
 #
 # Primary purpose is for generating the mkdocs.yml from the bookdown.json
 # sources.
