@@ -11,4 +11,13 @@ namespace Zend\Code\Annotation\Parser;
 
 use Zend\EventManager\EventInterface;
 
-interface ParserInterface extends EventAwareInterface, AnnotationRegistryInterface {}
+interface EventAwareInterface
+{
+    /**
+     * Respond to the "createAnnotation" event
+     *
+     * @param  EventInterface  $e
+     * @return false|\stdClass
+     */
+    public function onCreateAnnotation(EventInterface $e);
+}

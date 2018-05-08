@@ -9,7 +9,7 @@
 
 namespace Zend\Code\Annotation;
 
-use Zend\Code\Annotation\Parser\ParserInterface;
+use Zend\Code\Annotation\Parser\EventAwareInterface;
 use Zend\EventManager\Event;
 use Zend\EventManager\EventManager;
 use Zend\EventManager\EventManagerAwareInterface;
@@ -72,10 +72,10 @@ class AnnotationManager implements EventManagerAwareInterface
     /**
      * Attach a parser to listen to the createAnnotation event
      *
-     * @param  ParserInterface $parser
+     * @param  EventAwareInterface $parser
      * @return AnnotationManager
      */
-    public function attach(ParserInterface $parser)
+    public function attach(EventAwareInterface $parser)
     {
         $this->getEventManager()
              ->attach(self::EVENT_CREATE_ANNOTATION, [$parser, 'onCreateAnnotation']);
