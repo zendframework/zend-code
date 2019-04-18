@@ -12,6 +12,7 @@
     <title>Examples - zend-code</title>
 
     <link rel="stylesheet" href="../../css/styles-18b942728f.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.2.0/anchor.min.js"></script>
 </head>
 <body id="page-top">
 
@@ -66,7 +67,7 @@
                     
     <div class="subnavigation hidden-print">
         <h4 class="subnavigation__title">
-            <a href="../..">zend-code</a>
+            <a href="">zend-code</a>
         </h4>
 
         <h5 class="subnavigation__subtitle">Table of Contents</h5>
@@ -75,7 +76,7 @@
             
                 
                     <li class="subnavigation__list-item ">
-                        <a href="../.." class="subnavigation__link">zend-code</a>
+                        <a href="" class="subnavigation__link">zend-code</a>
                     </li>
                 
             
@@ -86,19 +87,19 @@
                             
                                 
     <li class="subnavigation__list-item ">
-        <a href="../intro/" class="subnavigation__link">Intro</a>
+        <a href="generator/intro/" class="subnavigation__link">Intro</a>
     </li>
 
                             
                                 
     <li class="subnavigation__list-item subnavigation__list-item--active">
-        <a href="./" class="subnavigation__link">Examples</a>
+        <a href="generator/examples/" class="subnavigation__link">Examples</a>
     </li>
 
                             
                                 
     <li class="subnavigation__list-item ">
-        <a href="../reference/" class="subnavigation__link">Reference</a>
+        <a href="generator/reference/" class="subnavigation__link">Reference</a>
     </li>
 
                             
@@ -108,7 +109,7 @@
             
                 
                     <li class="subnavigation__list-item ">
-                        <a href="../../migration/" class="subnavigation__link">Migration</a>
+                        <a href="migration/" class="subnavigation__link">Migration</a>
                     </li>
                 
             
@@ -188,7 +189,7 @@
         <li><a href="https://docs.zendframework.com/">Documentation</a></li>
 
         
-            <li><a href="../..">zend-code</a></li>
+            <li><a href="">zend-code</a></li>
 
             
                 
@@ -360,7 +361,7 @@ $foo-&gt;setName('Foo')
         MethodGenerator::fromArray([
             'name'       =&gt; 'setBar',
             'parameters' =&gt; ['bar'],
-            'body'       =&gt; '$this-&gt;_bar = $bar;' . &quot;\n&quot; . 'return $this;',
+            'body'       =&gt; '$this-&gt;_bar = $bar;' . "\n" . 'return $this;',
             'docblock'   =&gt; DocBlockGenerator::fromArray([
                 'shortDescription' =&gt; 'Set the bar property',
                 'longDescription'  =&gt; null,
@@ -522,7 +523,7 @@ define('APPLICATION_ENV', 'testing');</code></pre>
 <p>You can add <em>PHP</em> code to an existing <em>PHP</em> file using the code generator. To do so, you need to
 first do reflection on it. The static method <code>fromReflectedFileName()</code> allows you to do this.</p>
 <pre class="codehilite"><code class="language-php">$generator = Zend\Code\Generator\FileGenerator::fromReflectedFileName($path);   
-$generator-&gt;setBody(&quot;\$foo-&gt;bar();&quot;);
+$generator-&gt;setBody("\$foo-&gt;bar();");
 file_put_contents($path, $generator-&gt;generate());</code></pre>
 
 <h3 id="seeding-php-class-generation-via-reflection">Seeding PHP class generation via reflection</h3>
@@ -542,7 +543,7 @@ $generator-&gt;addMethod(
     'setBaz',
     ['baz'],
     MethodGenerator::FLAG_PUBLIC,
-    '$this-&gt;_baz = $baz;' . &quot;\n&quot; . 'return $this;',
+    '$this-&gt;_baz = $baz;' . "\n" . 'return $this;',
     DocBlockGenerator::fromArray([
         'shortDescription' =&gt; 'Set the baz property',
         'longDescription'  =&gt; null,
@@ -567,7 +568,7 @@ $code = $generator-&gt;generate();</code></pre>
         
         <li class="page-nav__item">
             
-                <a rel="prev" class="page-nav__link page-nav__link--prev" href="../intro/">
+                <a rel="prev" class="page-nav__link page-nav__link--prev" href="generator/intro/">
                     <i class="fa fa-chevron-left"></i> Previous
                 </a>
             
@@ -576,7 +577,7 @@ $code = $generator-&gt;generate();</code></pre>
         
         <li class="page-nav__item">
             
-                <a rel="next" class="page-nav__link page-nav__link--next" href="../reference/">
+                <a rel="next" class="page-nav__link page-nav__link--next" href="generator/reference/">
                     Next <i class="fa fa-chevron-right"></i>
                 </a>
             
@@ -611,7 +612,7 @@ $code = $generator-&gt;generate();</code></pre>
                     
     <div class="subnavigation hidden-print">
         <h4 class="subnavigation__title">
-            <a href="../..">zend-code</a>
+            <a href="">zend-code</a>
         </h4>
 
         <h5 class="subnavigation__subtitle">Table of Contents</h5>
@@ -620,7 +621,7 @@ $code = $generator-&gt;generate();</code></pre>
             
                 
                     <li class="subnavigation__list-item ">
-                        <a href="../.." class="subnavigation__link">zend-code</a>
+                        <a href="" class="subnavigation__link">zend-code</a>
                     </li>
                 
             
@@ -631,19 +632,19 @@ $code = $generator-&gt;generate();</code></pre>
                             
                                 
     <li class="subnavigation__list-item ">
-        <a href="../intro/" class="subnavigation__link">Intro</a>
+        <a href="generator/intro/" class="subnavigation__link">Intro</a>
     </li>
 
                             
                                 
     <li class="subnavigation__list-item subnavigation__list-item--active">
-        <a href="./" class="subnavigation__link">Examples</a>
+        <a href="generator/examples/" class="subnavigation__link">Examples</a>
     </li>
 
                             
                                 
     <li class="subnavigation__list-item ">
-        <a href="../reference/" class="subnavigation__link">Reference</a>
+        <a href="generator/reference/" class="subnavigation__link">Reference</a>
     </li>
 
                             
@@ -653,7 +654,7 @@ $code = $generator-&gt;generate();</code></pre>
             
                 
                     <li class="subnavigation__list-item ">
-                        <a href="../../migration/" class="subnavigation__link">Migration</a>
+                        <a href="migration/" class="subnavigation__link">Migration</a>
                     </li>
                 
             
@@ -731,9 +732,8 @@ $code = $generator-&gt;generate();</code></pre>
         var base_url = '../..',
             siteName = 'zend-code';
     </script>
-    <script src="../../js/scripts-0bcb0a3bb3.js"></script>
-        <script src="../../search/require.js"></script>
-        <script src="../../search/search.js"></script>
+    <script src="../../js/scripts-edc4cfa790.js"></script>
+        <script src="../../search/main.js"></script>
 
     
     <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
@@ -762,6 +762,14 @@ $code = $generator-&gt;generate();</code></pre>
             </div>
         </div>
     </div>
+
+<script>
+// Anchors
+anchors.options.placement = 'left';
+anchors.add(
+    '.content h1:not(.content__title), .content h2, .content > h3, .content h4, .content h5'
+);
+</script>
 
 
 

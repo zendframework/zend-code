@@ -12,6 +12,7 @@
     <title>Migration - zend-code</title>
 
     <link rel="stylesheet" href="../css/styles-18b942728f.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.2.0/anchor.min.js"></script>
 </head>
 <body id="page-top">
 
@@ -66,7 +67,7 @@
                     
     <div class="subnavigation hidden-print">
         <h4 class="subnavigation__title">
-            <a href="..">zend-code</a>
+            <a href="">zend-code</a>
         </h4>
 
         <h5 class="subnavigation__subtitle">Table of Contents</h5>
@@ -75,7 +76,7 @@
             
                 
                     <li class="subnavigation__list-item ">
-                        <a href=".." class="subnavigation__link">zend-code</a>
+                        <a href="" class="subnavigation__link">zend-code</a>
                     </li>
                 
             
@@ -86,19 +87,19 @@
                             
                                 
     <li class="subnavigation__list-item ">
-        <a href="../generator/intro/" class="subnavigation__link">Intro</a>
+        <a href="generator/intro/" class="subnavigation__link">Intro</a>
     </li>
 
                             
                                 
     <li class="subnavigation__list-item ">
-        <a href="../generator/examples/" class="subnavigation__link">Examples</a>
+        <a href="generator/examples/" class="subnavigation__link">Examples</a>
     </li>
 
                             
                                 
     <li class="subnavigation__list-item ">
-        <a href="../generator/reference/" class="subnavigation__link">Reference</a>
+        <a href="generator/reference/" class="subnavigation__link">Reference</a>
     </li>
 
                             
@@ -108,7 +109,7 @@
             
                 
                     <li class="subnavigation__list-item subnavigation__list-item--active">
-                        <a href="./" class="subnavigation__link">Migration</a>
+                        <a href="migration/" class="subnavigation__link">Migration</a>
                     </li>
                 
             
@@ -188,7 +189,7 @@
         <li><a href="https://docs.zendframework.com/">Documentation</a></li>
 
         
-            <li><a href="..">zend-code</a></li>
+            <li><a href="">zend-code</a></li>
 
             
 
@@ -248,7 +249,7 @@
 
 $generator-&gt;setType('string');
 
-echo $generator-&gt;generate(); // &quot;$foo&quot;</code></pre>
+echo $generator-&gt;generate(); // "$foo"</code></pre>
 
 <p>In 3.x, this code will instead produce <code>"string $foo"</code>.
 If you generate code that should run in PHP 5.x, it is advisable to strip
@@ -344,7 +345,7 @@ this protected member is now <code>null|Zend\Code\Generator\TypeGenerator</code>
         
         <li class="page-nav__item">
             
-                <a rel="prev" class="page-nav__link page-nav__link--prev" href="../generator/reference/">
+                <a rel="prev" class="page-nav__link page-nav__link--prev" href="generator/reference/">
                     <i class="fa fa-chevron-left"></i> Previous
                 </a>
             
@@ -384,7 +385,7 @@ this protected member is now <code>null|Zend\Code\Generator\TypeGenerator</code>
                     
     <div class="subnavigation hidden-print">
         <h4 class="subnavigation__title">
-            <a href="..">zend-code</a>
+            <a href="">zend-code</a>
         </h4>
 
         <h5 class="subnavigation__subtitle">Table of Contents</h5>
@@ -393,7 +394,7 @@ this protected member is now <code>null|Zend\Code\Generator\TypeGenerator</code>
             
                 
                     <li class="subnavigation__list-item ">
-                        <a href=".." class="subnavigation__link">zend-code</a>
+                        <a href="" class="subnavigation__link">zend-code</a>
                     </li>
                 
             
@@ -404,19 +405,19 @@ this protected member is now <code>null|Zend\Code\Generator\TypeGenerator</code>
                             
                                 
     <li class="subnavigation__list-item ">
-        <a href="../generator/intro/" class="subnavigation__link">Intro</a>
+        <a href="generator/intro/" class="subnavigation__link">Intro</a>
     </li>
 
                             
                                 
     <li class="subnavigation__list-item ">
-        <a href="../generator/examples/" class="subnavigation__link">Examples</a>
+        <a href="generator/examples/" class="subnavigation__link">Examples</a>
     </li>
 
                             
                                 
     <li class="subnavigation__list-item ">
-        <a href="../generator/reference/" class="subnavigation__link">Reference</a>
+        <a href="generator/reference/" class="subnavigation__link">Reference</a>
     </li>
 
                             
@@ -426,7 +427,7 @@ this protected member is now <code>null|Zend\Code\Generator\TypeGenerator</code>
             
                 
                     <li class="subnavigation__list-item subnavigation__list-item--active">
-                        <a href="./" class="subnavigation__link">Migration</a>
+                        <a href="migration/" class="subnavigation__link">Migration</a>
                     </li>
                 
             
@@ -504,9 +505,8 @@ this protected member is now <code>null|Zend\Code\Generator\TypeGenerator</code>
         var base_url = '..',
             siteName = 'zend-code';
     </script>
-    <script src="../js/scripts-0bcb0a3bb3.js"></script>
-        <script src="../search/require.js"></script>
-        <script src="../search/search.js"></script>
+    <script src="../js/scripts-edc4cfa790.js"></script>
+        <script src="../search/main.js"></script>
 
     
     <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
@@ -535,6 +535,14 @@ this protected member is now <code>null|Zend\Code\Generator\TypeGenerator</code>
             </div>
         </div>
     </div>
+
+<script>
+// Anchors
+anchors.options.placement = 'left';
+anchors.add(
+    '.content h1:not(.content__title), .content h2, .content > h3, .content h4, .content h5'
+);
+</script>
 
 
 
