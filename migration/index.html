@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="zend-code: Tools for reflecting, scanning, and generating PHP code">  
+    <meta name="description" content="Extensions to the PHP Reflection API, static code scanning, and code generation">  
     <link rel="canonical" href="https://docs.zendframework.com/zend-code/migration/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
@@ -81,27 +81,13 @@
                     
                     
                         
-                            <li class="subnavigation__list-item ">
-                                <a href=".." class="subnavigation__link">zend-code</a>
-                            </li>
-                        
-                    
-                
-            
-
-                
-                
-
-                    
-                    
-                        
                             <li class="subnavigation__list-item">
                                 <span class="subnavigation__headline">Code Generation</span>
                                 <ul class="subnavigation__list">
                                     
                                         
     <li class="subnavigation__list-item ">
-        <a href="../generator/intro/" class="subnavigation__link">Intro</a>
+        <a href="../generator/intro/" class="subnavigation__link">Introduction</a>
     </li>
 
                                     
@@ -278,7 +264,7 @@
 
     <h1 id="migrating-from-zend-code-v2-to-v3">Migrating from zend-code v2 to v3</h1>
 <h2 id="string-int-float-bool-are-no-longer-ignored"><code>string</code>, <code>int</code>, <code>float</code>, <code>bool</code> are no longer ignored</h2>
-<p>In 2.x, a <code>Zend\Code\Generator\ParameterGenerator</code> with name <code>foo</code> and type 
+<p>In 2.x, a <code>Zend\Code\Generator\ParameterGenerator</code> with name <code>foo</code> and type
 <code>string</code>, <code>int</code>, <code>float</code> or <code>bool</code> simply generated code <code>"$foo"</code>:</p>
 <pre class="codehilite"><code class="language-php">$generator = new \Zend\Code\ParameterGenerator('foo');
 
@@ -289,7 +275,7 @@ echo $generator-&gt;generate(); // "$foo"</code></pre>
 <p>In 3.x, this code will instead produce <code>"string $foo"</code>.
 If you generate code that should run in PHP 5.x, it is advisable to strip
 <code>string</code>, <code>int</code>, <code>float</code> and <code>bool</code> from type definitions passed to
-<code>Zend\Code\ParameterGenerator</code> instances. The quickest way is to set the 
+<code>Zend\Code\ParameterGenerator</code> instances. The quickest way is to set the
 type to <code>null</code>, if it matches any of these scalar types:</p>
 <pre class="codehilite"><code class="language-php">if (in_array($type, ['string', 'int', 'float', 'bool'])) {
     $type = null;
@@ -304,7 +290,7 @@ was renamed to <code>Zend\Code\Reflection\ParameterReflection#detectType()</code
 <p>If you relied on <code>Zend\Code\Reflection\ParameterReflection#getType()</code>, you can
 simply replace the method calls in your code.</p>
 <h2 id="docblock-types-ignored-by-parametergeneratorfromreflection">DocBlock types ignored by <code>ParameterGenerator::fromReflection()</code></h2>
-<p>As a direct consequence of the previous change, calls to 
+<p>As a direct consequence of the previous change, calls to
 <code>Zend\Code\Generator\ParameterGenerator::fromReflection()</code> will not mirror the
 type hints read from a method's DocBlock.</p>
 <p>As an example, take following code:</p>
@@ -324,7 +310,7 @@ $methodGenerator = \Zend\Code\Generator\MethodGenerator::fromReflection(
 
 var_dump($methodGenerator-&gt;getParameters()[0]-&gt;getType());</code></pre>
 
-<p>In version 2.x, this code produces <code>"string"</code>, in version 3.x it returns <code>null</code>. If you 
+<p>In version 2.x, this code produces <code>"string"</code>, in version 3.x it returns <code>null</code>. If you
 need to rely on the types in the annotations, please use
 <code>Zend\Code\Reflection\ParameterReflection#detectType()</code> instead, and build a
 <code>MethodGenerator</code> instance manually.</p>
@@ -400,7 +386,7 @@ this protected member is now <code>null|Zend\Code\Generator\TypeGenerator</code>
     <div class="help-wanted">
         <p>
             Found a mistake or want to contribute to the documentation?
-            <a href="https://github.com/zendframework/zend-code/edit/master/doc/migration.md" target="_blank" class="help-wanted__link">
+            <a href="https://github.com/zendframework/zend-code/edit/master/docs/migration.md" target="_blank" class="help-wanted__link">
                 Edit this page on GitHub!
             </a>
         </p>
@@ -436,27 +422,13 @@ this protected member is now <code>null|Zend\Code\Generator\TypeGenerator</code>
                     
                     
                         
-                            <li class="subnavigation__list-item ">
-                                <a href=".." class="subnavigation__link">zend-code</a>
-                            </li>
-                        
-                    
-                
-            
-
-                
-                
-
-                    
-                    
-                        
                             <li class="subnavigation__list-item">
                                 <span class="subnavigation__headline">Code Generation</span>
                                 <ul class="subnavigation__list">
                                     
                                         
     <li class="subnavigation__list-item ">
-        <a href="../generator/intro/" class="subnavigation__link">Intro</a>
+        <a href="../generator/intro/" class="subnavigation__link">Introduction</a>
     </li>
 
                                     
