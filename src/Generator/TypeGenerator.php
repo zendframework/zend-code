@@ -50,7 +50,8 @@ final class TypeGenerator implements GeneratorInterface
         'array',
         'callable',
         'iterable',
-        'object'
+        'object',
+        'self'
     ];
 
     /**
