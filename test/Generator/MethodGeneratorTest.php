@@ -423,4 +423,17 @@ PHP;
 
         self::assertStringMatchesFormat('%Apublic function & byRefReturn()%A', $methodGenerator->generate());
     }
+
+    public function testSelfReturnType()
+    {
+        $methodGenerator = new MethodGenerator('testSelfReturnType');
+        $methodGenerator->setReturnType('self');
+        $target = <<<'EOS'
+    public function testSelfReturnType() : self
+    {
+    }
+
+EOS;
+        self::assertEquals($target, (string) $methodGenerator);
+    }
 }
