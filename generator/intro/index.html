@@ -256,7 +256,7 @@ provide code generation for other tasks: JavaScript, configuration files, apache
 <p>In the most typical use case, you will simply instantiate a code generator class and either pass it
 the appropriate configuration or configure it after instantiation. To generate the code, you will
 simply echo the object or call its <code>generate()</code> method.</p>
-<pre class="codehilite"><code class="language-php">// Passing configuration to the constructor:
+<p> <pre class=codehilite><code class=language-php>// Passing configuration to the constructor:
 $file = new Zend\Code\Generator\FileGenerator(array(
     'classes' =&gt; array(
         new Zend\Code\Generator\ClassGenerator(
@@ -302,10 +302,9 @@ $file-&gt;setClass($class);
 echo $file-&gt;generate();
 
 // or write it to a file:
-file_put_contents('World.php', $file-&gt;generate());</code></pre>
-
+file_put_contents('World.php', $file-&gt;generate());</code></pre></p>
 <p>Both of the above samples will render the same result:</p>
-<pre class="codehilite"><code class="language-php">&lt;?php
+<p> <pre class=codehilite><code class=language-php>&lt;?php
 
 class World
 {
@@ -315,14 +314,13 @@ class World
         echo 'Hello world!';
     }
 
-}</code></pre>
-
+}</code></pre></p>
 <p>Another common use case is to update existing code -- for instance, to add a method to a class. In
 such a case, you must first inspect the existing code using reflection, and then add your new
 method. <code>Zend\Code\Generator</code> makes this trivially simple, by leveraging <code>Zend\Code\Reflection</code>.</p>
 <p>As an example, let's say we've saved the above to the file <code>World.php</code>, and have already included
 it. We could then do the following:</p>
-<pre class="codehilite"><code class="language-php">$class = Zend\Code\Generator\ClassGenerator::fromReflection(
+<p> <pre class=codehilite><code class=language-php>$class = Zend\Code\Generator\ClassGenerator::fromReflection(
     new Zend\Code\Reflection\ClassReflection('World')
 );
 
@@ -338,10 +336,9 @@ $file-&gt;setClass($class);
 echo $file-&gt;generate();
 
 // Or, better yet, write it back to the original file:
-file_put_contents('World.php', $file-&gt;generate());</code></pre>
-
+file_put_contents('World.php', $file-&gt;generate());</code></pre></p>
 <p>The resulting class file will now look like this:</p>
-<pre class="codehilite"><code class="language-php">&lt;?php
+<p> <pre class=codehilite><code class=language-php>&lt;?php
 
 class World
 {
@@ -356,7 +353,7 @@ class World
         echo 'Hellow Mr. McFeeley!';
     }
 
-}</code></pre>
+}</code></pre></p>
 
 
 
@@ -390,7 +387,7 @@ class World
     <div class="help-wanted">
         <p>
             Found a mistake or want to contribute to the documentation?
-            <a href="https://github.com/zendframework/zend-code/edit/master/docs/generator/intro.md" target="_blank" class="help-wanted__link">
+            <a href="https://github.com/zendframework/zend-code/edit/master/docs/book/generator/intro.md" target="_blank" class="help-wanted__link">
                 Edit this page on GitHub!
             </a>
         </p>

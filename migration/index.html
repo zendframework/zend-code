@@ -266,23 +266,21 @@
 <h2 id="string-int-float-bool-are-no-longer-ignored"><code>string</code>, <code>int</code>, <code>float</code>, <code>bool</code> are no longer ignored</h2>
 <p>In 2.x, a <code>Zend\Code\Generator\ParameterGenerator</code> with name <code>foo</code> and type
 <code>string</code>, <code>int</code>, <code>float</code> or <code>bool</code> simply generated code <code>"$foo"</code>:</p>
-<pre class="codehilite"><code class="language-php">$generator = new \Zend\Code\ParameterGenerator('foo');
+<p> <pre class=codehilite><code class=language-php>$generator = new \Zend\Code\ParameterGenerator('foo');
 
 $generator-&gt;setType('string');
 
-echo $generator-&gt;generate(); // "$foo"</code></pre>
-
+echo $generator-&gt;generate(); // &quot;$foo&quot;</code></pre></p>
 <p>In 3.x, this code will instead produce <code>"string $foo"</code>.
 If you generate code that should run in PHP 5.x, it is advisable to strip
 <code>string</code>, <code>int</code>, <code>float</code> and <code>bool</code> from type definitions passed to
 <code>Zend\Code\ParameterGenerator</code> instances. The quickest way is to set the
 type to <code>null</code>, if it matches any of these scalar types:</p>
-<pre class="codehilite"><code class="language-php">if (in_array($type, ['string', 'int', 'float', 'bool'])) {
+<p> <pre class=codehilite><code class=language-php>if (in_array($type, ['string', 'int', 'float', 'bool'])) {
     $type = null;
 }
 
-$generator-&gt;setType($type);</code></pre>
-
+$generator-&gt;setType($type);</code></pre></p>
 <h2 id="parameterreflectiongettype-changes"><code>ParameterReflection::getType()</code> changes</h2>
 <p>PHP 7 introduced <a href="http://php.net/manual/en/reflectionparameter.gettype.php"><code>ReflectionParameter#getType()</code></a>.</p>
 <p>In order to not override this method, <code>Zend\Code\Reflection\ParameterReflection#getType()</code>
@@ -294,7 +292,7 @@ simply replace the method calls in your code.</p>
 <code>Zend\Code\Generator\ParameterGenerator::fromReflection()</code> will not mirror the
 type hints read from a method's DocBlock.</p>
 <p>As an example, take following code:</p>
-<pre class="codehilite"><code class="language-php">class Foo
+<p> <pre class=codehilite><code class=language-php>class Foo
 {
     /**
      * @param string $baz
@@ -308,8 +306,7 @@ $methodGenerator = \Zend\Code\Generator\MethodGenerator::fromReflection(
     new \Zend\Code\Reflection\MethodReflection('Foo', 'bar')
 );
 
-var_dump($methodGenerator-&gt;getParameters()[0]-&gt;getType());</code></pre>
-
+var_dump($methodGenerator-&gt;getParameters()[0]-&gt;getType());</code></pre></p>
 <p>In version 2.x, this code produces <code>"string"</code>, in version 3.x it returns <code>null</code>. If you
 need to rely on the types in the annotations, please use
 <code>Zend\Code\Reflection\ParameterReflection#detectType()</code> instead, and build a
@@ -325,25 +322,23 @@ now validated before the code is generated.</p>
 or <code>Zend\Code\Generator\ParameterGenerator#setType()</code>, as you may incur in a
 <code>Zend\Code\Generator\Exception\InvalidArgumentException</code> being thrown if any
 of those types are invalid strings:</p>
-<pre class="codehilite"><code class="language-php">$parameterGenerator-&gt;setType('foo'); // valid
+<p> <pre class=codehilite><code class=language-php>$parameterGenerator-&gt;setType('foo'); // valid
 $parameterGenerator-&gt;setType('array'); // valid
 $parameterGenerator-&gt;setType('bool'); // valid
 $parameterGenerator-&gt;setType('123'); // invalid (throws exception)
 $parameterGenerator-&gt;setType(''); // invalid (throws exception)
 $parameterGenerator-&gt;setType('*'); // invalid (throws exception)
-$parameterGenerator-&gt;setType('\\'); // invalid (throws exception)</code></pre>
-
+$parameterGenerator-&gt;setType('\\'); // invalid (throws exception)</code></pre></p>
 <h2 id="generated-type-hints-are-now-prefixed-by">Generated type-hints are now prefixed by <code>"\"</code></h2>
 <p>Generated type-hints are now prefixed with the <code>NAMESPACE_SEPARATOR</code>,
 <code>"\"</code>.</p>
 <p>Take following example code:</p>
-<pre class="codehilite"><code class="language-php">$parameter = new \Zend\Code\Generator\ParameterGenerator('bar', 'baz');
+<p> <pre class=codehilite><code class=language-php>$parameter = new \Zend\Code\Generator\ParameterGenerator('bar', 'baz');
 $method    = new \Zend\Code\Generator\MethodGenerator('foo', [$parameter]);
 
 $method-&gt;setReturnType('tab');
 
-echo $method-&gt;generate();</code></pre>
-
+echo $method-&gt;generate();</code></pre></p>
 <p>This code produces <code>public function foo(baz $bar) {}</code> in 2.x.
 In version 3.x, it produces <code>public function foo(\baz $bar) : \tab {}</code>.</p>
 <p>In order to avoid migration problems, be sure to always pass fully qualified class
@@ -386,7 +381,7 @@ this protected member is now <code>null|Zend\Code\Generator\TypeGenerator</code>
     <div class="help-wanted">
         <p>
             Found a mistake or want to contribute to the documentation?
-            <a href="https://github.com/zendframework/zend-code/edit/master/docs/migration.md" target="_blank" class="help-wanted__link">
+            <a href="https://github.com/zendframework/zend-code/edit/master/docs/book/migration.md" target="_blank" class="help-wanted__link">
                 Edit this page on GitHub!
             </a>
         </p>
