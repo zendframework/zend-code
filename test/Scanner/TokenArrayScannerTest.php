@@ -11,6 +11,7 @@ namespace ZendTest\Code\Scanner;
 
 use PHPUnit\Framework\TestCase;
 use Zend\Code\Scanner\ClassScanner;
+use Zend\Code\Scanner\FunctionScanner;
 use Zend\Code\Scanner\TokenArrayScanner;
 use ZendTest\Code\TestAsset\Baz;
 use ZendTest\Code\TestAsset\FooClass;
@@ -77,6 +78,20 @@ class TokenArrayScannerTest extends TestCase
         $functions = $tokenScanner->getFunctionNames();
         self::assertIsArray($functions);
         self::assertContains('ZendTest\Code\TestAsset\foo_bar', $functions);
+    }
+
+    public function testScannerReturnsFunctionScanner()
+    {
+        $tokenScanner = new TokenArrayScanner(token_get_all(
+            file_get_contents(__DIR__ . '/../TestAsset/functions.php')
+        ));
+        $functions = $tokenScanner->getFunctions();
+        self::assertIsArray($functions);
+        foreach ($functions as $function) {
+            self::assertInstanceOf(FunctionScanner::class, $function);
+            self::assertEquals('foo_bar', $function->getShortName());
+            self::assertEquals('ZendTest\Code\TestAsset\foo_bar', $function->getName());
+        }
     }
 
     public function testScannerReturnsClassScanner()
