@@ -89,8 +89,6 @@ class TokenArrayScannerTest extends TestCase
         self::assertIsArray($functions);
         foreach ($functions as $function) {
             self::assertInstanceOf(FunctionScanner::class, $function);
-            self::assertEquals('foo_bar', $function->getShortName());
-            self::assertEquals('ZendTest\Code\TestAsset\foo_bar', $function->getName());
         }
     }
 

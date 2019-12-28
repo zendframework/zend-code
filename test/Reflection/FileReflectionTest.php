@@ -154,8 +154,6 @@ class FileReflectionTest extends TestCase
 
     public function testFileGetFunctionsReturnsFunctions()
     {
-        $this->markTestIncomplete('Function scanning not implemented yet');
-
         $fileToRequire = __DIR__ . '/TestAsset/FileOfFunctions.php';
         include_once $fileToRequire;
         $reflectionFile = new FileReflection($fileToRequire);

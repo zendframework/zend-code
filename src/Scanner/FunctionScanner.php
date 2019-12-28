@@ -161,6 +161,25 @@ class FunctionScanner implements ScannerInterface
     }
 
     /**
+     * Return a list of ParameterNames
+     *
+     * @return array
+     */
+    public function getParameterNames()
+    {
+        $this->scan();
+
+        $return = [];
+        foreach ($this->infos as $info) {
+            if ($info['type'] == 'parameter') {
+                $return[] = $info['name'];
+            }
+        }
+
+        return $return;
+    }
+
+    /**
      * Return a list of Parameters
      *
      * @return ParameterScanner[]
@@ -171,12 +190,9 @@ class FunctionScanner implements ScannerInterface
 
         $return = [];
         foreach ($this->infos as $info) {
-            if ($info['type'] != 'parameter') {
-                continue;
+            if ($info['type'] == 'parameter') {
+                $return[$info['name']] = $this->getParameter($info['name']);
             }
-
-            $return[$info['name']] = $this->getParameter($info['name']);
-            $return[] = &$return[$info['name']];
         }
 
         return $return;
@@ -192,6 +208,9 @@ class FunctionScanner implements ScannerInterface
         $this->scan();
 
         if (is_int($parameterNameOrInfoIndex)) {
+            if (! isset($this->infos[$parameterNameOrInfoIndex])) {
+                throw new Exception\InvalidArgumentException('Index of info offset is not about a parameter');
+            }
             $info = $this->infos[$parameterNameOrInfoIndex];
             if ($info['type'] != 'parameter') {
                 throw new Exception\InvalidArgumentException('Index of info offset is not about a parameter');
@@ -238,6 +257,16 @@ class FunctionScanner implements ScannerInterface
         return false;
     }
 
+    /**
+     * @return string
+     */
+    public function getBody()
+    {
+        $this->scan();
+
+        return $this->body;
+    }
+
     public static function export()
     {
         return "TODO: function export()";
@@ -273,7 +302,7 @@ class FunctionScanner implements ScannerInterface
         $tokenType       = null;
         $tokenContent    = null;
         $tokenLine       = null;
-        $namespace       = $this->nameInformation->getNamespace();
+        $namespace   = $this->nameInformation instanceof NameInformation ? $this->nameInformation->getNamespace() : '';
         $docCommentIndex = false;
         $infoIndex       = 0;
         $parentCount     = 0;
@@ -289,6 +318,7 @@ class FunctionScanner implements ScannerInterface
             &$tokenContent,
             &$tokenLine
         ) {
+            static $lastTokenArray = null;
             $tokenIndex = $tokenIndex === null ? 0 : $tokenIndex + 1;
             if (! isset($tokens[$tokenIndex])) {
                 $token        = false;
@@ -304,11 +334,16 @@ class FunctionScanner implements ScannerInterface
                 } while (! (is_string($tokens[$tokenIndex]) && $tokens[$tokenIndex] === '"'));
             }
             $token = $tokens[$tokenIndex];
-            if (is_array($token)) {
-                list($tokenType, $tokenContent, $tokenLine) = $token;
-            } else {
+            if (is_string($token)) {
                 $tokenType    = null;
                 $tokenContent = $token;
+                $tokenLine   += substr_count(
+                    $lastTokenArray[1] ?? '',
+                    "\n"
+                ); // adjust token line by last known newline count
+            } else {
+                $lastTokenArray = $token;
+                [$tokenType, $tokenContent, $tokenLine] = $token;
             }
 
             return $tokenIndex;
@@ -344,9 +379,13 @@ class FunctionScanner implements ScannerInterface
             goto SCANNER_END;
         }
 
+        $this->lineStart = $this->lineStart ? : $tokenLine;
+
         switch ($tokenType) {
             case T_DOC_COMMENT:
-                $this->docComment = $tokenContent;
+                if ($this->docComment === null && $this->name === null) {
+                    $this->docComment = $tokenContent;
+                }
                 goto SCANNER_CONTINUE_SIGNATURE;
                 //goto no break needed
 

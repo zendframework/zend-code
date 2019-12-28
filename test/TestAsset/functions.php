@@ -26,4 +26,16 @@ function foo_bar($param, $param2=true)
 
 function bar_foo()
 {
+    $x = 5 + 5;
+    $y = 'this string';
+}
+
+function four($one, $two = array([array('default')]))
+{
+    // four
+}
+
+function five(\ZendTest\Code\TestAsset\AbstractClass $a)
+{
+    // five
 }

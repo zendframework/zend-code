@@ -41,6 +41,6 @@ class ParameterScannerTest extends TestCase
         $this->assertEquals('param2', $parameter->getName());
         $this->assertEquals(2, $parameter->getPosition());
         $this->assertTrue($function->hasParameter('param2'));
-        $this->assertArrayHasKey('param2', $function->getParameters());
+        $this->assertTrue(in_array('param2', $function->getParameterNames()));
     }
 }
