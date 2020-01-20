@@ -2,7 +2,7 @@
 
 > ## Repository abandoned 2019-12-31
 >
-> This repository has moved to laminas/laminas-code.
+> This repository has moved to [laminas/laminas-code](https://github.com/laminas/laminas-code).
 
 [![Build Status](https://secure.travis-ci.org/zendframework/zend-code.svg?branch=master)](https://secure.travis-ci.org/zendframework/zend-code)
 [![Coverage Status](https://coveralls.io/repos/github/zendframework/zend-code/badge.svg?branch=master)](https://coveralls.io/github/zendframework/zend-code?branch=master)
