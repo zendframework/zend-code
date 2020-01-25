@@ -337,7 +337,7 @@ class FileGenerator extends AbstractGenerator
 
     /**
      * @param  string $name
-     * @return ClassGenerator
+     * @return ClassGenerator|false
      */
     public function getClass($name = null)
     {
