@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
-     <loc>https://docs.zendframework.com/zend-code/</loc>
-     <lastmod>2019-12-10</lastmod>
+     <loc>https://docs.zendframework.com/</loc>
+     <lastmod>2020-01-29</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>https://docs.zendframework.com/zend-code/generator/intro/</loc>
-     <lastmod>2019-12-10</lastmod>
+     <loc>https://docs.zendframework.com/generator/intro/</loc>
+     <lastmod>2020-01-29</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>https://docs.zendframework.com/zend-code/generator/examples/</loc>
-     <lastmod>2019-12-10</lastmod>
+     <loc>https://docs.zendframework.com/generator/examples/</loc>
+     <lastmod>2020-01-29</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>https://docs.zendframework.com/zend-code/generator/reference/</loc>
-     <lastmod>2019-12-10</lastmod>
+     <loc>https://docs.zendframework.com/generator/reference/</loc>
+     <lastmod>2020-01-29</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>https://docs.zendframework.com/zend-code/migration/</loc>
-     <lastmod>2019-12-10</lastmod>
+     <loc>https://docs.zendframework.com/migration/</loc>
+     <lastmod>2020-01-29</lastmod>
      <changefreq>daily</changefreq>
     </url>
 </urlset>

@@ -7,12 +7,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Extensions to the PHP Reflection API, static code scanning, and code generation">  
-    <link rel="canonical" href="https://docs.zendframework.com/zend-code/migration/">
+    <link rel="canonical" href="https://docs.zendframework.com/migration/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     <title>Migration - zend-code - Zend Framework Docs</title>
 
-    <link rel="stylesheet" href="../css/styles-5cfabd53ee.css">
+    <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body id="page-top">
 
@@ -181,9 +181,9 @@
     <div class="laminas-announcement">
     <div class="container">
         <div class="row">
-            <div class="col-xs-12">
-                Zend Framework transitions to the Linux Foundation. <a href="https://getlaminas.org">Learn More.</a>
-            </div>
+            <div class="col-xs-12"><strong>
+                This package has moved. Visit its replacement, <a href="https://docs.laminas.dev/laminas-code/">laminas/laminas-code.</a>
+            </strong></div>
         </div>
     </div>
 </div>
@@ -266,21 +266,25 @@
 <h2 id="string-int-float-bool-are-no-longer-ignored"><code>string</code>, <code>int</code>, <code>float</code>, <code>bool</code> are no longer ignored</h2>
 <p>In 2.x, a <code>Zend\Code\Generator\ParameterGenerator</code> with name <code>foo</code> and type
 <code>string</code>, <code>int</code>, <code>float</code> or <code>bool</code> simply generated code <code>"$foo"</code>:</p>
-<pre class=codehilite><code class=language-php>$generator = new \Zend\Code\ParameterGenerator('foo');
+<pre><code class="language-php">$generator = new \Zend\Code\ParameterGenerator('foo');
 
 $generator-&gt;setType('string');
 
-echo $generator-&gt;generate(); // &quot;$foo&quot;</code></pre>
+echo $generator-&gt;generate(); // &quot;$foo&quot;
+</code></pre>
+
 <p>In 3.x, this code will instead produce <code>"string $foo"</code>.
 If you generate code that should run in PHP 5.x, it is advisable to strip
 <code>string</code>, <code>int</code>, <code>float</code> and <code>bool</code> from type definitions passed to
 <code>Zend\Code\ParameterGenerator</code> instances. The quickest way is to set the
 type to <code>null</code>, if it matches any of these scalar types:</p>
-<pre class=codehilite><code class=language-php>if (in_array($type, ['string', 'int', 'float', 'bool'])) {
+<pre><code class="language-php">if (in_array($type, ['string', 'int', 'float', 'bool'])) {
     $type = null;
 }
 
-$generator-&gt;setType($type);</code></pre>
+$generator-&gt;setType($type);
+</code></pre>
+
 <h2 id="parameterreflectiongettype-changes"><code>ParameterReflection::getType()</code> changes</h2>
 <p>PHP 7 introduced <a href="http://php.net/manual/en/reflectionparameter.gettype.php"><code>ReflectionParameter#getType()</code></a>.</p>
 <p>In order to not override this method, <code>Zend\Code\Reflection\ParameterReflection#getType()</code>
@@ -292,7 +296,7 @@ simply replace the method calls in your code.</p>
 <code>Zend\Code\Generator\ParameterGenerator::fromReflection()</code> will not mirror the
 type hints read from a method's DocBlock.</p>
 <p>As an example, take following code:</p>
-<pre class=codehilite><code class=language-php>class Foo
+<pre><code class="language-php">class Foo
 {
     /**
      * @param string $baz
@@ -306,7 +310,9 @@ $methodGenerator = \Zend\Code\Generator\MethodGenerator::fromReflection(
     new \Zend\Code\Reflection\MethodReflection('Foo', 'bar')
 );
 
-var_dump($methodGenerator-&gt;getParameters()[0]-&gt;getType());</code></pre>
+var_dump($methodGenerator-&gt;getParameters()[0]-&gt;getType());
+</code></pre>
+
 <p>In version 2.x, this code produces <code>"string"</code>, in version 3.x it returns <code>null</code>. If you
 need to rely on the types in the annotations, please use
 <code>Zend\Code\Reflection\ParameterReflection#detectType()</code> instead, and build a
@@ -322,23 +328,27 @@ now validated before the code is generated.</p>
 or <code>Zend\Code\Generator\ParameterGenerator#setType()</code>, as you may incur in a
 <code>Zend\Code\Generator\Exception\InvalidArgumentException</code> being thrown if any
 of those types are invalid strings:</p>
-<pre class=codehilite><code class=language-php>$parameterGenerator-&gt;setType('foo'); // valid
+<pre><code class="language-php">$parameterGenerator-&gt;setType('foo'); // valid
 $parameterGenerator-&gt;setType('array'); // valid
 $parameterGenerator-&gt;setType('bool'); // valid
 $parameterGenerator-&gt;setType('123'); // invalid (throws exception)
 $parameterGenerator-&gt;setType(''); // invalid (throws exception)
 $parameterGenerator-&gt;setType('*'); // invalid (throws exception)
-$parameterGenerator-&gt;setType('\\'); // invalid (throws exception)</code></pre>
+$parameterGenerator-&gt;setType('\\'); // invalid (throws exception)
+</code></pre>
+
 <h2 id="generated-type-hints-are-now-prefixed-by">Generated type-hints are now prefixed by <code>"\"</code></h2>
 <p>Generated type-hints are now prefixed with the <code>NAMESPACE_SEPARATOR</code>,
 <code>"\"</code>.</p>
 <p>Take following example code:</p>
-<pre class=codehilite><code class=language-php>$parameter = new \Zend\Code\Generator\ParameterGenerator('bar', 'baz');
+<pre><code class="language-php">$parameter = new \Zend\Code\Generator\ParameterGenerator('bar', 'baz');
 $method    = new \Zend\Code\Generator\MethodGenerator('foo', [$parameter]);
 
 $method-&gt;setReturnType('tab');
 
-echo $method-&gt;generate();</code></pre>
+echo $method-&gt;generate();
+</code></pre>
+
 <p>This code produces <code>public function foo(baz $bar) {}</code> in 2.x.
 In version 3.x, it produces <code>public function foo(\baz $bar) : \tab {}</code>.</p>
 <p>In order to avoid migration problems, be sure to always pass fully qualified class
@@ -495,7 +505,7 @@ this protected member is now <code>null|Zend\Code\Generator\TypeGenerator</code>
             
             <div class="col-md-9">
                 <h4 class="footer__headline">Copyright</h4>
-                <p>&copy; 2006-2019 by <a href="https://www.zend.com/">Zend</a>, a <a href="https://www.roguewave.com/">Rogue Wave Company</a>.</p>
+                <p>&copy; 2006-2020 by <a href="https://www.zend.com/">Zend</a> by <a href="https://www.perforce.com/">Perforce</a>.</p>
             </div>
 
             
@@ -503,10 +513,10 @@ this protected member is now <code>null|Zend\Code\Generator\TypeGenerator</code>
                 <h4 class="footer__headline">Support</h4>
                 <ul class="support__list">
                     <li class="support__list-item">
-                        <a href="https://discourse.zendframework.com" class="support__link" title="Forum"><i class="fa fa-comments"></i></a>
+                        <a href="https://discourse.laminas.dev" class="support__link" title="Forum"><i class="fa fa-comments"></i></a>
                     </li>
                     <li class="support__list-item">
-                        <a href="https://zendframework-slack.herokuapp.com" class="support__link" title="Chat"><i class="fa fa-slack"></i></a>
+                        <a href="https://laminas.dev/chat/" class="support__link" title="Chat"><i class="fa fa-slack"></i></a>
                     </li>
                     <li class="support__list-item">
                         <a href="https://github.com/zendframework" class="support__link" title="Github"><i class="fa fa-github"></i></a>
@@ -514,27 +524,28 @@ this protected member is now <code>null|Zend\Code\Generator\TypeGenerator</code>
                     <li class="support__list-item">
                         <a href="https://twitter.com/zfdevteam" class="support__link" title="Twitter"><i class="fa fa-twitter"></i></a>
                     </li>
-                    <li class="support__list-item">
-                        <a href="https://tinyletter.com/mwopzend" class="support__link" title="Newsletter"><i class="fa fa-envelope"></i></a>
-                    </li>
-                    <li class="support__list-item">
-                        <a href="https://framework.zend.com/blog/feed-rss.xml" class="support__link" title="Blog feed"><i class="fa fa-rss"></i></a>
-                    </li>
-                    <li class="support__list-item">
-                        <a href="https://framework.zend.com/security/feed" class="support__link" title="Security feed"><i class="fa fa-rss-square"></i></a>
-                    </li>
                 </ul>
             </div>
         </div>
     </div>
 </footer>
 
+<nav class="cookie-bar navbar navbar-fixed-bottom navbar-default hidden">
+    <div class="container">
+        <p class="navbar-text">
+            We use cookies to allow you to dismiss dialogs such as the Laminas
+            Project notification.
+        </p>
+        <button type="button" class="cookie-button btn btn-default navbar-btn">Allow Cookies</button>
+    </div>
+</nav>
+
     <script>
         var base_url = '..',
             siteName = 'zend-code';
     </script>
-    <script src="../js/scripts-8d7ae56abf.js"></script>
-        <script src="../search/main.js"></script>
+    <script src="/js/scripts.js"></script>
+    <script src="../search/main.js"></script>
 
     
     <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">

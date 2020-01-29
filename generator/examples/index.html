@@ -7,12 +7,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Extensions to the PHP Reflection API, static code scanning, and code generation">  
-    <link rel="canonical" href="https://docs.zendframework.com/zend-code/generator/examples/">
+    <link rel="canonical" href="https://docs.zendframework.com/generator/examples/">
     <link rel="shortcut icon" href="../../img/favicon.ico">
 
     <title>Examples - zend-code - Zend Framework Docs</title>
 
-    <link rel="stylesheet" href="../../css/styles-5cfabd53ee.css">
+    <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body id="page-top">
 
@@ -181,9 +181,9 @@
     <div class="laminas-announcement">
     <div class="container">
         <div class="row">
-            <div class="col-xs-12">
-                Zend Framework transitions to the Linux Foundation. <a href="https://getlaminas.org">Learn More.</a>
-            </div>
+            <div class="col-xs-12"><strong>
+                This package has moved. Visit its replacement, <a href="https://docs.laminas.dev/laminas-code/">laminas/laminas-code.</a>
+            </strong></div>
         </div>
     </div>
 </div>
@@ -258,7 +258,7 @@
     <h1 id="zend92code92generator-examples">Zend\Code\Generator Examples</h1>
 <h2 id="generating-php-classes">Generating PHP classes</h2>
 <p>The following example generates an empty class with a class-level DocBlock.</p>
-<pre class=codehilite><code class=language-php>use Zend\Code\Generator\ClassGenerator;
+<pre><code class="language-php">use Zend\Code\Generator\ClassGenerator;
 use Zend\Code\Generator\DocBlockGenerator;
 
 $foo      = new ClassGenerator();
@@ -278,9 +278,11 @@ $docblock = DocBlockGenerator::fromArray([
 ]);
 $foo-&gt;setName('Foo')
     -&gt;setDocblock($docblock);
-echo $foo-&gt;generate();</code></pre>
+echo $foo-&gt;generate();
+</code></pre>
+
 <p>The above code will result in the following:</p>
-<pre class=codehilite><code class=language-php>/**
+<pre><code class="language-php">/**
  * Sample generated class
  *
  * This is a class generated with Zend\Code\Generator.
@@ -292,10 +294,12 @@ echo $foo-&gt;generate();</code></pre>
 class Foo
 {
 
-}</code></pre>
+}
+</code></pre>
+
 <h3>Generating PHP classes with class properties</h3>
 <p>Building on the previous example, we now add properties to our generated class.</p>
-<pre class=codehilite><code class=language-php>use Zend\Code\Generator\ClassGenerator;
+<pre><code class="language-php">use Zend\Code\Generator\ClassGenerator;
 use Zend\Code\Generator\DocBlockGenerator;
 use Zend\Code\Generator\PropertyGenerator;
 
@@ -323,9 +327,11 @@ $foo-&gt;setName('Foo')
    -&gt;addConstants([
          ['bat',  'foobarbazbat']
     ]);
-echo $foo-&gt;generate();</code></pre>
+echo $foo-&gt;generate();
+</code></pre>
+
 <p>The above results in the following class definition:</p>
-<pre class=codehilite><code class=language-php>/**
+<pre><code class="language-php">/**
  * Sample generated class
  *
  * This is a class generated with Zend\Code\Generator.
@@ -343,12 +349,14 @@ class Foo
 
     const bat = 'foobarbazbat';
 
-}</code></pre>
+}
+</code></pre>
+
 <h3>Generating PHP classes with class methods</h3>
 <p><code>Zend\Code\Generator\ClassGenerator</code> allows you to attach methods with optional content to your
 classes. Methods may be attached as either arrays or concrete <code>Zend\Code\Generator\MethodGenerator</code>
 instances.</p>
-<pre class=codehilite><code class=language-php>use Zend\Code\Generator\ClassGenerator;
+<pre><code class="language-php">use Zend\Code\Generator\ClassGenerator;
 use Zend\Code\Generator\DocBlockGenerator;
 use Zend\Code\Generator\DocBlock\Tag;
 use Zend\Code\Generator\MethodGenerator;
@@ -416,9 +424,11 @@ $foo-&gt;setName('Foo')
         ),
     ]);
 
-echo $foo-&gt;generate();</code></pre>
+echo $foo-&gt;generate();
+</code></pre>
+
 <p>The above generates the following output:</p>
-<pre class=codehilite><code class=language-php>/**
+<pre><code class="language-php">/**
  * Sample generated class
  *
  * This is a class generated with Zend\Code\Generator.
@@ -457,14 +467,16 @@ class Foo
         return $this-&gt;_bar;
     }
 
-}</code></pre>
+}
+</code></pre>
+
 <h2 id="generating-php-files">Generating PHP files</h2>
 <p><code>Zend\Code\Generator\FileGenerator</code> can be used to generate the contents of a <em>PHP</em> file. You can
 include classes as well as arbitrary content body. When attaching classes, you should attach either
 concrete <code>Zend\Code\Generator\ClassGenerator</code> instances or an array defining the class.</p>
 <p>In the example below, we will assume you've defined <code>$foo</code> per one of the class definitions in a
 previous example.</p>
-<pre class=codehilite><code class=language-php>use Zend\Code\Generator\DocBlockGenerator;
+<pre><code class="language-php">use Zend\Code\Generator\DocBlockGenerator;
 use Zend\Code\Generator\FileGenerator;
 
 $file = FileGenerator::fromArray([
@@ -480,13 +492,17 @@ $file = FileGenerator::fromArray([
         ],
     ]),
     'body'     =&gt; 'define(\'APPLICATION_ENV\', \'testing\');',
-]);</code></pre>
+]);
+</code></pre>
+
 <p>Calling <code>generate()</code> will generate the code -- but not write it to a file. You will need to capture
 the contents and write them to a file yourself. As an example:</p>
-<pre class=codehilite><code class=language-php>$code = $file-&gt;generate();
-file_put_contents('Foo.php', $code);</code></pre>
+<pre><code class="language-php">$code = $file-&gt;generate();
+file_put_contents('Foo.php', $code);
+</code></pre>
+
 <p>The above will generate the following file:</p>
-<pre class=codehilite><code class=language-php>&lt;?php
+<pre><code class="language-php">&lt;?php
 /**
  * Foo class file
  *
@@ -534,19 +550,23 @@ class Foo
 
 }
 
-define('APPLICATION_ENV', 'testing');</code></pre>
+define('APPLICATION_ENV', 'testing');
+</code></pre>
+
 <h2 id="add-code-to-existing-php-files-and-classes">Add code to existing PHP files and classes</h2>
 <h3>Seeding PHP file code generation via reflection</h3>
 <p>You can add <em>PHP</em> code to an existing <em>PHP</em> file using the code generator. To do so, you need to
 first do reflection on it. The static method <code>fromReflectedFileName()</code> allows you to do this.</p>
-<pre class=codehilite><code class=language-php>$generator = Zend\Code\Generator\FileGenerator::fromReflectedFileName($path);
+<pre><code class="language-php">$generator = Zend\Code\Generator\FileGenerator::fromReflectedFileName($path);
 $generator-&gt;setBody(&quot;\$foo-&gt;bar();&quot;);
-file_put_contents($path, $generator-&gt;generate());</code></pre>
+file_put_contents($path, $generator-&gt;generate());
+</code></pre>
+
 <h3>Seeding PHP class generation via reflection</h3>
 <p>You may add code to an existing class. To do so, first use the static <code>fromReflection()</code> method to
 map the class into a generator object. From there, you may add additional properties or methods, and
 then regenerate the class.</p>
-<pre class=codehilite><code class=language-php>use Zend\Code\Generator\ClassGenerator;
+<pre><code class="language-php">use Zend\Code\Generator\ClassGenerator;
 use Zend\Code\Generator\DocBlockGenerator;
 use Zend\Code\Generator\DocBlock\Tag;
 use Zend\Code\Generator\MethodGenerator;
@@ -574,7 +594,8 @@ $generator-&gt;addMethod(
         ],
     ])
 );
-$code = $generator-&gt;generate();</code></pre>
+$code = $generator-&gt;generate();
+</code></pre>
 
 
 
@@ -722,7 +743,7 @@ $code = $generator-&gt;generate();</code></pre>
             
             <div class="col-md-9">
                 <h4 class="footer__headline">Copyright</h4>
-                <p>&copy; 2006-2019 by <a href="https://www.zend.com/">Zend</a>, a <a href="https://www.roguewave.com/">Rogue Wave Company</a>.</p>
+                <p>&copy; 2006-2020 by <a href="https://www.zend.com/">Zend</a> by <a href="https://www.perforce.com/">Perforce</a>.</p>
             </div>
 
             
@@ -730,10 +751,10 @@ $code = $generator-&gt;generate();</code></pre>
                 <h4 class="footer__headline">Support</h4>
                 <ul class="support__list">
                     <li class="support__list-item">
-                        <a href="https://discourse.zendframework.com" class="support__link" title="Forum"><i class="fa fa-comments"></i></a>
+                        <a href="https://discourse.laminas.dev" class="support__link" title="Forum"><i class="fa fa-comments"></i></a>
                     </li>
                     <li class="support__list-item">
-                        <a href="https://zendframework-slack.herokuapp.com" class="support__link" title="Chat"><i class="fa fa-slack"></i></a>
+                        <a href="https://laminas.dev/chat/" class="support__link" title="Chat"><i class="fa fa-slack"></i></a>
                     </li>
                     <li class="support__list-item">
                         <a href="https://github.com/zendframework" class="support__link" title="Github"><i class="fa fa-github"></i></a>
@@ -741,27 +762,28 @@ $code = $generator-&gt;generate();</code></pre>
                     <li class="support__list-item">
                         <a href="https://twitter.com/zfdevteam" class="support__link" title="Twitter"><i class="fa fa-twitter"></i></a>
                     </li>
-                    <li class="support__list-item">
-                        <a href="https://tinyletter.com/mwopzend" class="support__link" title="Newsletter"><i class="fa fa-envelope"></i></a>
-                    </li>
-                    <li class="support__list-item">
-                        <a href="https://framework.zend.com/blog/feed-rss.xml" class="support__link" title="Blog feed"><i class="fa fa-rss"></i></a>
-                    </li>
-                    <li class="support__list-item">
-                        <a href="https://framework.zend.com/security/feed" class="support__link" title="Security feed"><i class="fa fa-rss-square"></i></a>
-                    </li>
                 </ul>
             </div>
         </div>
     </div>
 </footer>
 
+<nav class="cookie-bar navbar navbar-fixed-bottom navbar-default hidden">
+    <div class="container">
+        <p class="navbar-text">
+            We use cookies to allow you to dismiss dialogs such as the Laminas
+            Project notification.
+        </p>
+        <button type="button" class="cookie-button btn btn-default navbar-btn">Allow Cookies</button>
+    </div>
+</nav>
+
     <script>
         var base_url = '../..',
             siteName = 'zend-code';
     </script>
-    <script src="../../js/scripts-8d7ae56abf.js"></script>
-        <script src="../../search/main.js"></script>
+    <script src="/js/scripts.js"></script>
+    <script src="../../search/main.js"></script>
 
     
     <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
