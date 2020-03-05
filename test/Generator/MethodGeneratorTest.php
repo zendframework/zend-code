@@ -423,4 +423,18 @@ PHP;
 
         self::assertStringMatchesFormat('%Apublic function & byRefReturn()%A', $methodGenerator->generate());
     }
+
+
+    public function testClearBodyIndentation()
+    {
+        $class = new \ReflectionClass(MethodGenerator::class);
+        $method = $class->getMethod('clearBodyIndention');
+        $method->setAccessible(true);
+
+
+        $testMethod = '/** @return bool */ public function someMethod() { return false; }';
+        $clearedMethod = $method->invokeArgs( null, ['\t\t' . $testMethod]);
+        
+        $this->assertEquals($testMethod, $clearedMethod);
+    }
 }
