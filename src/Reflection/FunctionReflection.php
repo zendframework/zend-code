@@ -112,7 +112,7 @@ class FunctionReflection extends ReflectionFunction implements ReflectionInterfa
                 $content = $matches[0];
             }
         } else {
-            $name = substr($this->getName(), strrpos($this->getName(), '\\') + 1);
+            $name = substr($this->getName(), strrpos($this->getName(), '\\'));
             preg_match(
                 '#function\s+' . preg_quote($name) . '\s*\([^\)]*\)\s*{([^{}]+({[^}]+})*[^}]+)?}#',
                 $functionLine,
@@ -260,7 +260,7 @@ class FunctionReflection extends ReflectionFunction implements ReflectionInterfa
                 $body = $matches[2];
             }
         } else {
-            $name = substr($this->getName(), strrpos($this->getName(), '\\') + 1);
+            $name = substr($this->getName(), strrpos($this->getName(), '\\'));
             preg_match('#function\s+' . $name . '\s*\([^\)]*\)\s*{([^{}]+({[^}]+})*[^}]+)}#', $functionLine, $matches);
             if (isset($matches[1])) {
                 $body = $matches[1];

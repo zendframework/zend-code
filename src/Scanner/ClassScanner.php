@@ -132,7 +132,6 @@ class ClassScanner implements ScannerInterface
     /**
      * @param  array $classTokens
      * @param  NameInformation|null $nameInformation
-     * @return ClassScanner
      */
     public function __construct(array $classTokens, NameInformation $nameInformation = null)
     {
